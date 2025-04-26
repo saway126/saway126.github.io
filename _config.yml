@@ -1,0 +1,5 @@
+title: 71stars 블로그
+description: Welcome to my personal blog powered by GitHub Pages.
+theme: minima
+plugins:
+  - jekyll-feed
