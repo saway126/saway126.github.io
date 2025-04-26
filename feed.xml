@@ -1,0 +1,141 @@
+
+
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>https://saway126.github.io/</id>
+  <title>71stars 블로그</title>
+  <subtitle>매일 배우는 IT 정보 정리 블로그</subtitle>
+  <updated>2025-04-26T22:22:06+09:00</updated>
+  <author>
+    <name>기성</name>
+    <uri>https://saway126.github.io/</uri>
+  </author>
+  <link rel="self" type="application/atom+xml" href="https://saway126.github.io/feed.xml"/>
+  <link rel="alternate" type="text/html" hreflang="en"
+    href="https://saway126.github.io/"/>
+  <generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator>
+  <rights> © 2025 기성 </rights>
+  <icon>/assets/img/favicons/favicon.ico</icon>
+  <logo>/assets/img/favicons/favicon-96x96.png</logo>
+
+
+  
+  <entry>
+    <title>오늘의 트렌드</title>
+    <link href="https://saway126.github.io/posts/today-trends/" rel="alternate" type="text/html" title="오늘의 트렌드" />
+    <published>2025-04-26T09:00:00+09:00</published>
+  
+    <updated>2025-04-26T09:00:00+09:00</updated>
+  
+    <id>https://saway126.github.io/posts/today-trends/</id>
+    <content type="text/html" src="https://saway126.github.io/posts/today-trends/" />
+    <author>
+      <name>기성</name>
+    </author>
+
+  
+    
+  
+
+  <summary>오늘의 트렌드</summary>
+
+  </entry>
+
+  
+  <entry>
+    <title>테스트</title>
+    <link href="https://saway126.github.io/posts/%ED%85%8C%EC%8A%A4%ED%8A%B8/" rel="alternate" type="text/html" title="테스트" />
+    <published>2025-04-26T00:00:00+09:00</published>
+  
+    <updated>2025-04-26T00:00:00+09:00</updated>
+  
+    <id>https://saway126.github.io/posts/%ED%85%8C%EC%8A%A4%ED%8A%B8/</id>
+    <content type="text/html" src="https://saway126.github.io/posts/%ED%85%8C%EC%8A%A4%ED%8A%B8/" />
+    <author>
+      <name>기성</name>
+    </author>
+
+  
+    
+  
+
+  <summary></summary>
+
+  </entry>
+
+  
+  <entry>
+    <title>Hello 71stars</title>
+    <link href="https://saway126.github.io/posts/hello-71stars/" rel="alternate" type="text/html" title="Hello 71stars" />
+    <published>2025-04-26T00:00:00+09:00</published>
+  
+    <updated>2025-04-26T00:00:00+09:00</updated>
+  
+    <id>https://saway126.github.io/posts/hello-71stars/</id>
+    <content type="text/html" src="https://saway126.github.io/posts/hello-71stars/" />
+    <author>
+      <name>기성</name>
+    </author>
+
+  
+    
+  
+
+  <summary>처음으로 올리는 글입니다! ✨</summary>
+
+  </entry>
+
+  
+  <entry>
+    <title>Customize the Favicon</title>
+    <link href="https://saway126.github.io/posts/customize-the-favicon/" rel="alternate" type="text/html" title="Customize the Favicon" />
+    <published>2019-08-11T01:34:00+09:00</published>
+  
+    <updated>2019-08-11T01:34:00+09:00</updated>
+  
+    <id>https://saway126.github.io/posts/customize-the-favicon/</id>
+    <content type="text/html" src="https://saway126.github.io/posts/customize-the-favicon/" />
+    <author>
+      <name>cotes</name>
+    </author>
+
+  
+    
+    <category term="Blogging" />
+    
+    <category term="Tutorial" />
+    
+  
+
+  <summary>The favicons of Chirpy are placed in the directory assets/img/favicons/. You may want to replace them with your own. The following sections will guide you to create and replace the default favicons.  Generate the favicon  Prepare a square image (PNG, JPG, or SVG) with a size of 512x512 or more, and then go to the online tool Real Favicon Generator and click the button Select your Favicon image ...</summary>
+
+  </entry>
+
+  
+  <entry>
+    <title>Getting Started</title>
+    <link href="https://saway126.github.io/posts/getting-started/" rel="alternate" type="text/html" title="Getting Started" />
+    <published>2019-08-09T21:55:00+09:00</published>
+  
+    <updated>2019-08-09T21:55:00+09:00</updated>
+  
+    <id>https://saway126.github.io/posts/getting-started/</id>
+    <content type="text/html" src="https://saway126.github.io/posts/getting-started/" />
+    <author>
+      <name>cotes</name>
+    </author>
+
+  
+    
+    <category term="Blogging" />
+    
+    <category term="Tutorial" />
+    
+  
+
+  <summary>Get started with Chirpy basics in this comprehensive overview. You will learn how to install, configure, and use your first Chirpy-based website, as well as deploy it to a web server.</summary>
+
+  </entry>
+
+</feed>
+
+
