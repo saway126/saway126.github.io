@@ -1,5 +1,145 @@
+# The Site Configuration
+
+theme: jekyll-theme-chirpy
+
+lang: en
+timezone: Asia/Seoul
+
 title: 71stars 블로그
-description: Welcome to my personal blog powered by GitHub Pages.
-theme: minima
-plugins:
-  - jekyll-feed
+tagline: 기술 트렌드 기록
+description: 매일 배우는 IT 정보 정리 블로그
+url: "https://saway126.github.io"
+baseurl: ""
+
+github:
+  username: saway126
+
+twitter:
+  username:  # 사용 안 하면 비워둬
+
+social:
+  name: 기성
+  email: example@domain.com
+  links:
+    - https://github.com/saway126
+
+webmaster_verifications:
+  google:
+  bing:
+  alexa:
+  yandex:
+  baidu:
+  facebook:
+
+analytics:
+  google:
+    id:
+  goatcounter:
+    id:
+  umami:
+    id:
+    domain:
+  matomo:
+    id:
+    domain:
+  cloudflare:
+    id:
+  fathom:
+    id:
+
+pageviews:
+  provider:
+
+theme_mode:
+
+cdn: "https://chirpy-img.netlify.app"
+
+avatar: "/commons/avatar.jpg"
+
+social_preview_image:
+
+toc: true
+
+comments:
+  provider:
+
+assets:
+  self_host:
+    enabled:
+    env:
+
+pwa:
+  enabled: true
+  cache:
+    enabled: true
+    deny_paths:
+
+paginate: 10
+
+kramdown:
+  footnote_backlink: "&#8617;&#xfe0e;"
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: highlight
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
+
+collections:
+  tabs:
+    output: true
+    sort_by: order
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      comments: true
+      toc: true
+      permalink: /posts/:title/
+  - scope:
+      path: _drafts
+    values:
+      comments: false
+  - scope:
+      path: ""
+      type: tabs
+    values:
+      layout: page
+      permalink: /:title/
+
+sass:
+  style: compressed
+
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  profile: false
+  blanklines: false
+  ignore:
+    envs: [development]
+
+exclude:
+  - "*.gem"
+  - "*.gemspec"
+  - docs
+  - tools
+  - README.md
+  - LICENSE
+  - purgecss.js
+  - rollup.config.js
+  - "package*.json"
+
+jekyll-archives:
+  enabled: [categories, tags]
+  layouts:
+    category: category
+    tag: tag
+  permalinks:
+    tag: /tags/:name/
+    category: /categories/:name/
