@@ -1,6 +1,7 @@
 # The Site Configuration
 
-theme: jekyll-theme-chirpy
+remote_theme: cotes2020/jekyll-theme-chirpy
+
 
 lang: en
 timezone: Asia/Seoul
