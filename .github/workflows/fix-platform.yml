@@ -1,0 +1,34 @@
+name: Fix Gemfile.lock Platform
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fix-platform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: false
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Add x86_64-linux platform to Gemfile.lock
+        run: bundle lock --add-platform x86_64-linux
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: "fix: add x86_64-linux platform to Gemfile.lock"
+          branch: fix/add-linux-platform
+          title: "Fix: Add Linux platform to Gemfile.lock"
+          body: |
+            This PR was automatically created to add the Linux platform (x86_64-linux)
+            to Gemfile.lock to resolve GitHub Actions compatibility issue (exit code 16).
