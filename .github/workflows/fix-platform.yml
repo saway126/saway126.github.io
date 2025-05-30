@@ -26,6 +26,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "fix: add x86_64-linux platform to Gemfile.lock"
           branch: fix/add-linux-platform
           title: "Fix: Add Linux platform to Gemfile.lock"
