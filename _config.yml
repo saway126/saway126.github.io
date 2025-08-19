@@ -32,6 +32,12 @@ pwa:
   cache:
     enabled: true
 
+plugins:
+  - jekyll-paginate
+  - jekyll-include-cache
+  - jekyll-archives
+  - jekyll-seo-tag
+
 paginate: 10
 
 baseurl: ""

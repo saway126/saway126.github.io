@@ -1,25 +1,26 @@
 @mixin styles {
-  /* Framework color */
-  --main-bg: white;
-  --mask-bg: #c1c3c5;
-  --main-border-color: #f3f3f3;
 
-  /* Common color */
-  --text-color: #34343c;
-  --text-muted-color: #757575;
+  /* Framework color - 네이버 블로그 스타일 */
+  --main-bg: #ffffff;
+  --mask-bg: #c1c3c5;
+  --main-border-color: #e8e8e8;
+
+  /* Common color - 네이버 블로그 스타일 */
+  --text-color: #333333;
+  --text-muted-color: #666666;
   --text-muted-highlight-color: inherit;
-  --heading-color: #2a2a2a;
-  --label-color: #585858;
-  --blockquote-border-color: #eeeeee;
-  --blockquote-text-color: #757575;
-  --link-color: #0056b2;
-  --link-underline-color: #dee2e6;
+  --heading-color: #222222;
+  --label-color: #555555;
+  --blockquote-border-color: #e8e8e8;
+  --blockquote-text-color: #666666;
+  --link-color: #03c75a; /* 네이버 그린 */
+  --link-underline-color: #e8e8e8;
   --button-bg: #ffffff;
-  --btn-border-color: #e9ecef;
-  --btn-backtotop-color: #686868;
+  --btn-border-color: #e8e8e8;
+  --btn-backtotop-color: #666666;
   --btn-backtotop-border-color: #f1f1f1;
   --checkbox-color: #c5c5c5;
-  --checkbox-checked-color: #07a8f7;
+  --checkbox-checked-color: #03c75a; /* 네이버 그린 */
   --img-bg: radial-gradient(
     circle,
     rgb(255, 255, 255) 0%,
@@ -32,49 +33,48 @@
     rgba(250, 250, 250, 0) 100%
   );
 
-  /* Sidebar */
-  --site-title-color: rgb(113, 113, 113);
-  --site-subtitle-color: #717171;
-  --sidebar-bg: #f6f8fa;
-  --sidebar-border-color: #efefef;
-  --sidebar-muted-color: #545454;
-  --sidebar-active-color: #1d1d1d;
-  --sidebar-hover-bg: rgb(223, 233, 241, 0.64);
+  /* Sidebar - 네이버 블로그 스타일 */
+  --site-title-color: #03c75a; /* 네이버 그린 */
+  --site-subtitle-color: #666666;
+  --sidebar-bg: #f8f9fa;
+  --sidebar-border-color: #e8e8e8;
+  --sidebar-muted-color: #666666;
+  --sidebar-active-color: #03c75a; /* 네이버 그린 */
+  --sidebar-hover-bg: rgba(3, 199, 90, 0.1); /* 네이버 그린 투명 */
   --sidebar-btn-bg: white;
-  --sidebar-btn-color: #8e8e8e;
-  --avatar-border-color: white;
+  --sidebar-btn-color: #666666;
+  --avatar-border-color: #03c75a; /* 네이버 그린 */
 
-  /* Topbar */
-  --topbar-bg: rgb(255, 255, 255, 0.7);
-  --topbar-text-color: rgb(78, 78, 78);
-  --search-border-color: rgb(240, 240, 240);
-  --search-icon-color: #c2c6cc;
-  --input-focus-border-color: #b8b8b8;
+  /* Topbar - 네이버 블로그 스타일 */
+  --topbar-bg: rgba(255, 255, 255, 0.95);
+  --topbar-text-color: #333333;
+  --search-border-color: #e8e8e8;
+  --search-icon-color: #03c75a; /* 네이버 그린 */
+  --input-focus-border-color: #03c75a; /* 네이버 그린 */
 
-  /* Home page */
-  --post-list-text-color: dimgray;
+  /* Home page - 네이버 블로그 스타일 */
+  --post-list-text-color: #666666;
   --btn-patinator-text-color: #555555;
   --btn-paginator-hover-color: var(--sidebar-bg);
 
-  /* Posts */
-  --toc-highlight: #0550ae;
-  --toc-popup-border-color: lightgray;
-  --btn-share-color: gray;
-  --btn-share-hover-color: #0d6efd;
+  /* Posts - 네이버 블로그 스타일 */
+  --toc-highlight: #03c75a; /* 네이버 그린 */
+  --toc-popup-border-color: #e8e8e8;
+  --btn-share-color: #666666;
+  --btn-share-hover-color: #03c75a; /* 네이버 그린 */
   --card-bg: white;
-  --card-hovor-bg: #e2e2e2;
-  --card-shadow: rgb(104, 104, 104, 0.05) 0 2px 6px 0,
-    rgba(211, 209, 209, 0.15) 0 0 0 1px;
-  --footnote-target-bg: lightcyan;
+  --card-hovor-bg: #f8f9fa;
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --footnote-target-bg: rgba(3, 199, 90, 0.1); /* 네이버 그린 투명 */
   --tb-odd-bg: #fbfcfd;
-  --tb-border-color: #eaeaea;
-  --dash-color: silver;
-  --kbd-wrap-color: #bdbdbd;
+  --tb-border-color: #e8e8e8;
+  --dash-color: #cccccc;
+  --kbd-wrap-color: #e8e8e8;
   --kbd-text-color: var(--text-color);
   --kbd-bg-color: white;
   --prompt-text-color: rgb(46, 46, 46, 0.77);
-  --prompt-tip-bg: rgb(123, 247, 144, 0.2);
-  --prompt-tip-icon-color: #03b303;
+  --prompt-tip-bg: rgba(3, 199, 90, 0.1); /* 네이버 그린 투명 */
+  --prompt-tip-icon-color: #03c75a; /* 네이버 그린 */
   --prompt-info-bg: #e1f5fe;
   --prompt-info-icon-color: #0070cb;
   --prompt-warning-bg: rgb(255, 243, 205);
@@ -82,20 +82,20 @@
   --prompt-danger-bg: rgb(248, 215, 218, 0.56);
   --prompt-danger-icon-color: #df3c30;
 
-  /* Tags */
-  --tag-border: #dee2e6;
+  /* Tags - 네이버 블로그 스타일 */
+  --tag-border: #e8e8e8;
   --tag-shadow: var(--btn-border-color);
-  --tag-hover: rgb(222, 226, 230);
+  --tag-hover: rgba(3, 199, 90, 0.1); /* 네이버 그린 투명 */
   --search-tag-bg: #f8f9fa;
 
-  /* Categories */
+  /* Categories - 네이버 블로그 스타일 */
   --categories-border: rgba(0, 0, 0, 0.125);
-  --categories-hover-bg: var(--btn-border-color);
-  --categories-icon-hover-color: darkslategray;
+  --categories-hover-bg: rgba(3, 199, 90, 0.1); /* 네이버 그린 투명 */
+  --categories-icon-hover-color: #03c75a; /* 네이버 그린 */
 
-  /* Archive */
+  /* Archive - 네이버 블로그 스타일 */
   --timeline-color: rgba(0, 0, 0, 0.075);
-  --timeline-node-bg: #c2c6cc;
+  --timeline-node-bg: #03c75a; /* 네이버 그린 */
   --timeline-year-dot-color: #ffffff;
 
   /* --- Custom code light mode colors --- */
