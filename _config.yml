@@ -1,6 +1,6 @@
 # The Site Configuration
 
-remote_theme: cotes2020/jekyll-theme-chirpy
+
 
 
 lang: en
@@ -37,7 +37,7 @@ plugins:
   - jekyll-include-cache
   - jekyll-archives
   - jekyll-seo-tag
-  - jekyll-feed
+  
 
 paginate: 10
 
