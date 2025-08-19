@@ -37,6 +37,7 @@ plugins:
   - jekyll-include-cache
   - jekyll-archives
   - jekyll-seo-tag
+  - jekyll-feed
 
 paginate: 10
 
