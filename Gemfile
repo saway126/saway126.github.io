@@ -8,9 +8,14 @@ gem "jekyll-paginate"
 gem "jekyll-seo-tag"
 gem "jekyll-feed"
 
+# Markdown 파서
+gem "kramdown-parser-gfm"
+
 # 표준 라이브러리 gems (Ruby 3.4.0+ 호환성)
 gem "csv"
 gem "base64"
+gem "bigdecimal"
+gem "webrick"
 gem "tzinfo"
 gem "tzinfo-data"
 gem "logger"
