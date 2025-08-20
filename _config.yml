@@ -216,6 +216,8 @@ exclude:
   - rollup.config.js
   - "vendor/**"
   - "**/*.erb"
+  - "node_modules/**"
+  - "**/node_modules/**"
 
 # jekyll-archives 설정
 jekyll-archives:
