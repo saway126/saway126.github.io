@@ -1,6 +1,6 @@
 const swconf = {
   
-    cacheName: 'chirpy-1755656033',resources: [
+    cacheName: 'chirpy-1755656329',resources: [
       '/assets/css/.css',
       '/',
       
