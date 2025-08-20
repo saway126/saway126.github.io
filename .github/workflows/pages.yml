@@ -20,8 +20,6 @@ jobs:
       - name: Install dependencies
         run: |
           gem install bundler
-          bundle config set deployment 'true'
-          bundle config set path 'vendor/bundle'
           bundle install
 
       - name: Build site

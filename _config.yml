@@ -50,6 +50,9 @@ avatar: "/commons/avatar.jpg"
 # 자산 타입 설정 (self: 로컬, cors: CDN)
 type: self
 
+# Jekyll 빌드 설정 (vendor 폴더 완전 무시)
+keep_files: []
+
 # Jekyll 플러그인 설정
 plugins:
   - jekyll-remote-theme
@@ -75,3 +78,5 @@ exclude:
   - vendor
   - .sass-cache
   - node_modules
+  - Gemfile.lock
+  - .bundle
