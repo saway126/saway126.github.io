@@ -124,7 +124,7 @@ categories: [jekyll, update]
 
 
 <!-- 폰트 파일 예시 (실제 존재하는 파일로 대체) -->
-<link rel="preload" href="/assets/fonts/fontawesome-webfont.woff2" as="font" crossorigin="anonymous">
+<link rel="preload" href="/assets/css/jekyll-theme-chirpy.css" as="style">
 
 
 
