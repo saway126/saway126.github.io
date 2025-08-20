@@ -3,7 +3,7 @@
 {
   "name": "71stars 블로그",
   "short_name": "71stars 블로그",
-  "description": "매일 배우는 IT 정보 정리 블로그",
+  "description": "AI 기반 자동화 블로그 프로젝트 실험기입니다.",
   "icons": [
     {
       "src": "/assets/img/favicons/android-chrome-192x192.png",

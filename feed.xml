@@ -1,141 +1,1157 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="https://saway126.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://saway126.github.io/" rel="alternate" type="text/html" hreflang="ko" /><updated>2025-08-20T10:46:56+09:00</updated><id>https://saway126.github.io/feed.xml</id><title type="html">71stars 블로그</title><subtitle>AI 기반 자동화 블로그 프로젝트 실험기입니다.</subtitle><entry><title type="html">20250804 Spring Boot + Vue 프로젝트 회고록</title><link href="https://saway126.github.io/posts/20250804-Spring-Boot-Vue-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0%EB%A1%9D/" rel="alternate" type="text/html" title="20250804 Spring Boot + Vue 프로젝트 회고록" /><published>2025-08-04T12:57:40+09:00</published><updated>2025-08-04T12:57:40+09:00</updated><id>https://saway126.github.io/posts/20250804-Spring-Boot-Vue-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0%EB%A1%9D</id><content type="html" xml:base="https://saway126.github.io/posts/20250804-Spring-Boot-Vue-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0%EB%A1%9D/"><![CDATA[<p>Spring Boot + Vue 프로젝트 회고록– 에러 로그, AI 도구, 그리고 나의 성장 에러 로그와 함께 성장한 3일이번 사이드 프로젝트에서는 Spring Boot와 Vue.js를 붙여서 기자단 캠페인 플랫폼을 만들었다.간단한 CRUD만 구현하면 되는 줄 알았지만, 막상 붙여보니 예상치 못한 에러들이 계속 터졌다.처음 겪는 에러도 많았고, 설정 꼬임도 잦았다.이번 회고는 그런 문제들을 어떻게 해결했는지, 그리고 Cursor AI와 Gemini CLI 같은 AI 도구를 사용하면서 어떤 경험을 했는지를 함께 정리한 기록이다.</p>
 
+<p>Previous image
+Next image</p>
 
-<feed xmlns="http://www.w3.org/2005/Atom">
-  <id>https://saway126.github.io/</id>
-  <title>71stars 블로그</title>
-  <subtitle>매일 배우는 IT 정보 정리 블로그</subtitle>
-  <updated>2025-04-26T22:22:06+09:00</updated>
-  <author>
-    <name>기성</name>
-    <uri>https://saway126.github.io/</uri>
-  </author>
-  <link rel="self" type="application/atom+xml" href="https://saway126.github.io/feed.xml"/>
-  <link rel="alternate" type="text/html" hreflang="en"
-    href="https://saway126.github.io/"/>
-  <generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator>
-  <rights> © 2025 기성 </rights>
-  <icon>/assets/img/favicons/favicon.ico</icon>
-  <logo>/assets/img/favicons/favicon-96x96.png</logo>
+<p>프로젝트 구프론트엔드: Vue 3 (Vite + Axios)백엔드: Spring Boot 3.xDB: H2 (개발용)인증: JWT빌드 시스템: Maven → Gradle 전환사용 툴: Cursor AI, Gemini CLI, ChatGPT</p>
 
+<p>개발 중 겪은 주요 이슈들1. Maven 플러그인 인식 안 됨처음 프로젝트를 Maven으로 시작했는데, 아래 같은 에러가 발생했다.</p>
 
-  
-  <entry>
-    <title>오늘의 트렌드</title>
-    <link href="https://saway126.github.io/posts/today-trends/" rel="alternate" type="text/html" title="오늘의 트렌드" />
-    <published>2025-04-26T09:00:00+09:00</published>
-  
-    <updated>2025-04-26T09:00:00+09:00</updated>
-  
-    <id>https://saway126.github.io/posts/today-trends/</id>
-    <content type="text/html" src="https://saway126.github.io/posts/today-trends/" />
-    <author>
-      <name>기성</name>
-    </author>
+<p>No plugin found for prefix ‘spring-boot’</p>
 
-  
+<p>No plugin found for prefix ‘spring-boot’결론은 pom.xml에 실수로 잘못된 태그가 들어 있었던 것. Maven은 XML 문법이 틀리면 조용히 빌드가 안 되기 때문에 찾는 데 시간이 걸렸다.파일을 새로 작성하면서 해결했는데, 이때부터 <strong>“Gradle로 바꿔야겠다”</strong>는 생각이 슬슬 들기 시작했다.</p>
+
+<ol>
+  <li>8080 포트 충돌</li>
+</ol>
+
+<p>Port 8080 was already in use</p>
+
+<p>이건 자바 프로세스가 꺼지지 않아서 발생했다. PowerShell에서 다음 명령어로 해결했다.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Get-Process java</td>
+      <td>Stop-Process -Force</td>
+    </tr>
+  </tbody>
+</table>
+
+<ol>
+  <li>
+    <p>로그인 403 (Forbidden)로그인 API를 호출했는데 계속 403이 떴다.JWT 필터가 모든 요청에 적용되면서, 로그인 요청까지 막아버리고 있었다.Security 설정에서 로그인과 회원가입 관련 URI만 필터에서 제외시켜서 해결.</p>
+  </li>
+  <li>
+    <p>ECONNREFUSED – 프론트와 백 연결 실패 원인: 주소 문제프론트가 백엔드에 요청을 보냈는데,IPv6 주소인 ::1:8080으로 보내고 있었고, 백엔드는 IPv4만 리스닝하고 있어서 연결이 안 됐다.</p>
+  </li>
+</ol>
+
+<p>connect ECONNREFUSED ::1:8080</p>
+
+<p>백엔드 설정에서 address를 0.0.0.0으로 열고,프론트 proxy 주소를 127.0.0.1로 변경해서 해결했다.</p>
+
+<ol>
+  <li>
+    <p>로그인 계정 오류처음엔 admin@example.com으로 로그인하려 했는데 안 됐다.확인해보니 실제로 DataInitializer.java에서 만들어진 계정은test@example.com / password123이었다.해당 계정으로 로그인하니 정상 작동했다.</p>
+  </li>
+  <li>
+    <p>캠페인 조회 시 500 에러캠페인 상세 페이지를 요청했더니 500 에러 발생.원인은 단순했다.ID=1 캠페인이 DB에 없었다.H2 콘솔에 접속해서 테이블 확인하고 수동으로 더미 데이터를 추가해서 해결했다.</p>
+  </li>
+  <li>
+    <p>이미지 로딩 실패</p>
+  </li>
+</ol>
+
+<p>GET https://via.placeholder.com/300x200 net::ERR_NAME_NOT_RESOLVED</p>
+
+<p>이미지 주소로 사용하던 placeholder.com이 막혀 있었고,대체로 picsum.photos를 사용하고, 로딩 실패 시 fallback 이미지로 처리했다.</p>
+
+<p>Cursor AI와 Gemini CLI 사용 후기Cursor AICursor는 IntelliJ보다 훨씬 가볍고, AI 코드 보조 기능이 강력하다.특히 에러 메시지를 복붙해서 코드 안에서 바로 답변 받는 기능이 굉장히 직관적이었다.대부분의 문법 오류나 설정 문제는 Cursor에서 바로 해결 실마리를 얻었다.장점: 빠른 피드백, 코드 컨텍스트 유지됨, Copilot보다 명확한 답변단점: 복잡한 설정 이슈(Spring Security나 JWT 인증 흐름)는 정확도 떨어짐</p>
+
+<p>정리하자면, 코드 레벨 디버깅용으로는 최고.하지만 복잡한 백엔드 로직 구조 설계에는 추가 설명이 필요했다.</p>
+
+<p>Gemini CLIGemini CLI는 로컬 터미널 환경에서 빠르게 질문하고 결과를 볼 수 있다는 점이 장점이었다.간단한 개념 확인, 오류 코드 해석, config 파일 예시 요청 등에 유용했다.장점: CLI에 최적화, 짧은 명령어 기반, 개념 요약 빠름단점: 실시간 코드 맥락 이해력은 떨어짐</p>
+
+<p>정리하자면, “도우미”로는 훌륭하지만, “전담 해결사”는 아님.Copilot이나 Cursor처럼 코드 문맥까지 고려한 처리는 부족했다.</p>
+
+<p>Gradle로 전환한 이유이 프로젝트에서 가장 잘한 결정 중 하나는 Maven에서 Gradle로 갈아탄 것이다.처음엔 익숙해서 Maven을 썼지만,의존성 버전 충돌 디버깅빌드 속도설정 유연성이 세 가지 면에서 Gradle이 훨씬 나았다.특히 build.gradle.kts로 구조를 잡으면서 설명하기 쉬운 빌드 구조를 만들 수 있었다.앞으로는 Gradle 기반으로 프로젝트를 시작할 계획이다.</p>
+
+<p>지금 상태 점검백엔드: Gradle 기반으로 정상 기동프론트–백 연결: IPv4로 통일, 정상 작동JWT 로그인: 정상 작동캠페인 상세 조회: 데이터 없을 경우 예외 처리 필요이미지: fallback 적용했으나 여전히 placeholder 문제 있음</p>
+
+<p>느낀 점 &amp; 회고이번 프로젝트는 에러에 부딪히는 시간이 대부분이었다.근데 그만큼 설정 파일 하나, 필터 한 줄, 포트 번호 하나가 시스템 전체를 막을 수 있다는 걸 제대로 체감했다.또, 처음에는 에러가 생기면 일단 검색부터 했지만,이번엔 Cursor AI나 Gemini CLI를 써서 빠르게 로그를 해석하고 실험적으로 시도할 수 있었다.AI가 모든 걸 해결해주는 건 아니었지만, 반복적인 디버깅 시간을 확실히 줄여준 건 맞다.</p>
+
+<p>“내가 직접 문제를 해결하는 느낌은 살리고, 불필요한 구글링은 덜고”이게 이번 프로젝트에서 AI 도구를 쓰며 가장 만족스러웠던 부분이다.</p>
+
+<p>다음 작업 목록캠페인 ID 조회 시 404로 graceful 처리기본 이미지 서버 자체적으로 구성JWT 인증 흐름 좀 더 명확히 정리Gradle 기반 멀티 모듈 구조 연습</p>
+
+<p>이런 경험 하나하나가 쌓이면서,이제는 프로젝트보다 설정이 무섭지 않게 됐다.다음 프로젝트에선 더 빠르게 구조 잡고, 더 적은 에러로 개발할 수 있을 것 같다.</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[Spring Boot + Vue 프로젝트 회고록– 에러 로그, AI 도구, 그리고 나의 성장 에러 로그와 함께 성장한 3일이번 사이드 프로젝트에서는 Spring Boot와 Vue.js를 붙여서 기자단 캠페인 플랫폼을 만들었다.간단한 CRUD만 구현하면 되는 줄 알았지만, 막상 붙여보니 예상치 못한 에러들이 계속 터졌다.처음 겪는 에러도 많았고, 설정 꼬임도 잦았다.이번 회고는 그런 문제들을 어떻게 해결했는지, 그리고 Cursor AI와 Gemini CLI 같은 AI 도구를 사용하면서 어떤 경험을 했는지를 함께 정리한 기록이다.]]></summary></entry><entry><title type="html">⌨️하루하루 배우는 개발 공부, 그리고 아쉬움</title><link href="https://saway126.github.io/posts/%ED%95%98%EB%A3%A8%ED%95%98%EB%A3%A8-%EB%B0%B0%EC%9A%B0%EB%8A%94-%EA%B0%9C%EB%B0%9C-%EA%B3%B5%EB%B6%80-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EC%95%84%EC%89%AC%EC%9B%80/" rel="alternate" type="text/html" title="⌨️하루하루 배우는 개발 공부, 그리고 아쉬움" /><published>2025-07-22T17:54:09+09:00</published><updated>2025-07-22T17:54:09+09:00</updated><id>https://saway126.github.io/posts/%ED%95%98%EB%A3%A8%ED%95%98%EB%A3%A8-%EB%B0%B0%EC%9A%B0%EB%8A%94-%EA%B0%9C%EB%B0%9C-%EA%B3%B5%EB%B6%80-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EC%95%84%EC%89%AC%EC%9B%80</id><content type="html" xml:base="https://saway126.github.io/posts/%ED%95%98%EB%A3%A8%ED%95%98%EB%A3%A8-%EB%B0%B0%EC%9A%B0%EB%8A%94-%EA%B0%9C%EB%B0%9C-%EA%B3%B5%EB%B6%80-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EC%95%84%EC%89%AC%EC%9B%80/"><![CDATA[<p>안녕하세요, 김기성입니다. 최근에는 취업 준비와 면접, 실무 테스트 준비로 정신없이 바쁜 나날을 보내고 있습니다.원래는 매일매일 블로그에 기술 스택과 공부한 내용을 정리해서 올리겠다고 다짐했었는데,막상 바쁘다 보니 ‘그냥 올리는 데 의미를 두자’라는 생각으로, GPT가 작성해 준 내용을 복붙하는 수준에 머무른 것 같아 아쉬움이 남습니다.하지만 기쁘게도, 최근 한 회사에서 저를 좋게 봐 주셔서 내일부터 3개월간 인턴을 시작하게 되었습니다.아직 확신이 서서 결정된 것은 아니지만, 기회를 주고 싶다고 말씀해 주셔서 너무 감사했습니다.</p>
+
+<p>✅ TypeScript - infer 키워드​infer는 타입스크립트에서 조건부 타입 안에서 특정 타입을 추론할 때 사용됩니다.독립적으로는 쓸 수 없고, 반드시 extends와 함께 사용해야 합니다.예시:</p>
+
+<p>type GetReturnType<T> = T extends (...args: any[]) =&gt; infer R ? R : never;</T></p>
+
+<p>이렇게 하면 함수의 반환 타입을 R로 추론해 줍니다.</p>
+
+<p>​출처: https://romantech.net/1238</p>
+
+<p>✅ @OneToOne Lazy Loading 주의점JPA에서 @OneToOne 관계를 맺고 fetch = LAZY를 지정해도, 연관관계의 주인이 아닌 쪽에서는 Lazy 로딩이 동작하지 않을 수 있습니다.이는 FK가 주인 엔티티에만 있기 때문에 발생하는 한계입니다.그래서 단방향으로 모델링하거나, Lazy가 정말 필요한지 다시 고민하는 것이 좋습니다.</p>
+
+<p>​출처: https://codediary21.tistory.com/110</p>
+
+<p>✅ BFF(Backend For Frontend)BFF는 MSA 환경에서 클라이언트가 여러 API를 호출해야 하는 복잡함을 줄이기 위해 등장한 개념입니다.클라이언트별로 최적화된 데이터만 제공하는 백엔드 계층을 따로 두어, 웹/모바일/스마트TV 등에 맞게 데이터를 가공하고 효율을 높입니다.인증 처리, CORS 문제 해결 등도 맡을 수 있어 유용합니다.</p>
+
+<p>​출처: https://medium.com/@elifcetineer/backend-for-frontend-bff-architecture-666bbdc3d5b1</p>
+
+<p>✅ IaC(Infrastructure as Code)코드로 인프라를 정의하고 배포하는 방식입니다.반복 작업을 줄이고, 형상 관리도 가능하며, 자동화가 쉽습니다.대표적인 도구로는 Terraform, CloudFormation, Ansible 등이 있습니다.단점은 러닝 커브와 디버깅의 어려움입니다.</p>
+
+<p>​출처: https://radixweb.com/blog/what-is-infrastructure-as-code-and-its-best-practices</p>
+
+<p>✅ Hibernate SQL 로그아래는 Hibernate로 User와 Account의 연관 관계를 Lazy로 조회할 때 찍힌 쿼리 예시입니다.</p>
+
+<p>select u1_0.id
+from users u1_0
+where u1_0.id = ?</p>
+
+<p>select a1_0.user_id
+from account a1_0
+where a1_0.user_id = ?</p>
+
+<p>@OneToOne 관계에서 Lazy 로딩이 걸리면 이렇게 SELECT 쿼리가 각각 실행됩니다.(참고: 연관관계 주인 쪽이 아니면 Lazy가 동작하지 않는 문제도 있습니다.)</p>
+
+<p>​출처: https://gmoon92.github.io/spring/jpa/hibernate/n+1/2021/01/12/jpa-n-plus-one.html</p>
+
+<p>JPA 성능 N+1 문제와 해결 방법
+Moon
+gmoon92.github.io</p>
+
+<p>✨ 앞으로의 다짐‘매일’ 기록하는 것보다 중요한 건, 내가 직접 이해하고 경험한 것을 정리하는 것이라는 걸 느꼈습니다.앞으로는 느리더라도, 더 좋은 기록을 남길 수 있도록 노력하겠습니다.그리고 이번에 인턴 기회를 주신 만큼, 회사에 도움이 될 수 있도록 배우고 성장하며 최선을 다하겠습니다.아직 신입이고, 부족한 점이 많지만 너무 막 잘하려고 애쓰기보다는,혹여 실수를 하더라도 주눅들지 않고, 하루하루 배우며1인분은 아직 어렵더라도, 적어도 0.8인분을 할 수 있는 사람이 되도록 노력하겠습니다.오늘도 성장하는 하루가 되기를! 🌸</p>
+
+<p>🎨 태그: #개발공부 #프로그래밍 #TypeScript #JPA #BFF #IaC #Hibernate #기록하는개발자 #인턴시작 #성장하는개발자</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[안녕하세요, 김기성입니다. 최근에는 취업 준비와 면접, 실무 테스트 준비로 정신없이 바쁜 나날을 보내고 있습니다.원래는 매일매일 블로그에 기술 스택과 공부한 내용을 정리해서 올리겠다고 다짐했었는데,막상 바쁘다 보니 ‘그냥 올리는 데 의미를 두자’라는 생각으로, GPT가 작성해 준 내용을 복붙하는 수준에 머무른 것 같아 아쉬움이 남습니다.하지만 기쁘게도, 최근 한 회사에서 저를 좋게 봐 주셔서 내일부터 3개월간 인턴을 시작하게 되었습니다.아직 확신이 서서 결정된 것은 아니지만, 기회를 주고 싶다고 말씀해 주셔서 너무 감사했습니다.]]></summary></entry><entry><title type="html">[매일매일]프론트 엔드 기술 일기: npm install과 npm ci의 차이점</title><link href="https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%ED%94%84%EB%A1%A0%ED%8A%B8-%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-npm-install%EA%B3%BC-npm-ci%EC%9D%98-%EC%B0%A8%EC%9D%B4%EC%A0%90/" rel="alternate" type="text/html" title="[매일매일]프론트 엔드 기술 일기: npm install과 npm ci의 차이점" /><published>2025-07-18T18:30:12+09:00</published><updated>2025-07-18T18:30:12+09:00</updated><id>https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%ED%94%84%EB%A1%A0%ED%8A%B8-%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-npm-install%EA%B3%BC-npm-ci%EC%9D%98-%EC%B0%A8%EC%9D%B4%EC%A0%90</id><content type="html" xml:base="https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%ED%94%84%EB%A1%A0%ED%8A%B8-%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-npm-install%EA%B3%BC-npm-ci%EC%9D%98-%EC%B0%A8%EC%9D%B4%EC%A0%90/"><![CDATA[<p>npm install과 npm ci(clean-install) 모두 의존성 목록을 설치하는 커맨드이지만, 세부 동작에 차이가 있습니다. 요약하면, npm ci는 npm install에 비해 의존성의 버전을 엄격하게 유지합니다.​첫째, npm install은 package.json에 명시된 version range 내에서 다른 버전을 설치할 가능성이 있지만, npm ci는 오직 package-lock.json에 정확하게 표기된 특정 버전을 따릅니다. 이로 인해 예기치 않게 다른 버전의 의존성을 설치하는 일을 방지합니다. 더불어 정확히 명시된 버전을 설치하므로 버전을 결정하기 위한 연산을 수행할 필요가 없어 설치 속도에서 유리한 측면이 있습니다.​둘째, npm install은 package-lock.json을 변경할 가능성이 있지만, npm ci는 절대 변경하지 않습니다. 이러한 특징으로 인해 npm ci는 의존성 목록의 버전을 변경없이 일관되게 유지할 수 있게 해줍니다.​셋째, npm ci는 매번 node_modules을 삭제한 후 설치합니다. 이를 통해 이전에 설치된 의존성과의 충돌로 인한 문제를 방지합니다. 또한, 오로지 package-lock.json에 따라서 매번 동일한 의존성을 설치할 것을 확실하게 보장합니다.</p>
+
+<p>이러한 차이점들로 인해 npm ci는 CI/CD 환경에서 빌드 과정의 일관성을 보장하기 위한 목적으로 사용되는 경우가 많습니다.​npm ci를 로컬 개발 환경에서도 사용하면 안 되나요? 🤔가능합니다. 하지만 npm ci는 node_modules을 매번 모두 삭제하고 다시 설치하기 때문에 불필요한 시간이 소요될 수 있습니다. 따라서, 로컬에서는 일반적으로 npm install을 사용하고, CI/CD 환경에서는 npm ci를 사용하는 경우가 많습니다. 다만, 팀 내에서 의존성 버전을 엄격하게 맞추는 것이 중요하다고 판단되면 로컬 환경에서도 npm ci를 사용할 수 있습니다.</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[npm install과 npm ci(clean-install) 모두 의존성 목록을 설치하는 커맨드이지만, 세부 동작에 차이가 있습니다. 요약하면, npm ci는 npm install에 비해 의존성의 버전을 엄격하게 유지합니다.​첫째, npm install은 package.json에 명시된 version range 내에서 다른 버전을 설치할 가능성이 있지만, npm ci는 오직 package-lock.json에 정확하게 표기된 특정 버전을 따릅니다. 이로 인해 예기치 않게 다른 버전의 의존성을 설치하는 일을 방지합니다. 더불어 정확히 명시된 버전을 설치하므로 버전을 결정하기 위한 연산을 수행할 필요가 없어 설치 속도에서 유리한 측면이 있습니다.​둘째, npm install은 package-lock.json을 변경할 가능성이 있지만, npm ci는 절대 변경하지 않습니다. 이러한 특징으로 인해 npm ci는 의존성 목록의 버전을 변경없이 일관되게 유지할 수 있게 해줍니다.​셋째, npm ci는 매번 node_modules을 삭제한 후 설치합니다. 이를 통해 이전에 설치된 의존성과의 충돌로 인한 문제를 방지합니다. 또한, 오로지 package-lock.json에 따라서 매번 동일한 의존성을 설치할 것을 확실하게 보장합니다.]]></summary></entry><entry><title type="html">[매일매일]백엔드 기술일기: String 객체가 불변인 이유/리터럴로 생성한 String 객체와 생성자로 생성한 String 객체의 차이</title><link href="https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0%EC%9D%BC%EA%B8%B0-String-%EA%B0%9D%EC%B2%B4%EA%B0%80-%EB%B6%88%EB%B3%80%EC%9D%B8-%EC%9D%B4%EC%9C%A0-%EB%A6%AC%ED%84%B0%EB%9F%B4%EB%A1%9C-%EC%83%9D%EC%84%B1%ED%95%9C-String-%EA%B0%9D%EC%B2%B4%EC%99%80-%EC%83%9D%EC%84%B1%EC%9E%90%EB%A1%9C-%EC%83%9D%EC%84%B1%ED%95%9C-String-%EA%B0%9D%EC%B2%B4%EC%9D%98-%EC%B0%A8%EC%9D%B4/" rel="alternate" type="text/html" title="[매일매일]백엔드 기술일기: String 객체가 불변인 이유/리터럴로 생성한 String 객체와 생성자로 생성한 String 객체의 차이" /><published>2025-07-18T18:12:45+09:00</published><updated>2025-07-18T18:12:45+09:00</updated><id>https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0%EC%9D%BC%EA%B8%B0-String-%EA%B0%9D%EC%B2%B4%EA%B0%80-%EB%B6%88%EB%B3%80%EC%9D%B8-%EC%9D%B4%EC%9C%A0-%EB%A6%AC%ED%84%B0%EB%9F%B4%EB%A1%9C-%EC%83%9D%EC%84%B1%ED%95%9C-String-%EA%B0%9D%EC%B2%B4%EC%99%80-%EC%83%9D%EC%84%B1%EC%9E%90%EB%A1%9C-%EC%83%9D%EC%84%B1%ED%95%9C-String-%EA%B0%9D%EC%B2%B4%EC%9D%98-%EC%B0%A8%EC%9D%B4</id><content type="html" xml:base="https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0%EC%9D%BC%EA%B8%B0-String-%EA%B0%9D%EC%B2%B4%EA%B0%80-%EB%B6%88%EB%B3%80%EC%9D%B8-%EC%9D%B4%EC%9C%A0-%EB%A6%AC%ED%84%B0%EB%9F%B4%EB%A1%9C-%EC%83%9D%EC%84%B1%ED%95%9C-String-%EA%B0%9D%EC%B2%B4%EC%99%80-%EC%83%9D%EC%84%B1%EC%9E%90%EB%A1%9C-%EC%83%9D%EC%84%B1%ED%95%9C-String-%EA%B0%9D%EC%B2%B4%EC%9D%98-%EC%B0%A8%EC%9D%B4/"><![CDATA[<p>String 객체는 불변(Immutable) 입니다. String 클래스는 내부적으로 final 키워드가 선언된 byte[] 필드를 사용해서 문자열을 저장하기 때문입니다. 또한, String은 참조 타입(Reference Type)이기 때문에 concat(), replace(), toUpperCase()와 같은 String 메서드를 호출하면 새로운 String 객체를 참조하고 기존 객체를 수정하지 않습니다. 따라서 String 객체를 불변하게 유지할 수 있습니다.</p>
+
+<p>​String을 불변으로 설계한 이유는 무엇일까요?​String을 불변으로 설계한 덕분에 많은 이점을 얻을 수 있습니다.String Constant Pool을 사용할 수 있습니다. 이를 통해 동일한 문자열의 String 변수들은 같은 객체를 공유하기 때문에 메모리를 효율적으로 사용할 수 있습니다.불변한 객체는 멀티 스레드 환경에서 thread-safe합니다. 문자열을 변경하면 String Constant Pool에 새로운 객체를 생성하기 때문에 동기화를 신경쓸 필요가 없습니다.해시코드를 한 번만 계산하고 이를 캐싱해서 재사용할 수 있습니다.비밀번호, 토큰, URL 등의 민감한 정보를 안전하게 다룰 수 있습니다. 불변한 객체는 변경할 수 없기 때문에 민감한 정보가 예기치 않게 수정되는 것을 방지할 수 있습니다.</p>
+
+<p>두 방식으로 생성한 객체는 같은 문자열을 갖더라도 메모리 상에서 다르게 처리됩니다.</p>
+
+<p>String first = “hello”; // 리터럴로 생성
+String second = new String(“hello”); // 생성자로 생성
+String third = “hello”;</p>
+
+<p>System.out.println(System.identityHashCode(first)); // 498931366
+System.out.println(System.identityHashCode(second)); // 2060468723
+System.out.println(System.identityHashCode(third)); // 498931366</p>
+
+<p>리터럴로 생성한 String 객체는 Heap 영역의 String Constant Pool에 저장되어 동일한 문자열을 재사용할 수 있습니다. 문자열이 String Constant Pool에 이미 존재하면 같은 주소를 참조합니다. 반면, 생성자로 생성한 String 객체는 Heap 영역에 저장되어 동일한 문자열이더라도 항상 새로운 객체를 생성합니다.</p>
+
+<p>String first = “hello”;
+String second = new String(“hello”);
+String third = second.intern(); // intern() 메서드 사용</p>
+
+<p>System.out.println(System.identityHashCode(first)); // 498931366
+System.out.println(System.identityHashCode(second)); // 2060468723
+System.out.println(System.identityHashCode(third)); // 498931366</p>
+
+<p>intern() 메서드를 사용하면 Heap 영역에 저장된 String 객체를 String Constant Pool에 저장할 수 있습니다. intern() 메서드는 해당 문자열이 String Constant Pool에 존재할 경우 그 주솟값을 반환하고, 없을 경우 String Constant Pool에 추가하고 새로운 주솟값을 반환합니다.</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[String 객체는 불변(Immutable) 입니다. String 클래스는 내부적으로 final 키워드가 선언된 byte[] 필드를 사용해서 문자열을 저장하기 때문입니다. 또한, String은 참조 타입(Reference Type)이기 때문에 concat(), replace(), toUpperCase()와 같은 String 메서드를 호출하면 새로운 String 객체를 참조하고 기존 객체를 수정하지 않습니다. 따라서 String 객체를 불변하게 유지할 수 있습니다.]]></summary></entry><entry><title type="html">️[매일매일]프론트엔드 기술 일기: 인증과 인가, 그리고 나의 삽질기: JWT와 401 에러를 마주하며</title><link href="https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-%EC%9D%B8%EC%A6%9D%EA%B3%BC-%EC%9D%B8%EA%B0%80-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EB%82%98%EC%9D%98-%EC%82%BD%EC%A7%88%EA%B8%B0-JWT%EC%99%80-401-%EC%97%90%EB%9F%AC%EB%A5%BC-%EB%A7%88%EC%A3%BC%ED%95%98%EB%A9%B0/" rel="alternate" type="text/html" title="️[매일매일]프론트엔드 기술 일기: 인증과 인가, 그리고 나의 삽질기: JWT와 401 에러를 마주하며" /><published>2025-07-17T13:29:29+09:00</published><updated>2025-07-17T13:29:29+09:00</updated><id>https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-%EC%9D%B8%EC%A6%9D%EA%B3%BC-%EC%9D%B8%EA%B0%80-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EB%82%98%EC%9D%98-%EC%82%BD%EC%A7%88%EA%B8%B0-JWT%EC%99%80-401-%EC%97%90%EB%9F%AC%EB%A5%BC-%EB%A7%88%EC%A3%BC%ED%95%98%EB%A9%B0</id><content type="html" xml:base="https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-%EC%9D%B8%EC%A6%9D%EA%B3%BC-%EC%9D%B8%EA%B0%80-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EB%82%98%EC%9D%98-%EC%82%BD%EC%A7%88%EA%B8%B0-JWT%EC%99%80-401-%EC%97%90%EB%9F%AC%EB%A5%BC-%EB%A7%88%EC%A3%BC%ED%95%98%EB%A9%B0/"><![CDATA[<p>“아니, 분명 로그인했는데 왜 또 401이야…”</p>
+
+<p>Greenwear 프로젝트를 진행하면서 가장 많이 마주쳤던 에러 중 하나가 바로 401 Unauthorized 였습니다.특히 로그인 API를 /api/login으로 호출하면서 시큐리티 에러와 JWT 토큰 관련 문제로 정말 골머리를 앓았던 기억이 나네요.더군다나 이 프로젝트에서는 Cursor AI, Gemini CLI 같은 AI 도구를 적극 활용했기 때문에 더 빠르게 개발할 수 있었지만, 동시에 중요한 부분을 당연한 것처럼 넘기거나 누락해 실수한 경우도 많았습니다.이번 글에서는 그때의 경험을 바탕으로 인증/인가 개념, 간단한 예제, 그리고 왜 AI를 써도 401을 맞았는지까지 정리해 보겠습니다.</p>
+
+<p>📚 인증(Authentication)과 인가(Authorization)란?✅ 인증 (Authentication)</p>
+
+<p>✅ 인가 (Authorization)</p>
+
+<p>🔍 Greenwear 프로젝트에서의 삽질기🌱 Greenwear 프로젝트에서는 JWT를 활용한 로그인 인증을 구현했는데요, 초기에는 아래처럼만 생각했습니다:</p>
+
+<p>if (userId &amp;&amp; password) {
+  return jwt.sign({ userId }, SECRET);
+}</p>
+
+<p>로그인하면 토큰을 클라이언트에 주고, API 요청 시 헤더에 Authorization: Bearer <토큰>을 붙이는 구조였죠.그런데…로그인 후에도 계속 401 Unauthorized 에러.관리자 권한이 필요한 API에 일반 계정으로 접근해도 에러가 안 나는 문제.토큰 유효성 검증 누락으로 보안 취약점.</토큰></p>
+
+<p>🚨 /api/login 삽질기특히 이 부분이 핵심이었어요.로그인 API 요청을 클라이언트에서 /api/login으로 보내면서, 백엔드에서는 /login만 처리하도록 구현해 둔 상태였습니다.결과:/login → 정상 동작/api/login → 401 혹은 404 이유는 2가지였습니다:1. 라우팅 불일치</p>
+
+<p>app.post(“/login”, handler);</p>
+
+<p>서버는 /login만 처리하는데, 클라이언트는 /api/login으로 요청 → 매칭 실패.2. 시큐리티 설정 문제​스프링 시큐리티 설정을 이렇게 해놨었습니다.</p>
+
+<p>.antMatchers(“/login”).permitAll()
+.antMatchers(“/api/**”).authenticated();</p>
+
+<p>즉, /api/** 경로는 인증을 요구했고, /api/login도 거기에 포함돼서 로그인조차 인증을 요구하는 웃픈 상황이 된 겁니다ㅎㅎ ^^</p>
+
+<p>🤖 AI를 쓰면 더 빨라지지만 더 위험할 수도 있다이 프로젝트에서는 빠른 개발을 위해 Cursor AI와 Gemini CLI를 적극 활용했습니다.코드 스니펫을 자동 완성해 주고,시큐리티 설정도 추천해 줬고,JWT 유틸 함수도 AI가 생성해줬습니다.개발 속도는 정말 빨랐습니다.하지만 문제는…</p>
+
+<p>“왜 API 요청 경로와 시큐리티 설정이 불일치하는데도 난 못 봤지?”</p>
+
+<p>AI가 작성해준 코드가 잘못된 건 아니지만, 제가 리뷰를 꼼꼼히 하지 않아 중요한 부분을 간과한 게 원인이었습니다.AI를 쓸수록 기본 개념을 알고 꼼꼼히 체크해야 한다는 교훈을 얻었습니다.</p>
+
+<p>🧪 실습 예제: JWT로 인증 + 인가1️⃣ 인증 예제: 로그인 &amp; 토큰 발급</p>
+
+<p>app.post(“/login”, (req, res) =&gt; {
+  const { username, password } = req.body;
+  if (username === “admin” &amp;&amp; password === “secret”) {
+    const token = jwt.sign({ username, role: “admin” }, SECRET, { expiresIn: “1h” });
+    res.json({ token });
+  } else {
+    res.status(401).send(“Invalid credentials”);
+  }
+});</p>
+
+<p>2️⃣ 인가 예제: 권한 확인</p>
+
+<p>const authMiddleware = (req, res, next) =&gt; {
+  const token = req.headers.authorization?.split(“ “)[1];
+  if (!token) return res.status(401).send(“Unauthorized”);</p>
+
+<p>try {
+    const decoded = jwt.verify(token, SECRET);
+    req.user = decoded;
+    next();
+  } catch {
+    res.status(401).send(“Invalid token”);
+  }
+};</p>
+
+<p>app.get(“/admin”, authMiddleware, (req, res) =&gt; {
+  if (req.user.role !== “admin”) {
+    return res.status(403).send(“Forbidden: Insufficient rights”);
+  }
+  res.send(“Welcome, admin!”);
+});</p>
+
+<p>🔗 정리: 왜 헷갈렸을까?</p>
+
+<p>구분</p>
+
+<p>정의</p>
+
+<p>Greenwear 당시 실수</p>
+
+<p>인증</p>
+
+<p>사용자가 본인인지 확인</p>
+
+<p>토큰만 발급하고 끝낸 줄 앎</p>
+
+<p>인가</p>
+
+<p>권한 있는지 확인</p>
+
+<p>권한 체크 로직을 누락함</p>
+
+<p>경로</p>
+
+<p>로그인 요청 경로가 맞는지</p>
+
+<p>서버는 /login, 클라는 /api/login</p>
+
+<p>AI</p>
+
+<p>빠르지만 검증 필요</p>
+
+<p>기본을 확인하지 않고 자동 완성만 믿음</p>
+
+<p>🌟 마무리하며✅ 인증과 인가는 다르다.✅ 인증은 로그인, 인가는 권한 확인.✅ 로그인 API의 경로와 시큐리티 설정은 반드시 일치시켜야 한다.✅ 토큰에는 role 등 권한 정보를 넣고 백엔드에서 검증하자.✅ AI가 빠르다고 해서 기본 개념을 소홀히 하면 안 된다.Greenwear 프로젝트를 하며 이런 삽질을 경험한 덕분에, 지금은 시큐리티 설정을 할 때 가장 먼저 인증/인가를 분리하고 /login 경로를 명시적으로 permitAll()로 설정해 두는 습관이 생겼습니다.그리고 무엇보다, AI의 도움을 받더라도 내가 이해하고 검증하는 게 중요하다는 걸 배웠습니다.</p>
+
+<p>📖 참고 자료 및 출처https://www.okta.com/ko-kr/identity-101/authentication-vs-authorization/</p>
+
+<p>Authentication vs. Authorization | Okta
+Products Why Okta Developers Resources Authentication vs. Authorization 업데이트됨: 2024년09월02일 Time to read: ~ Topics IAM 목차 공유 Ready to make Identity a business advantage? Sign up today. Get started What’s the difference between authentication and authorization?  Authentication confirms that users are …
+www.okta.com</p>
+
+<p>https://www.okta.com/ko-kr/identity-101/role-based-access-control-vs-attribute-based-access-control/</p>
+
+<p>RBAC vs. ABAC: Definitions &amp; When to Use | Okta
+공유 Identity management techniques protect your sensitive digital assets. But what form should that protection take? Knowing the difference between role-based access control (RBAC) vs. attribute-based access control (ABAC) can help you make a smart decision. The main difference between RBAC vs. ABAC …
+www.okta.com</p>
+
+<p>https://www.youtube.com/watch?v=xCqpxiPXnCk</p>
+
+<p>​</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[“아니, 분명 로그인했는데 왜 또 401이야…”]]></summary></entry><entry><title type="html">[매일매일]백엔드 기술 일기: 회선 교환 vs 패킷 교환 (개념 + 실습 예제)</title><link href="https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-%ED%9A%8C%EC%84%A0-%EA%B5%90%ED%99%98-vs-%ED%8C%A8%ED%82%B7-%EA%B5%90%ED%99%98-%EA%B0%9C%EB%85%90-%EC%8B%A4%EC%8A%B5-%EC%98%88%EC%A0%9C/" rel="alternate" type="text/html" title="[매일매일]백엔드 기술 일기: 회선 교환 vs 패킷 교환 (개념 + 실습 예제)" /><published>2025-07-17T11:27:27+09:00</published><updated>2025-07-17T11:27:27+09:00</updated><id>https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-%ED%9A%8C%EC%84%A0-%EA%B5%90%ED%99%98-vs-%ED%8C%A8%ED%82%B7-%EA%B5%90%ED%99%98-%EA%B0%9C%EB%85%90-%EC%8B%A4%EC%8A%B5-%EC%98%88%EC%A0%9C</id><content type="html" xml:base="https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-%ED%9A%8C%EC%84%A0-%EA%B5%90%ED%99%98-vs-%ED%8C%A8%ED%82%B7-%EA%B5%90%ED%99%98-%EA%B0%9C%EB%85%90-%EC%8B%A4%EC%8A%B5-%EC%98%88%EC%A0%9C/"><![CDATA[<p>개념 정리네트워크에서 회선 교환 방식(Circuit Switching) 이란 특정 사용자를 위한 회선의 경로를 미리 설정하고 이 경로를 이용해서 호스트끼리 메시지를 주고받는 방식을 의미합니다. 회선 교환 방식은 미리 회선을 설정한다는 점에서 주어진 시간 동안에 전송되는 데이터의 양이 비교적 일정하고 안정적입니다. 다만, 회선 이용 효율이 떨어진다는 단점이 존재합니다. 회선 교환 방식의 대표적인 사례로는 유선 전화망이 있습니다.​반면, 패킷 교환 방식(Packet Switching) 은 목적지를 정해두고 메시지를 패킷으로 분할해서 보내고, 목적지에서 패킷을 조립해서 확인하는 방식입니다. 패킷 교환 방식에서 라우터는 주어진 패킷을 최적 경로로 전달하는 핵심적인 역할을 수행합니다. 이러한 특성으로 인해서 경로는 수시로 변경될 수 있고, 데이터를 전송하는 동안에만 네트워크 자원을 사용한다는 점에서 회선 교환 방식과 차이가 있습니다. 패킷 교환 방식은 회선 이용 효율이 높습니다. 하지만, 경로 탐색에서 지연이 발생하거나, 패킷을 위한 헤더로 인한 오버헤드가 발생할 수 있습니다.</p>
+
+<p>출처: https://www.maeil-mail.kr/question/217</p>
+
+<p>구분</p>
+
+<p>회선 교환 (Circuit Switching)</p>
+
+<p>패킷 교환 (Packet Switching)</p>
+
+<p>정의</p>
+
+<p>송신자와 수신자 간에 전용 회선을 설정 후 통신</p>
+
+<p>데이터를 작은 패킷으로 쪼개어 여러 경로로 전송</p>
+
+<p>특징</p>
+
+<p>고정된 경로, 안정적, 비효율적</p>
+
+<p>유연한 경로, 효율적, 지연 가능성</p>
+
+<p>자원 점유</p>
+
+<p>통화 시간 동안 회선 독점</p>
+
+<p>패킷 전송 중에만 네트워크 사용</p>
+
+<p>예시</p>
+
+<p>유선 전화</p>
+
+<p>인터넷, IP 네트워크</p>
+
+<ol>
+  <li>회선 교환 예제📋 시나리오1) 전화기 A, B, C가 하나의 교환기에 연결되어 있습니다.2) A가 B에게 전화를 걸면, 교환기가 A-B 전용 회선을 설정하고 통화가 끝날 때까지 점유합니다.3) C가 B에게 전화하려고 하면, 회선이 점유되어 있어 “통화 중” 표시가 됩니다.​실행 화면 예시</li>
+</ol>
+
+<p>📞 Phone A → Dial 1002
+📞 Phone B → Ringing… Connected!
+📞 Phone C → Dial 1002
+📞 Phone C → Line Busy</p>
+
+<p>상태</p>
+
+<p>내용</p>
+
+<p>A ↔ B 연결</p>
+
+<p>전용 회선 설정, 다른 통화 불가</p>
+
+<p>C → B</p>
+
+<p>“Line Busy” 표시</p>
+
+<ol>
+  <li>패킷 교환 예제📋 시나리오1) PC1, PC2, PC3가 스위치를 통해 라우터에 연결됩니다.2) 동시에 모두 라우터에 ping 명령을 보냅니다.3) 각각의 요청이 독립적인 패킷으로 전송되고 처리됩니다.</li>
+</ol>
+
+<p>🖼️ 실행 화면 예시PC1:</p>
+
+<p>Pinging 192.168.1.1 with 32 bytes of data:
+Reply from 192.168.1.1: bytes=32 time&lt;1ms TTL=64
+Reply from 192.168.1.1: bytes=32 time&lt;1ms TTL=64</p>
+
+<p>PC2:</p>
+
+<p>Pinging 192.168.1.1 with 32 bytes of data:
+Reply from 192.168.1.1: bytes=32 time&lt;1ms TTL=64
+Reply from 192.168.1.1: bytes=32 time&lt;1ms TTL=64</p>
+
+<p>PC3:</p>
+
+<p>Pinging 192.168.1.1 with 32 bytes of data:
+Reply from 192.168.1.1: bytes=32 time&lt;1ms TTL=64
+Reply from 192.168.1.1: bytes=32 time&lt;1ms TTL=64</p>
+
+<p>🔍 왜 셋 다 똑같은가?패킷 교환 방식에서는:각각의 PC가 독립적인 패킷을 전송합니다.패킷들은 동시에 네트워크에 올라가지만 서로 다른 경로나 같은 경로를 차례대로 통과할 수 있습니다.라우터/스위치가 각 패킷을 적절하게 처리하기 때문에 충돌 없이 각각 응답을 받습니다.​동시에 보내더라도 네트워크가 감당할 수 있는 범위 내에서는 모두 응답이 오고, 결과가 동일해 보이는 겁니다.</p>
+
+<p>장단점 요약</p>
+
+<p>방식</p>
+
+<p>장점</p>
+
+<p>단점</p>
+
+<p>회선 교환</p>
+
+<p>일정한 품질, 지연 없음</p>
+
+<p>자원 낭비, 유연성 부족</p>
+
+<p>패킷 교환</p>
+
+<p>자원 효율적, 유연성 높음</p>
+
+<p>패킷 지연, 재조립 필요</p>
+
+<p>📌 포인트✔️ “똑같다” = 잘 작동하고 있다는 증거✔️ 동시에 전송해도 회선 점유가 아니라 패킷 단위 처리라 충돌하지 않음✔️ 각 PC가 전송하는 패킷은 독립적이지만, 응답은 동일한 호스트로부터 동일한 내용</p>
+
+<p>🔷 결론✅ 셋 다 같은 결과가 출력되지만, 그 안에서 패킷은 독립적으로 처리되고 있다는 점이 중요합니다.</p>
+
+<p>참고자료 및 출처https://www.youtube.com/watch?v=FVoPnnC12k8</p>
+
+<p>⏳ 타임라인</p>
+
+<p>타임스탬프</p>
+
+<p>주제</p>
+
+<p>00:20</p>
+
+<p>범위에 따른 네트워크 분류</p>
+
+<p>01:07</p>
+
+<p>LAN</p>
+
+<p>03:00</p>
+
+<p>WAN</p>
+
+<p>05:02</p>
+
+<p>메시지 교환 방식에 따른 네트워크 분류</p>
+
+<p>06:18</p>
+
+<p>회선 교환 방식</p>
+
+<p>08:12</p>
+
+<p>회선 스위치</p>
+
+<p>10:57</p>
+
+<p>패킷 교환 방식</p>
+
+<p>13:30</p>
+
+<p>패킷 스위치</p>
+
+<p>15:10</p>
+
+<p>패킷</p>
+
+<p>16:05</p>
+
+<p>패킷의 구조</p>
+
+<p>💡 추천:공부하면서 헷갈리는 부분이 있거나 개념이 잘 잡히지 않을 때는, 위 영상을 보면서 용어를 시각적으로 확인해 보세요.특히 회선 교환 방식과 패킷 교환 방식의 차이를 이해할 때 큰 도움이 됩니다.</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[개념 정리네트워크에서 회선 교환 방식(Circuit Switching) 이란 특정 사용자를 위한 회선의 경로를 미리 설정하고 이 경로를 이용해서 호스트끼리 메시지를 주고받는 방식을 의미합니다. 회선 교환 방식은 미리 회선을 설정한다는 점에서 주어진 시간 동안에 전송되는 데이터의 양이 비교적 일정하고 안정적입니다. 다만, 회선 이용 효율이 떨어진다는 단점이 존재합니다. 회선 교환 방식의 대표적인 사례로는 유선 전화망이 있습니다.​반면, 패킷 교환 방식(Packet Switching) 은 목적지를 정해두고 메시지를 패킷으로 분할해서 보내고, 목적지에서 패킷을 조립해서 확인하는 방식입니다. 패킷 교환 방식에서 라우터는 주어진 패킷을 최적 경로로 전달하는 핵심적인 역할을 수행합니다. 이러한 특성으로 인해서 경로는 수시로 변경될 수 있고, 데이터를 전송하는 동안에만 네트워크 자원을 사용한다는 점에서 회선 교환 방식과 차이가 있습니다. 패킷 교환 방식은 회선 이용 효율이 높습니다. 하지만, 경로 탐색에서 지연이 발생하거나, 패킷을 위한 헤더로 인한 오버헤드가 발생할 수 있습니다.]]></summary></entry><entry><title type="html">[매일매일] 백엔드 기술 일기: Java Try-with-Resources 실습으로 이해하기: finally vs try-with-resources</title><link href="https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-Java-Try-with-Resources-%EC%8B%A4%EC%8A%B5%EC%9C%BC%EB%A1%9C-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-finally-vs-try-with-resources/" rel="alternate" type="text/html" title="[매일매일] 백엔드 기술 일기: Java Try-with-Resources 실습으로 이해하기: finally vs try-with-resources" /><published>2025-07-16T18:54:58+09:00</published><updated>2025-07-16T18:54:58+09:00</updated><id>https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-Java-Try-with-Resources-%EC%8B%A4%EC%8A%B5%EC%9C%BC%EB%A1%9C-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-finally-vs-try-with-resources</id><content type="html" xml:base="https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-Java-Try-with-Resources-%EC%8B%A4%EC%8A%B5%EC%9C%BC%EB%A1%9C-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-finally-vs-try-with-resources/"><![CDATA[<p>실제 코드를 돌려보며 확인하는 예외 처리의 차이점​자바를 사용하다 보면 파일, 데이터베이스 연결, 네트워크 소켓 등의 자원(Resource)을 다루는 일이 많습니다. 이런 자원들은 사용 후 반드시 정리해야 하는데, Java 7부터 도입된 try-with-resources 구문이 이를 획기적으로 개선했습니다.​오늘은 직접 코드를 실습해보며 기존의 <code class="language-plaintext highlighter-rouge">finally</code> 방식과 <code class="language-plaintext highlighter-rouge">try-with-resources</code>의 차이점을 명확히 알아보겠습니다.</p>
+
+<p>📌 try-with-resources란?try-with-resources는 자바 7부터 도입된 문법으로, 사용한 자원을 자동으로 해제(close)해 주는 try 문입니다.보통 데이터베이스 커넥션, 파일 스트림, 네트워크 소켓처럼반드시 닫아야 하는 자원을 다룰 때 사용합니다.</p>
+
+<p>​🎯 정리하며 느낀 점</p>
+
+<p>finally</p>
+
+<p>try-with-resources</p>
+
+<p>코드 길이</p>
+
+<p>길고 중첩됨</p>
+
+<p>짧고 깔끔</p>
+
+<p>예외 출력</p>
+
+<p>따로따로</p>
+
+<p>메인 + suppressed</p>
+
+<p>디버깅</p>
+
+<p>불편</p>
+
+<p>훨씬 쉽다</p>
+
+<p>자원 닫기</p>
+
+<p>직접 호출</p>
+
+<p>자동</p>
+
+<p>finally로는 null 체크하고 try-catch를 또 써야 했는데,try-with-resources는 선언만 하면 알아서 닫아주고, 예외도 한눈에 볼 수 있었습니다.​​🔍예제코드</p>
+
+<p>// Source code is decompiled from a .class file using FernFlower decompiler.
+public class TryWithResourcesTest {
+   public TryWithResourcesTest() {
+   }</p>
+
+<p>public static void main(String[] var0) {
+      System.out.println(“=== finally version ===”);
+      testFinally();
+      System.out.println(“\n=== try-with-resources version ===”);
+      testTryWithResources();
+   }</p>
+
+<p>static void testFinally() {
+      CustomResource var0 = null;</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre>  try {
+     var0 = new CustomResource();
+     var0.process();
+  } catch (Exception var10) {
+     System.out.println("catch: " + var10.getMessage());
+     var10.printStackTrace();
+  } finally {
+     if (var0 != null) {
+        try {
+           var0.close();
+        } catch (Exception var9) {
+           System.out.println("Exception in finally close(): " + var9.getMessage());
+           var9.printStackTrace();
+        }
+     }
+
+  }
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>}</p>
+
+<p>static void testTryWithResources() {
+      try {
+         CustomResource var0 = new CustomResource();</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+</pre></td><td class="rouge-code"><pre>     try {
+        var0.process();
+     } catch (Throwable var6) {
+        try {
+           var0.close();
+        } catch (Throwable var5) {
+           var6.addSuppressed(var5);
+        }
+
+        throw var6;
+     }
+
+     var0.close();
+  } catch (Exception var7) {
+     System.out.println("catch: " + var7.getMessage());
+     var7.printStackTrace();
+     Throwable[] var1 = var7.getSuppressed();
+     int var2 = var1.length;
+
+     for(int var3 = 0; var3 &lt; var2; ++var3) {
+        Throwable var4 = var1[var3];
+        System.out.println("suppressed: " + var4.getMessage());
+        var4.printStackTrace();
+     }
+  }
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>}
+}</p>
+
+<p>​🔍 Try-with-Resources vs Finally 실습 전체 코드 및 주석 설명</p>
+
+<p>/**</p>
+<ul>
+  <li>🔍 Try-with-Resources vs Finally 실습 코드</li>
+  <li></li>
+  <li>핵심 학습 포인트:</li>
+  <li>✅ AutoCloseable 인터페이스 필요</li>
+  <li>✅ 자원 자동 해제 메커니즘</li>
+  <li>✅ 코드 간결성과 안전성</li>
+  <li>✅ Suppressed Exception으로 디버깅 향상
+ */</li>
+</ul>
+
+<p>/**</p>
+<ul>
+  <li>테스트용 자원 클래스</li>
+  <li></li>
+  <li>🔑 핵심: AutoCloseable 인터페이스 구현 필수!</li>
+  <li>
+    <ul>
+      <li>try-with-resources 사용하려면 반드시 AutoCloseable 구현해야 함</li>
+    </ul>
+  </li>
+  <li>
+    <ul>
+      <li>close() 메서드에서 정리 작업 수행
+ */
+class CustomResource implements AutoCloseable {</li>
+    </ul>
+
+    <p>/**</p>
+    <ul>
+      <li>자원 정리 메서드 (AutoCloseable 인터페이스 구현)</li>
+      <li></li>
+      <li>🧪 실습 목적: 의도적으로 예외 발생시켜 차이점 확인</li>
+      <li>✔️ 실제 실행해보니 try-with-resources에서는 이 예외가 “Suppressed”로 처리됨!
+  */
+ @Override
+ public void close() throws Exception {
+ System.out.println(“close() called”);
+ throw new Exception(“Close Exception occurred”);  // 의도적 예외 발생
+ }</li>
+    </ul>
+
+    <p>/**</p>
+    <ul>
+      <li>주요 작업 수행 메서드</li>
+      <li></li>
+      <li>🧪 실습 목적: 주 작업 중 예외 발생시켜 예외 처리 방식 비교</li>
+      <li>✔️ 실제 실행해보니 이게 “Primary Exception”이 됨
+  */
+ void process() throws Exception {
+ System.out.println(“process() called”);
+ throw new Exception(“Primary Exception occurred”);  // 의도적 예외 발생
+ }
+}</li>
+    </ul>
+  </li>
+</ul>
+
+<p>public class TryWithResourcesTest {
+    public static void main(String[] args) {
+        System.out.println(“=== finally version ===”);
+        testFinally();</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+</pre></td><td class="rouge-code"><pre>    System.out.println("\n=== try-with-resources version ===");
+    testTryWithResources();
     
-  
+    // 🎯 실행 후 확인사항:
+    // 1. 실행 순서의 차이
+    // 2. 예외 처리 방식의 차이 
+    // 3. Suppressed Exception 출력 여부
+}
 
-  <summary>오늘의 트렌드</summary>
+/**
+ * 🔹 방법 1: 전통적인 finally 방식
+ * 
+ * ❌ 문제점들:
+ * - 코드가 복잡하고 장황함 (중첩된 try-catch)
+ * - null 체크 수동으로 해야 함
+ * - 예외들이 독립적으로 처리되어 연관성 파악 어려움
+ * 
+ * 📊 실제 실행 결과:
+ * 1. process() called
+ * 2. catch: Primary Exception occurred  
+ * 3. [Primary Exception 스택 트레이스]
+ * 4. close() called
+ * 5. Exception in finally close(): Close Exception occurred
+ * 6. [Close Exception 스택 트레이스] ← 별도로 출력됨!
+ */
+static void testFinally() {
+    CustomResource resource = null;  // null 초기화 필요
 
-  </entry>
-
-  
-  <entry>
-    <title>테스트</title>
-    <link href="https://saway126.github.io/posts/%ED%85%8C%EC%8A%A4%ED%8A%B8/" rel="alternate" type="text/html" title="테스트" />
-    <published>2025-04-26T00:00:00+09:00</published>
-  
-    <updated>2025-04-26T00:00:00+09:00</updated>
-  
-    <id>https://saway126.github.io/posts/%ED%85%8C%EC%8A%A4%ED%8A%B8/</id>
-    <content type="text/html" src="https://saway126.github.io/posts/%ED%85%8C%EC%8A%A4%ED%8A%B8/" />
-    <author>
-      <name>기성</name>
-    </author>
-
-  
+    try {
+        resource = new CustomResource();
+        resource.process();  // 여기서 Primary Exception 발생
+    } catch (Exception e) {
+        // Primary Exception만 캐치됨
+        System.out.println("catch: " + e.getMessage());
+        e.printStackTrace();
+    } finally {
+        // 🔴 수동으로 자원 정리 해야 함
+        if (resource != null) {  // null 체크 필수
+            try {
+                resource.close();  // 여기서 Close Exception 발생
+            } catch (Exception e) {
+                // Close Exception이 별도로 처리됨 → 정보 분산!
+                System.out.println("Exception in finally close(): " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
     
-  
+    // ❌ 결과: 두 예외가 완전히 분리되어 출력됨
+    // → 디버깅할 때 원인과 결과의 연관성 파악 어려움
+}
 
-  <summary></summary>
+/**
+ * 🔹 방법 2: try-with-resources 방식 (Java 7+)
+ * 
+ * ✅ 장점들:
+ * - 코드 간결함 (중첩 제거)
+ * - 자동 자원 관리 (null 체크 불필요)
+ * - Suppressed Exception으로 모든 예외 정보 통합
+ * - 실행 순서 최적화 (close가 catch보다 먼저)
+ * 
+ * 📊 실제 실행 결과:
+ * 1. process() called
+ * 2. close() called  ← ⭐ catch 블록보다 먼저 실행됨!
+ * 3. catch: Primary Exception occurred
+ * 4. [Primary Exception 스택 트레이스]
+ *    Suppressed: java.lang.Exception: Close Exception occurred  ← ⭐ 통합!
+ * 5. suppressed: Close Exception occurred
+ * 6. [Suppressed Exception 스택 트레이스]
+ */
+static void testTryWithResources() {
+    // 🟢 리소스를 try 괄호 안에서 선언 → 자동 관리
+    try (CustomResource resource = new CustomResource()) {
+        resource.process();  // 여기서 Primary Exception 발생
+        
+        // ⭐ 이 블록을 벗어날 때 자동으로 resource.close() 호출됨!
+        //    심지어 예외가 발생해도 반드시 close() 실행됨
+        
+    } catch (Exception e) {
+        // Primary Exception 캐치
+        System.out.println("catch: " + e.getMessage());
+        e.printStackTrace();  // 여기서 Suppressed Exception도 함께 출력됨!
 
-  </entry>
-
-  
-  <entry>
-    <title>Hello 71stars</title>
-    <link href="https://saway126.github.io/posts/hello-71stars/" rel="alternate" type="text/html" title="Hello 71stars" />
-    <published>2025-04-26T00:00:00+09:00</published>
-  
-    <updated>2025-04-26T00:00:00+09:00</updated>
-  
-    <id>https://saway126.github.io/posts/hello-71stars/</id>
-    <content type="text/html" src="https://saway126.github.io/posts/hello-71stars/" />
-    <author>
-      <name>기성</name>
-    </author>
-
-  
+        // 🔍 Suppressed Exception 확인 (학습용)
+        for (Throwable suppressed : e.getSuppressed()) {
+            System.out.println("suppressed: " + suppressed.getMessage());
+            suppressed.printStackTrace();
+        }
+    }
     
-  
+    // ✅ 결과: 
+    // - Primary Exception이 주 예외로 유지됨
+    // - Close Exception이 "Suppressed"로 첨부됨
+    // - 하나의 통합된 예외 정보로 완전한 컨텍스트 제공!
+    // → 디버깅할 때 전체 상황을 한눈에 파악 가능
+} }
+</pre></td></tr></tbody></table></code></pre></div></div>
 
-  <summary>처음으로 올리는 글입니다! ✨</summary>
+<p>/**</p>
+<ul>
+  <li>🎓 실습 정리 및 핵심 키워드</li>
+  <li></li>
+  <li>📌 필수 조건:</li>
+  <li>
+    <ul>
+      <li>AutoCloseable 인터페이스 구현 필요</li>
+    </ul>
+  </li>
+  <li></li>
+  <li>📌 주요 차이점:</li>
+  <li>
+    <ol>
+      <li>실행 순서: finally (process→catch→close) vs try-with-resources (process→close→catch)</li>
+    </ol>
+  </li>
+  <li>
+    <ol>
+      <li>예외 처리: finally (분리된 예외) vs try-with-resources (통합된 Suppressed Exception)</li>
+    </ol>
+  </li>
+  <li>
+    <ol>
+      <li>코드 복잡도: finally (중첩 구조) vs try-with-resources (간결함)</li>
+    </ol>
+  </li>
+  <li>
+    <ol>
+      <li>안전성: finally (수동 관리) vs try-with-resources (자동 관리)</li>
+    </ol>
+  </li>
+  <li></li>
+  <li>📌 Suppressed Exception의 가치:</li>
+  <li>
+    <ul>
+      <li>원본 예외(Primary) 보존</li>
+    </ul>
+  </li>
+  <li>
+    <ul>
+      <li>부가 예외(Close) 정보도 함께 제공</li>
+    </ul>
+  </li>
+  <li>
+    <ul>
+      <li>완전한 컨텍스트로 디버깅 효율성 대폭 향상</li>
+    </ul>
+  </li>
+  <li></li>
+  <li>🚀 결론: try-with-resources는 단순한 문법 설탕이 아닌,</li>
+  <li>자원 관리와 예외 처리의 패러다임을 바꾼 혁신적 기능!
+ */</li>
+</ul>
 
-  </entry>
+<p>핵심 학습 포인트: ✅ 실제 실행 결과 기반이론이 아닌 실제 콘솔 출력 기반 설명독자가 직접 따라할 수 있는 검증된 코드✅ 시각적 비교표Apply to try-with-res…✅ 실습으로 증명된 인사이트”실제로 돌려보니 정말 다르다!”이론 vs 실제 실행의 차이점 명확히 제시✅ 단계별 학습 가능환경 준비 → 실습 → 결과 분석 → 심화 학습초보자도 따라할 수 있는 친절한 설명✅ 실전 활용까지여러 자원 동시 관리커스텀 자원 클래스 만들기Suppressed Exception 활용​​✔️ finally로 작성했을 때 close() 예외가 덮어써지는 걸 확인✔️ try-with-resources로 돌려보니 suppressed exception이 출력됨 ✔️ AutoCloseable 인터페이스가 꼭 필요함 → 이걸 코드에 주석으로 설명해두자 이거부터 하나하나 차근차근 써보자</p>
 
-  
-  <entry>
-    <title>Customize the Favicon</title>
-    <link href="https://saway126.github.io/posts/customize-the-favicon/" rel="alternate" type="text/html" title="Customize the Favicon" />
-    <published>2019-08-11T01:34:00+09:00</published>
-  
-    <updated>2019-08-11T01:34:00+09:00</updated>
-  
-    <id>https://saway126.github.io/posts/customize-the-favicon/</id>
-    <content type="text/html" src="https://saway126.github.io/posts/customize-the-favicon/" />
-    <author>
-      <name>cotes</name>
-    </author>
+<p>예제 코드 실행 결과</p>
 
-  
-    
-    <category term="Blogging" />
-    
-    <category term="Tutorial" />
-    
-  
+<p>​</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[실제 코드를 돌려보며 확인하는 예외 처리의 차이점​자바를 사용하다 보면 파일, 데이터베이스 연결, 네트워크 소켓 등의 자원(Resource)을 다루는 일이 많습니다. 이런 자원들은 사용 후 반드시 정리해야 하는데, Java 7부터 도입된 try-with-resources 구문이 이를 획기적으로 개선했습니다.​오늘은 직접 코드를 실습해보며 기존의 finally 방식과 try-with-resources의 차이점을 명확히 알아보겠습니다.]]></summary></entry><entry><title type="html">[매일매일]프론트 엔드 기술 일기: 패키지 매니저 pnpm과 Yarn Berry, 그리고 유령 의존성 문제까지!</title><link href="https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%ED%94%84%EB%A1%A0%ED%8A%B8-%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-%ED%8C%A8%ED%82%A4%EC%A7%80-%EB%A7%A4%EB%8B%88%EC%A0%80-pnpm%EA%B3%BC-Yarn-Berry-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EC%9C%A0%EB%A0%B9-%EC%9D%98%EC%A1%B4%EC%84%B1-%EB%AC%B8%EC%A0%9C%EA%B9%8C%EC%A7%80/" rel="alternate" type="text/html" title="[매일매일]프론트 엔드 기술 일기: 패키지 매니저 pnpm과 Yarn Berry, 그리고 유령 의존성 문제까지!" /><published>2025-07-16T14:24:41+09:00</published><updated>2025-07-16T14:24:41+09:00</updated><id>https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%ED%94%84%EB%A1%A0%ED%8A%B8-%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-%ED%8C%A8%ED%82%A4%EC%A7%80-%EB%A7%A4%EB%8B%88%EC%A0%80-pnpm%EA%B3%BC-Yarn-Berry-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EC%9C%A0%EB%A0%B9-%EC%9D%98%EC%A1%B4%EC%84%B1-%EB%AC%B8%EC%A0%9C%EA%B9%8C%EC%A7%80</id><content type="html" xml:base="https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%ED%94%84%EB%A1%A0%ED%8A%B8-%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-%ED%8C%A8%ED%82%A4%EC%A7%80-%EB%A7%A4%EB%8B%88%EC%A0%80-pnpm%EA%B3%BC-Yarn-Berry-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EC%9C%A0%EB%A0%B9-%EC%9D%98%EC%A1%B4%EC%84%B1-%EB%AC%B8%EC%A0%9C%EA%B9%8C%EC%A7%80/"><![CDATA[<p>프론트엔드 개발에서 패키지 매니저는 없어선 안 될 도구입니다.최근에는 전통적인 npm 대신 성능과 효율성을 개선한 pnpm과 Yarn Berry가 주목받고 있는데요.이번 글에서는 두 도구의 특징과 장단점, 그리고 유령 의존성 문제를 해결한 방식까지 함께 살펴보겠습니다.</p>
 
-  <summary>The favicons of Chirpy are placed in the directory assets/img/favicons/. You may want to replace them with your own. The following sections will guide you to create and replace the default favicons.  Generate the favicon  Prepare a square image (PNG, JPG, or SVG) with a size of 512x512 or more, and then go to the online tool Real Favicon Generator and click the button Select your Favicon image ...</summary>
+<p>🚀 pnpm이란?pnpm은 npm 대비 빠르고, 디스크 사용량이 적은 패키지 매니저입니다.🌟 특징과 장점패키지를 설치할 때 매번 복사본을 만들지 않고, 전역 저장소(content-addressable store)에 저장해놓고 하드링크/심볼릭 링크만 프로젝트에 연결합니다.같은 패키지를 여러 프로젝트에서 공유하기 때문에 설치 속도가 빠르고, 디스크 용량도 절약됩니다.유령 의존성 문제가 발생하지 않도록 의존성 트리를 철저히 관리합니다.workspace 기능을 지원해 모노레포 환경에서도 유용하게 사용됩니다.</p>
 
-  </entry>
+<p>🎯 Yarn Berry란?Yarn Berry는 Yarn의 2.0 이상 버전을 통칭하며, 기존 Yarn 1.x를 대체하는 버전입니다.특히 PnP(Plug’n’Play)와 Zero Install로 혁신적인 패키지 관리 방식을 도입했습니다.​🌟 특징과 장점node_modules 폴더를 없애고, 대신 .pnp.cjs 파일로 패키지 위치와 의존성을 관리합니다.​패키지들은 .yarn/cache에​ zip 형태로 저장되며 디스크 사용량이 적고, 속도도 빠릅니다.​.yarn/cache와 .pnp.cjs를 함께 Git에 커밋하면 별도의 설치 없이 바로 실행 가능한 Zero Install을 구현할 수 있습니다.​workspace 기능을 지원해 모노레포에 적합합니다.​유령 의존성 문제를 방지합니다.</p>
 
-  
-  <entry>
-    <title>Getting Started</title>
-    <link href="https://saway126.github.io/posts/getting-started/" rel="alternate" type="text/html" title="Getting Started" />
-    <published>2019-08-09T21:55:00+09:00</published>
-  
-    <updated>2019-08-09T21:55:00+09:00</updated>
-  
-    <id>https://saway126.github.io/posts/getting-started/</id>
-    <content type="text/html" src="https://saway126.github.io/posts/getting-started/" />
-    <author>
-      <name>cotes</name>
-    </author>
+<p>👻 유령 의존성(Ghost Dependency) 문제란?유령 의존성은 직접 설치하지 않은 패키지를 코드에서 불러올 수 있는 현상입니다.예를 들어, A 패키지가 B를 의존하고 있는데, 내가 A만 설치했더니 B도 설치되어 있고, 코드에서 B를 import해도 동작하는 상황입니다.이는 의존성 트리를 명확히 보장하지 못하기 때문에 발생하며, 다른 환경에서 동일하게 실행되지 않는 문제를 유발할 수 있습니다.🧹 pnpm과 Yarn Berry는 이렇게 해결했습니다pnpm: 각 패키지별로 고립된 환경을 구성해, 실제 의존성에만 접근하도록 강제합니다.Yarn Berry: .pnp.cjs를 통해 의존성의 위치를 정확히 지정해, 정의되지 않은 패키지에는 접근할 수 없도록 합니다.</p>
 
-  
-    
-    <category term="Blogging" />
-    
-    <category term="Tutorial" />
-    
-  
+<p>🤔 단점도 있을까?pnpm익숙하지 않은 개발자들이 많아 도입 시 러닝커브가 존재합니다.일부 레거시 툴(특히 node_modules에 의존하는 도구)과의 호환성이 떨어질 수 있습니다.Yarn Berry역시 기존 Yarn 1.x와 비교했을 때 설정이 까다롭고 학습이 필요합니다..pnp 방식이 모든 도구와 호환되지는 않기 때문에, 환경에 따라 문제를 해결해야 할 수도 있습니다.</p>
 
-  <summary>Get started with Chirpy basics in this comprehensive overview. You will learn how to install, configure, and use your first Chirpy-based website, as well as deploy it to a web server.</summary>
+<p>📚 참고 자료pnpm 제작 동기https://pnpm.io/ko/next/motivation</p>
 
-  </entry>
+<p>동기 | pnpm
+Saving disk space
+pnpm.io</p>
 
-</feed>
+<p>po4tion.dev: pnpm 파헤치기https://po4tion.dev/pnpm</p>
 
+<p>pnpm 파헤치기
+pnpm, 난 너가 npm보다 가벼울 줄 알았어…
+po4tion.dev</p>
 
+<p>토스 기술블로그: node_modules로부터 우리를 구원해 줄 Yarn Berryhttps://toss.tech/article/node-modules-and-yarn-berry</p>
+
+<p>node_modules로부터 우리를 구원해 줄 Yarn Berry
+토스 프론트엔드 레포지토리 대부분에서 사용하고 있는 패키지 매니저 Yarn Berry. 채택하게 된 배경과 사용하면서 좋았던 점을 공유합니다.
+toss.tech</p>
+
+<p>✍️ 마무리점점 대규모화되는 프론트엔드 프로젝트에서 패키지 관리의 중요성은 점점 커지고 있습니다.pnpm과 Yarn Berry는 더 빠르고, 더 안전하며, 더 현대적인 패키지 관리를 가능하게 해줍니다.하지만 단점과 특성을 충분히 이해하고 환경에 맞게 선택하는 것이 중요합니다.여러분은 어떤 패키지 매니저를 선호하시나요? 😄</p>
+
+<p>📌 요약✅ pnpm은 전역 저장소를 활용해 빠르고 디스크 효율적인 패키지 관리가 가능하며, 유령 의존성을 방지합니다.✅ Yarn Berry는 PnP와 Zero Install로 node_modules를 없애고, 더 빠르고 안정적인 의존성 관리를 제공합니다.✅ 두 도구 모두 모노레포에 적합하고, 유령 의존성 문제를 해결하지만, 초기 러닝커브와 호환성 이슈는 주의해야 합니다.✅ 환경에 맞는 선택과 충분한 테스트가 중요합니다.</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[프론트엔드 개발에서 패키지 매니저는 없어선 안 될 도구입니다.최근에는 전통적인 npm 대신 성능과 효율성을 개선한 pnpm과 Yarn Berry가 주목받고 있는데요.이번 글에서는 두 도구의 특징과 장단점, 그리고 유령 의존성 문제를 해결한 방식까지 함께 살펴보겠습니다.]]></summary></entry><entry><title type="html">[매일매일] 백엔드 기술 일기: 모니터링을 위한 핵심 라이브러리, Micrometer 완벽 정리</title><link href="https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-%EB%AA%A8%EB%8B%88%ED%84%B0%EB%A7%81%EC%9D%84-%EC%9C%84%ED%95%9C-%ED%95%B5%EC%8B%AC-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-Micrometer-%EC%99%84%EB%B2%BD-%EC%A0%95%EB%A6%AC/" rel="alternate" type="text/html" title="[매일매일] 백엔드 기술 일기: 모니터링을 위한 핵심 라이브러리, Micrometer 완벽 정리" /><published>2025-07-15T14:34:37+09:00</published><updated>2025-07-15T14:34:37+09:00</updated><id>https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-%EB%AA%A8%EB%8B%88%ED%84%B0%EB%A7%81%EC%9D%84-%EC%9C%84%ED%95%9C-%ED%95%B5%EC%8B%AC-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-Micrometer-%EC%99%84%EB%B2%BD-%EC%A0%95%EB%A6%AC</id><content type="html" xml:base="https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%EB%B0%B1%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-%EB%AA%A8%EB%8B%88%ED%84%B0%EB%A7%81%EC%9D%84-%EC%9C%84%ED%95%9C-%ED%95%B5%EC%8B%AC-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-Micrometer-%EC%99%84%EB%B2%BD-%EC%A0%95%EB%A6%AC/"><![CDATA[<p>애플리케이션의 상태를 실시간으로 모니터링하고 싶다면, 그리고 Prometheus나 Datadog, Graphite 등 여러 모니터링 시스템과 연동하고 싶다면?그 답은 바로 Micrometer입니다.오늘은 백엔드 개발에서 점점 더 중요한 위치를 차지하는 Micrometer의 개념, Spring Boot Actuator와의 관계, 그리고 커스텀 메트릭 구현 예제까지 차근차근 살펴보겠습니다.</p>
+
+<p>🔍 Micrometer란?Micrometer는 벤더 중립적인 메트릭 계측 라이브러리입니다.즉, 애플리케이션에서 발생하는 다양한 지표(CPU, 메모리, HTTP 요청 수, 처리 시간 등)를 수집하고, 이를 Prometheus, Datadog, Graphite 같은 모니터링 시스템에 전송할 수 있도록 돕습니다.</p>
+
+<p>📌 핵심은 단순하고 일관된 API(파사드)를 제공해 각 백엔드 클라이언트(Prometheus 클라이언트, Datadog 클라이언트 등)의 복잡한 세부 구현을 감춰준다는 점입니다.</p>
+
+<p>Micrometer는 특히 Spring Boot Actuator와 깊게 통합돼 있어, JVM, HTTP, DB 등 기본 메트릭을 자동으로 수집하고 노출해줍니다.</p>
+
+<p>⚙️ Spring Boot Actuator와 MicrometerSpring Boot Actuator는 애플리케이션의 상태, 헬스 체크, 환경, 로그 등 여러 운영 정보를 노출하는 관리 엔드포인트를 제공합니다.하지만 그 내부에서 실제 메트릭을 수집하는 건 Micrometer의 역할입니다.</p>
+
+<p>역할</p>
+
+<p>기능</p>
+
+<p>Actuator</p>
+
+<p>관리 엔드포인트 제공 (/actuator/metrics)</p>
+
+<p>Micrometer</p>
+
+<p>메트릭 데이터 수집 및 백엔드 전송</p>
+
+<p>즉, Actuator가 운영자에게 편리한 인터페이스를 제공하고, Micrometer가 그 밑단에서 데이터를 계측하고 있는 구조입니다.</p>
+
+<p>🧪 Micrometer로 커스텀 메트릭 만들기Micrometer를 사용하면 기본 메트릭 외에도, 비즈니스 로직에 맞춘 커스텀 메트릭을 정의할 수 있습니다.다음은 요청 수, 처리 시간, 활성 세션 수를 측정하는 예제입니다.✅ 전체 코드 예제</p>
+
+<p>package com.example.metrics;</p>
+
+<p>import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Gauge;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
+import org.springframework.stereotype.Service;</p>
+
+<p>@Service
+public class CustomMetricsService {</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+</pre></td><td class="rouge-code"><pre>private final Counter requestCounter;
+private final Timer requestTimer;
+private final CustomGauge customGauge;
+
+// 생성자에서 MeterRegistry를 주입받아 필요한 메트릭을 등록합니다.
+public CustomMetricsService(MeterRegistry meterRegistry) {
+    // HTTP 요청 총 건수를 세는 Counter (태그로 엔드포인트 구분)
+    this.requestCounter = meterRegistry.counter("custom.requests.total", "endpoint", "/api/test");
+
+    // HTTP 요청 처리 시간을 측정하는 Timer (태그로 엔드포인트 구분)
+    this.requestTimer = meterRegistry.timer("custom.request.duration", "endpoint", "/api/test");
+
+    // Gauge: 예를 들어, 현재 활성 세션 수를 측정하기 위한 커스텀 객체를 등록
+    this.customGauge = new CustomGauge();
+    Gauge.builder("custom.active.sessions", customGauge, CustomGauge::getActiveSessions)
+            .tag("region", "us-east")
+            .register(meterRegistry);
+}
+
+/**
+ * 실제 비즈니스 로직을 실행할 때 요청 카운트와 처리 시간을 측정합니다.
+ * @param requestLogic 실제 처리할 로직 (예: HTTP 요청 처리)
+ */
+public void processRequest(Runnable requestLogic) {
+    // 요청 수 증가
+    requestCounter.increment();
+    // 요청 처리 시간 측정
+    requestTimer.record(requestLogic);
+}
+
+/**
+ * 활성 세션 수 업데이트 (예를 들어, 로그인/로그아웃 이벤트에서 호출)
+ * @param activeSessions 현재 활성 세션 수
+ */
+public void updateActiveSessions(int activeSessions) {
+    customGauge.setActiveSessions(activeSessions);
+}
+
+/**
+ * 커스텀 Gauge의 값을 저장하는 내부 클래스.
+ */
+private static class CustomGauge {
+    // 현재 활성 세션 수를 저장 (volatile을 사용해 스레드 안정성 확보)
+    private volatile double activeSessions = 0;
+
+    public double getActiveSessions() {
+        return activeSessions;
+    }
+
+    public void setActiveSessions(double activeSessions) {
+        this.activeSessions = activeSessions;
+    }
+} }
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>🗝️ 주요 구성 요소🏷️ MeterRegistry애플리케이션의 모든 메트릭을 중앙에서 관리합니다.설정된 모니터링 백엔드로 데이터를 주기적으로 전송합니다.🔢 Counter누적 수치(총 요청 수 등)를 측정합니다.예: requestCounter.increment();⏱️ Timer코드 실행 시간(지연 시간)을 측정합니다.예: requestTimer.record(requestLogic);📈 Gauge현재 상태를 실시간으로 반영합니다. (값이 변할 수 있음)예: 현재 활성 세션 수, 현재 대기열 크기 등</p>
+
+<p>🧰 Micrometer를 왜 써야 하나요?✅ 다양한 모니터링 시스템과 연동 가능✅ 단순하고 일관된 API✅ Spring Boot Actuator와의 강력한 통합✅ JVM, OS, DB, HTTP 등 다양한 메트릭 지원✅ 커스텀 메트릭을 통한 비즈니스 데이터 모니터링 가능</p>
+
+<p>📚 추천 자료 및 출[공식 문서] https://micrometer.io/</p>
+
+<p>Micrometer Application Observability
+Application observability facade for the most popular observability tools. Think SLF4J, but for observability.
+micrometer.io</p>
+
+<p>[Spring Boot Docs] https://docs.spring.io/spring-boot/reference/actuator/index.html</p>
+
+<p>Production-ready Features :: Spring Boot
+Edit this Page GitHub Project Stack Overflow Spring Boot / Reference / Production-ready Features Production-ready Features Spring Boot includes a number of additional features to help you monitor and manage your application when you push it to production. You can choose to manage and monitor your ap…
+docs.spring.io</p>
+
+<p>[Inpa Dev] Spring Boot 모니터링: Micrometer &amp; Prometheushttps://blog.naver.com/71_stars/223684862156</p>
+
+<p>202041206_한화 BEYOND SW캠프 Prometheus/grafana CPU 및 여러 API 모니터링</p>
+<ol>
+  <li>프로메테우스 1) 설치 apt update apt -y install prometheus prometheus-node-exporter 2) 실행 system…
+blog.naver.com</li>
+</ol>
+
+<p>https://sjh9708.tistory.com/275</p>
+
+<p>[Spring Boot] 시스템 모니터링 : Micrometer + Prometheus + Grafana
+서비스가 안정적으로 운영되기 위해서는 애플리케이션의 상태를 수치로 관찰하고, 이상 징후를 빠르게 감지할 수 있어야 한다.특히 MSA나 클라우드 환경처럼 복잡성이 높아질수록 시스템의 가시성(Observability), 즉 관찰 가능한 지표(Metric), 로그(Log), 트레이싱(Trace)를 수집하고 시각화하는 과정이 필요하다. Spring Boot 기반 애플리케이션에서는 주로 Actuator와 Micrometer를 활용해 메트릭을 수집하고, Prometheus를 통해 데이터를 저장, Grafana로 대시보드를 구성하고 시각화하여 …
+sjh9708.tistory.com</p>
+
+<p>🚀 마무리서버가 느려진다면? 사용자의 요청이 어디서 지체되는지 알고 싶다면?Micrometer를 활용해 애플리케이션의 심장 박동을 모니터링하세요.서비스를 운영하는 개발자라면 반드시 익혀야 할 강력한 도구입니다.궁금한 점이나 추가 예제가 필요하시다면 댓글로 남겨주세요!오늘도 더 좋은 코드를 위해, Happy Coding! 🧡</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[애플리케이션의 상태를 실시간으로 모니터링하고 싶다면, 그리고 Prometheus나 Datadog, Graphite 등 여러 모니터링 시스템과 연동하고 싶다면?그 답은 바로 Micrometer입니다.오늘은 백엔드 개발에서 점점 더 중요한 위치를 차지하는 Micrometer의 개념, Spring Boot Actuator와의 관계, 그리고 커스텀 메트릭 구현 예제까지 차근차근 살펴보겠습니다.]]></summary></entry><entry><title type="html">✨ [매일매일] 프론트엔드 기술 일기: 웹 애니메이션 최적화의 핵심, requestAnimationFrame() 완전 정리</title><link href="https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-%EC%9B%B9-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98-%EC%B5%9C%EC%A0%81%ED%99%94%EC%9D%98-%ED%95%B5%EC%8B%AC-requestAnimationFrame-%EC%99%84%EC%A0%84-%EC%A0%95%EB%A6%AC/" rel="alternate" type="text/html" title="✨ [매일매일] 프론트엔드 기술 일기: 웹 애니메이션 최적화의 핵심, requestAnimationFrame() 완전 정리" /><published>2025-07-15T14:22:43+09:00</published><updated>2025-07-15T14:22:43+09:00</updated><id>https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-%EC%9B%B9-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98-%EC%B5%9C%EC%A0%81%ED%99%94%EC%9D%98-%ED%95%B5%EC%8B%AC-requestAnimationFrame-%EC%99%84%EC%A0%84-%EC%A0%95%EB%A6%AC</id><content type="html" xml:base="https://saway126.github.io/posts/%EB%A7%A4%EC%9D%BC%EB%A7%A4%EC%9D%BC-%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C-%EA%B8%B0%EC%88%A0-%EC%9D%BC%EA%B8%B0-%EC%9B%B9-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98-%EC%B5%9C%EC%A0%81%ED%99%94%EC%9D%98-%ED%95%B5%EC%8B%AC-requestAnimationFrame-%EC%99%84%EC%A0%84-%EC%A0%95%EB%A6%AC/"><![CDATA[<p>웹에서 애니메이션을 구현할 때 setTimeout()이나 setInterval()을 사용하곤 합니다. 하지만 이렇게 작성한 애니메이션이 끊기거나 프레임 드롭이 발생한 경험이 있다면, 그 해결책은 바로 requestAnimationFrame()입니다.오늘은 requestAnimationFrame()의 개념부터 장점, 예제까지 알아보고, 왜 프론트엔드 개발자라면 꼭 알아둬야 하는 API인지 정리해보겠습니다.</p>
+
+<p>🖼️ requestAnimationFrame()이란?requestAnimationFrame()은 브라우저의 화면 갱신 주기에 맞춰 콜백 함수를 실행하도록 요청하는 API입니다.즉, 브라우저가 화면을 다시 그리는 최적의 타이밍에 콜백이 호출되므로, 애니메이션이 보다 부드럽고 성능 친화적으로 실행됩니다.브라우저는 일반적으로 초당 60프레임(60fps) 또는 120fps, 144fps 등의 속도로 화면을 갱신합니다. 이 주기에 맞춰 동작하기 때문에, 프레임 드롭 현상을 최소화하고 부드러운 사용자 경험을 제공합니다.</p>
+
+<p>💡 사용 예제예를 들어, 일정 시간 동안 반복되는 애니메이션을 구현한다고 가정해봅시다.</p>
+
+<p>const animate = () =&gt; {
+  // 애니메이션에 필요한 동작 수행
+  console.log(‘애니메이션 프레임 실행!’);</p>
+
+<p>if (/* 특정 조건 */) {
+    return; // 조건이 충족되면 종료
+  }</p>
+
+<p>requestAnimationFrame(animate);
+};</p>
+
+<p>requestAnimationFrame(animate);</p>
+
+<p>setTimeout()이나 setInterval()과 달리, requestAnimationFrame()은 브라우저가 렌더링하기 전에 호출되기 때문에 렌더링 주기와 완벽하게 맞아떨어집니다.</p>
+
+<p>🆚 setTimeout()/setInterval()과의 차이점</p>
+
+<p>항목</p>
+
+<p>setTimeout() / setInterval()</p>
+
+<p>requestAnimationFrame()</p>
+
+<p>실행 간격</p>
+
+<p>고정 시간 간격</p>
+
+<p>브라우저의 프레임 속도에 맞춤</p>
+
+<p>부드러움</p>
+
+<p>끊김 가능성</p>
+
+<p>매끄러운 애니메이션</p>
+
+<p>배터리/리소스</p>
+
+<p>항상 실행</p>
+
+<p>백그라운드에서 멈춤</p>
+
+<p>주사율 대응</p>
+
+<p>불가능</p>
+
+<p>60Hz, 120Hz 등 자동 대응</p>
+
+<p>🌟 추가적인 장점✅ 디스플레이 주사율에 최적화60Hz, 120Hz, 144Hz 등 모니터 주사율에 맞춰 프레임 속도가 자동 조정됩니다.✅ 백그라운드 탭에서는 실행 중단백그라운드 탭이나 숨겨진 상태에서 애니메이션을 멈춰 배터리 절약과 시스템 자원 최적화에 기여합니다.</p>
+
+<p>🔍 콜백은 어디서 실행될까?requestAnimationFrame()의 콜백은 태스크 큐(Task Queue)나 마이크로태스크 큐(Microtask Queue)가 아닌,브라우저의 렌더링 엔진에 의해 관리됩니다.정확히는 HTML 표준에서는 이를 “map of animation frame callbacks”라 부르며, 별도의 큐에서 독립적으로 관리됩니다.즉, 브라우저 렌더링 사이클과 긴밀히 동작하기 때문에 프레임 드롭 없이 최적의 성능을 낼 수 있습니다.</p>
+
+<p>📚 추천 자료 및 출처[Inpa Dev]https://inpa.tistory.com/entry/%F0%9F%8C%90-requestAnimationFrame-%EA%B0%80%EC%9D%B4%EB%93%9C</p>
+
+<p>🌐 웹 애니메이션 최적화 requestAnimationFrame 가이드
+자바스크립트 웹 애니메이션 웹페이지의 애니메이션을 구현할때 CSS의 animatoin , transition , transform 속성을 통해 구현할 수도 있지만, 보다 사용자와의 복잡한 상호작용을 구현하게 하기 위해 Javascript와 함께 사용하여 스타일을 변화시키도 한다. 예를들어 특정 영역을 클릭하거나 웹페이지를 스크롤할때 변화무쌍한 애니메이션 작업들이 그러하다. 그래서 간단하고 규칙적인 애니메이션은 CSS로만 요소의 좌표값이나 스타일 크기를 변화시키고, 세밀한 조작이 필요한 애니메이션은 자바스크립트로 스타일 속성을 변경 …
+inpa.tistory.com</p>
+
+<p>[HTML Standard]https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#list-of-animation-frame-callbacks</p>
+
+<p>HTML Standard
+IDL typedef ( Uint8ClampedArray or Float16Array ) ImageDataArray ; enum ImageDataPixelFormat { “ rgba-unorm8 “ , “ rgba-float16 “ }; dictionary ImageDataSettings { PredefinedColorSpace colorSpace ; ImageDataPixelFormat pixelFormat = “ rgba-unorm8 “; }; [ Exposed =( Window , Worker ), Serializable ]…
+html.spec.whatwg.org</p>
+
+<p>[Stack Overflow]https://stackoverflow.com/questions/77008112/which-queue-is-associated-with-requestanimationframe</p>
+
+<p>✍️ 마무리requestAnimationFrame()은 단순히 애니메이션을 만드는 방법 이상의 의미를 가집니다.사용자의 디바이스 환경에 최적화된 부드러운 경험을 제공하며, 자원 관리 측면에서도 탁월한 선택이죠.앞으로 웹 애니메이션을 구현할 때는 반드시 requestAnimationFrame()을 고려해보세요!</p>
+
+<p>혹시 더 궁금한 부분이나 코드 예제를 확장해보고 싶다면 댓글로 남겨주세요.📧 개발은 성능과 사용자 경험을 함께 고려하는 것! 오늘도 성장하는 하루 되세요. 🌱​</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[웹에서 애니메이션을 구현할 때 setTimeout()이나 setInterval()을 사용하곤 합니다. 하지만 이렇게 작성한 애니메이션이 끊기거나 프레임 드롭이 발생한 경험이 있다면, 그 해결책은 바로 requestAnimationFrame()입니다.오늘은 requestAnimationFrame()의 개념부터 장점, 예제까지 알아보고, 왜 프론트엔드 개발자라면 꼭 알아둬야 하는 API인지 정리해보겠습니다.]]></summary></entry></feed>

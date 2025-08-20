@@ -1,0 +1,5 @@
+[33m48ba2c3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m fix: complete Jekyll compatibility and CSS optimization
+[33m13a87de[m fix: optimize for GitHub Pages compatibility
+[33m981b110[m fix: trigger Jekyll CSS re-compilation
+[33m193f332[m ci: force GitHub Actions rebuild
+[33m3d778e3[m feat: re-apply _config.yml changes after vendoring theme
