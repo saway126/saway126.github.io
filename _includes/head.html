@@ -104,13 +104,7 @@
 
   {% include js-selector.html lang=lang %}
 
-  <!-- PWA (only if app.min.js exists) -->
-  {% if site.pwa.enabled %}
-    <script
-      defer
-      src="{{ '/assets/js/dist/app.min.js' | relative_url }}"
-    ></script>
-  {% endif %}
+  <!-- Note: app.min.js is not available in this build -->
 
   <!-- Web Analytics -->
   {% for analytics in site.analytics %}
