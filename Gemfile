@@ -3,6 +3,9 @@ source "https://rubygems.org"
 # GitHub Pages 호환성을 위한 Jekyll 버전
 gem "jekyll", "~> 3.9.3"
 
+# 기본 테마
+gem "minima", "~> 2.5"
+
 # 필수 Jekyll 플러그인들
 gem "jekyll-paginate"
 gem "jekyll-seo-tag"
