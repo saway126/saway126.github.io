@@ -4,8 +4,8 @@ title: 71stars 블로그
 author: "김기성"
 description: "AI와 자동화의 만남"
 
-# Chirpy 테마 설정 (충돌 방지)
-remote_theme: cotes2020/jekyll-theme-chirpy@v7.3.1
+# Chirpy 테마 설정 (로컬 테마 사용)
+# remote_theme: cotes2020/jekyll-theme-chirpy@v7.3.1
 
 # The language of the webpage
 lang: ko
@@ -48,7 +48,7 @@ comments: true
 avatar: "/commons/avatar.jpg"
 
 # 자산 타입 설정 (self: 로컬, cors: CDN)
-type: cors
+type: self
 
 # Jekyll 플러그인 설정
 plugins:
