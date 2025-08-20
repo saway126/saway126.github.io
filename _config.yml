@@ -214,6 +214,8 @@ exclude:
   - "*.config.js"
   - "package*.json"
   - rollup.config.js
+  - "vendor/**"
+  - "**/*.erb"
 
 # jekyll-archives 설정
 jekyll-archives:
