@@ -1,7 +1,7 @@
 # The Site Configuration
 
 # Import the theme
-remote_theme: cotes2020/jekyll-theme-chirpy
+# remote_theme: cotes2020/jekyll-theme-chirpy@v7.3.1
 
 
 # The language of the webpage › http://www.lingoes.net/en/translator/langcode.htm
