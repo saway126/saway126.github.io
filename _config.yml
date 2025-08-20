@@ -143,6 +143,7 @@ pwa:
 plugins:
   - jekyll-paginate
   - jekyll-seo-tag
+  - jekyll-feed
 
 paginate: 10
 
@@ -214,4 +215,11 @@ exclude:
   - "package*.json"
   - rollup.config.js
 
-# jekyll-archives 플러그인 제거됨 (GitHub Pages 호환성)
+# jekyll-archives 설정
+jekyll-archives:
+  layouts:
+    category: category
+    tag: tag
+  permalinks:
+    category: '/category/:name/'
+    tag: '/tag/:name/'

@@ -7,6 +7,8 @@ gem "jekyll", "~> 3.9.3"
 gem "jekyll-paginate"
 gem "jekyll-seo-tag"
 gem "jekyll-feed"
+gem "jekyll-include-cache"
+gem "jekyll-archives"
 
 # Markdown 파서
 gem "kramdown-parser-gfm"
