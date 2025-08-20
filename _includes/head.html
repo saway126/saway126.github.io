@@ -101,9 +101,6 @@
 
   <!-- Theme JavaScript -->
   <script src="{{ '/assets/js/dist/theme.min.js' | relative_url }}"></script>
-  
-  <!-- Home JavaScript -->
-  <script src="{{ '/assets/js/dist/home.min.js' | relative_url }}"></script>
 
   {% include js-selector.html lang=lang %}
 
@@ -112,7 +109,7 @@
     {% if site.pwa.enabled %}
       <script
         defer
-        src="{{ '/assets/js/dist/app.min.js' | relative_url }}?baseurl={{ site.baseurl | default: '' }}&register={{ site.pwa.cache.enabled }}"
+        src="{{ '/assets/js/dist/app.min.js' | relative_url }}"
       ></script>
     {% endif %}
 
