@@ -47,6 +47,9 @@ toc: true
 comments: true
 avatar: "/commons/avatar.jpg"
 
+# 자산 타입 설정 (self: 로컬, cors: CDN)
+type: cors
+
 # Jekyll 플러그인 설정
 plugins:
   - jekyll-remote-theme
