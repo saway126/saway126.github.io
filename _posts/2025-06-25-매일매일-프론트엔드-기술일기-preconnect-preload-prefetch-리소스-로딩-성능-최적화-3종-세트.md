@@ -188,7 +188,8 @@ as 속성을 꼭 지정해야 리소스 유형을 명확히 알려줄 수 있어
 
 
 
-<link rel="prefetch" href="/next-page.css" as="style">
+<!-- CSS 파일 예시 (실제 존재하는 파일로 대체) -->
+<link rel="prefetch" href="/assets/css/jekyll-theme-chirpy.css" as="style">
 
 
 
