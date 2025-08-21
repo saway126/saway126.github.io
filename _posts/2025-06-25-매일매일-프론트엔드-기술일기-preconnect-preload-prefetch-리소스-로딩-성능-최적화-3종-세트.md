@@ -123,7 +123,8 @@ categories: [jekyll, update]
 
 
 
-<link rel="preload" href="/fonts/my-font.woff2" as="font" crossorigin="anonymous">
+<!-- 예시: 실제로는 존재하지 않는 폰트 파일입니다 -->
+<!-- <link rel="preload" href="/fonts/my-font.woff2" as="font" crossorigin="anonymous"> -->
 
 
 
