@@ -24,4 +24,7 @@ package-lock.json
 
 # Misc
 _sass/vendors
-assets/js/dist
+# assets/js/dist
+
+# Theme template (not used)
+jekyll-theme-chirpy/
