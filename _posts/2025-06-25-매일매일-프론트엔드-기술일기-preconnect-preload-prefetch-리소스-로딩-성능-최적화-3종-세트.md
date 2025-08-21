@@ -67,7 +67,8 @@ categories: [jekyll, update]
 
 
 
-<link rel="preconnect" href="https://cdn.example.com" crossorigin="anonymous">
+<!-- 예시: 외부 CDN 연결 -->
+<!-- <link rel="preconnect" href="https://cdn.example.com" crossorigin="anonymous"> -->
 
 
 
