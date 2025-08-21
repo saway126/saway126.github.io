@@ -188,7 +188,8 @@ as 속성을 꼭 지정해야 리소스 유형을 명확히 알려줄 수 있어
 
 
 
-<link rel="prefetch" href="/next-page.css" as="style">
+<!-- 예시: 실제로는 존재하지 않는 파일입니다 -->
+<!-- <link rel="prefetch" href="/assets/css/next-page.css" as="style"> -->
 
 
 
