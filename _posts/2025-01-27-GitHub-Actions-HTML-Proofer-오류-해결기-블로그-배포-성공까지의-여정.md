@@ -2,7 +2,7 @@
 layout: post
 title: "[매일매일] DevOps 기술일기: GitHub Actions HTML-Proofer 오류 해결기 - 블로그 배포 성공까지의 여정"
 date: 2025-01-27 15:30:00 +0900
-categories: [DevOps, GitHub Actions, Jekyll]
+categories: [DevOps, GitHub Actions, CI/CD]
 tags: [GitHub Actions, HTML-Proofer, Jekyll, 블로그, 배포, CI/CD]
 ---
 

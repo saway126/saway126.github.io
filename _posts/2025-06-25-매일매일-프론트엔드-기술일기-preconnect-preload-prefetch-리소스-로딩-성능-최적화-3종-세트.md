@@ -2,7 +2,7 @@
 layout: post
 title: "[매일매일] 프론트엔드 기술일기: preconnect, preload, prefetch – 리소스 로딩 성능 최적화 3종 세트" 
 date: 2025-06-25 19:11:59 +0900
-categories: [jekyll, update]
+categories: [프론트엔드, 웹성능, HTML]
 ---
 
 

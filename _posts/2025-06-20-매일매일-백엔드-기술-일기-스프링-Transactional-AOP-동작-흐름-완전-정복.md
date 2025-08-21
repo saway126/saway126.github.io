@@ -2,7 +2,7 @@
 layout: post
 title: "[매일매일]백엔드 기술 일기: 스프링 @Transactional AOP 동작 흐름 완전 정복" 
 date: 2025-06-20 19:42:00 +0900
-categories: [jekyll, update]
+categories: [백엔드, Spring Boot, Java]
 ---
 
 

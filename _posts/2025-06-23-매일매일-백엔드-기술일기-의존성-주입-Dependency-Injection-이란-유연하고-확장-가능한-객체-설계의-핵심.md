@@ -2,7 +2,7 @@
 layout: post
 title: "☕ [매일매일]백엔드 기술일기:  의존성 주입(Dependency Injection)이란? – 유연하고 확장 가능한 객체 설계의 핵심" 
 date: 2025-06-23 18:44:06 +0900
-categories: [jekyll, update]
+categories: [백엔드, Spring Boot, 디자인패턴]
 ---
 
 
