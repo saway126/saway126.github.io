@@ -332,7 +332,7 @@ https://www.youtube.com/watch?v=PLYIrkT4OCg
 
 
 
-✍️ 김기성 – 프론트 성능 최적화도 결국 디테일 싸움입니다.오늘은 <link> 하나로도 사용자 경험을 바꿀 수 있다는 걸 배웠습니다.​#프론트엔드 #HTML #성능최적화 #preconnect #preload #prefetch #매일매일
+✍️ 김기성 – 프론트 성능 최적화도 결국 디테일 싸움입니다.오늘은 &lt;link&gt; 하나로도 사용자 경험을 바꿀 수 있다는 걸 배웠습니다.​#프론트엔드 #HTML #성능최적화 #preconnect #preload #prefetch #매일매일
 
 
 
