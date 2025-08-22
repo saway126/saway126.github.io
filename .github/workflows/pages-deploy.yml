@@ -55,7 +55,7 @@ jobs:
           bundle exec htmlproofer _site \
             \-\-disable-external \
             \-\-ignore-urls "/^http:\/\/127.0.0.1/,/^http:\/\/0.0.0.0/,/^http:\/\/localhost/" \
-            \-\-ignore-missing-alt=true \
+            \-\-ignore-missing-alt \
             \-\-allow-missing-href \
             \-\-ignore-files "/_posts\/.*\.md$" \
             \-\-ignore-urls "/assets\/img\/posts\/.*\.png$"
