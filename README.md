@@ -135,7 +135,7 @@ npm run build
 bundle exec jekyll serve
 
 # 5. 브라우저에서 확인
-# http://127.0.0.1:4000 (로컬 개발 환경)
+# 로컬 개발 환경에서 확인
 ```
 
 ## 📝 포스트 작성 가이드
