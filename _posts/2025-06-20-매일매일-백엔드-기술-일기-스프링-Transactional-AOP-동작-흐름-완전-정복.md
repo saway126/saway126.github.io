@@ -87,7 +87,13 @@ categories: [백엔드, Spring Boot, Java]
 
 
 
-🔄 전체 동작 흐름 요약클라이언트 요청 → AOP 프록시 → 트랜잭션 시작 → 실제 비즈니스 로직 실행 → 트랜잭션 종료 1. 클라이언트가 서비스 메서드를 호출하면프록시 객체가 가로채서 동작함 (@Transactional 덕분에 AOP 적용됨)​2. 프록시가 PlatformTransactionManager를 통해 트랜잭션 시작내부적으로 커넥션 획득TransactionSynchronizationManager에 바인딩​3. 비즈니스 로직 실행같은 스레드에서 트랜잭션에 참여 중인 DAO/서비스들도 같은 커넥션 사용​4. 정상 종료 시 → 커밋예외 발생 시 → 롤백​5. 트랜잭션 종료 후, 커넥션 반환 및 정리TransactionSynchronizationManager에서 언바인딩
+🔄 전체 동작 흐름 요약
+
+![Spring Boot AOP Flow](/assets/img/posts/backend/spring-aop-flow.svg){: .normal w='400' h='300' }
+
+*Spring Boot AOP 트랜잭션 동작 흐름 다이어그램*
+
+클라이언트 요청 → AOP 프록시 → 트랜잭션 시작 → 실제 비즈니스 로직 실행 → 트랜잭션 종료 1. 클라이언트가 서비스 메서드를 호출하면프록시 객체가 가로채서 동작함 (@Transactional 덕분에 AOP 적용됨)​2. 프록시가 PlatformTransactionManager를 통해 트랜잭션 시작내부적으로 커넥션 획득TransactionSynchronizationManager에 바인딩​3. 비즈니스 로직 실행같은 스레드에서 트랜잭션에 참여 중인 DAO/서비스들도 같은 커넥션 사용​4. 정상 종료 시 → 커밋예외 발생 시 → 롤백​5. 트랜잭션 종료 후, 커넥션 반환 및 정리TransactionSynchronizationManager에서 언바인딩
 
 
 

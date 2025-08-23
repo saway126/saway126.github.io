@@ -45,9 +45,9 @@ jekyll-theme-chirpy/
 **적용된 수정:**
 ```markdown
 <!-- 기존 (문제가 있던 코드) -->
-<!-- 이미지 파일이 누락되어 주석 처리 -->
-<!-- ![Build source](pages-source-light.png){: .light .border .normal w='375' h='140' } -->
-<!-- ![Build source](pages-source-dark.png){: .dark .normal w='375' h='140' } -->
+<!-- GitHub Actions 빌드 소스 이미지 -->
+![Build source](/assets/img/posts/devops/2025-01-27-pages-source-light.png){: .light .border .normal w='375' h='140' }
+![Build source](/assets/img/posts/devops/2025-01-27-pages-source-dark.png){: .dark .normal w='375' h='140' }
 
 <!-- 수정된 코드 -->
 # .gitignore에 jekyll-theme-chirpy/ 추가하여 git이 해당 폴더를 무시하도록 설정

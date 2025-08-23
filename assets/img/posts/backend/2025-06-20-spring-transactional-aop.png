@@ -1,0 +1,15 @@
+# 이 파일은 Spring Boot Transactional AOP 관련 이미지입니다.
+# 실제 이미지 파일로 교체해야 합니다.
+#
+# 이미지 정보:
+# - 파일명: spring-transactional-aop.png
+# - 용도: Spring Boot Transactional AOP 동작 흐름 다이어그램
+# - 크기: 600x400px
+# - 포스트: 매일매일 백엔드 기술 일기 - 스프링 Transactional AOP 동작 흐름 완전 정복
+#
+# 이미지 생성 방법:
+# 1. Spring Boot AOP 동작 흐름 다이어그램 생성
+# 2. Transactional 어노테이션 처리 과정 시각화
+# 3. 이미지 편집 도구로 600x400 크기로 조정
+# 4. PNG 형식으로 저장
+# 5. 이 파일을 실제 이미지로 교체

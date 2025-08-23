@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>이미지 테스트 페이지</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .image-test {
+        margin: 20px 0;
+        padding: 20px;
+        border: 1px solid #ddd;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+        margin: 10px 0;
+      }
+      .success {
+        color: green;
+      }
+      .error {
+        color: red;
+      }
+      .folder-structure {
+        background-color: #f5f5f5;
+        padding: 15px;
+        border-radius: 5px;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🖼️ 블로그 이미지 로딩 테스트</h1>
+
+    <div class="image-test">
+      <h2>1. 프로필 이미지 테스트</h2>
+      <p>경로: <code>/assets/img/commons/profile.jpg</code></p>
+      <img
+        src="/assets/img/commons/profile.jpg"
+        alt="프로필 이미지"
+        width="200"
+        height="200"
+      />
+      <p class="success">✅ 이미지가 위에 표시되면 성공입니다!</p>
+    </div>
+
+    <div class="image-test">
+      <h2>2. 아바타 이미지 테스트</h2>
+      <p>경로: <code>/assets/img/commons/avatar.jpg</code></p>
+      <img
+        src="/assets/img/commons/avatar.jpg"
+        alt="아바타 이미지"
+        width="100"
+        height="100"
+      />
+      <p class="success">✅ 이미지가 위에 표시되면 성공입니다!</p>
+    </div>
+
+    <div class="image-test">
+      <h2>3. 파비콘 테스트</h2>
+      <p>경로: <code>/assets/img/favicons/favicon-32x32.png</code></p>
+      <img
+        src="/assets/img/favicons/favicon-32x32.png"
+        alt="파비콘"
+        width="32"
+        height="32"
+      />
+      <p class="success">✅ 이미지가 위에 표시되면 성공입니다!</p>
+    </div>
+
+    <div class="image-test">
+      <h2>4. 디바이스 목업 이미지 테스트</h2>
+      <p>경로: <code>/assets/img/commons/device-mockup.png</code></p>
+      <img
+        src="/assets/img/commons/device-mockup.png"
+        alt="디바이스 목업"
+        width="300"
+        height="200"
+      />
+      <p class="success">✅ 이미지가 위에 표시되면 성공입니다!</p>
+    </div>
+
+    <div class="image-test">
+      <h2>5. 폴더 구조 테스트</h2>
+      <div class="folder-structure">
+        <p><strong>새로 생성된 이미지 폴더들:</strong></p>
+        <ul>
+          <li><code>/assets/img/posts/backend/</code> - 백엔드 관련 이미지</li>
+          <li>
+            <code>/assets/img/posts/frontend/</code> - 프론트엔드 관련 이미지
+          </li>
+          <li><code>/assets/img/posts/devops/</code> - DevOps 관련 이미지</li>
+          <li><code>/assets/img/posts/ai/</code> - AI/ML 관련 이미지</li>
+          <li>
+            <code>/assets/img/posts/project/</code> - 프로젝트 관련 이미지
+          </li>
+          <li>
+            <code>/assets/img/posts/naver-blog/</code> - 네이버 블로그 이미지
+          </li>
+        </ul>
+      </div>
+      <p class="success">✅ 폴더 구조가 생성되었습니다!</p>
+    </div>
+
+    <hr />
+    <p><strong>테스트 방법:</strong></p>
+    <ol>
+      <li>
+        브라우저에서 <code>http://localhost:4000/image-test.html</code> 접속
+      </li>
+      <li>각 이미지가 제대로 표시되는지 확인</li>
+      <li>개발자 도구 → Network 탭에서 이미지 로딩 상태 확인</li>
+    </ol>
+
+    <p>
+      <strong>참고:</strong> 이 페이지는 테스트용이므로 실제 블로그에는 포함되지
+      않습니다.
+    </p>
+  </body>
+</html>
