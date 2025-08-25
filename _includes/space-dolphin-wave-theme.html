@@ -1,0 +1,76 @@
+<!-- 우주 돌고래 파도 테마 - 블로그 배경 애니메이션 -->
+<div class="space-dolphin-wave-background">
+  <!-- 우주 공간 배경 -->
+  <div class="space-background"></div>
+
+  <!-- 별들 -->
+  <div class="stars-container">
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+  </div>
+
+  <!-- 우주 파도 -->
+  <div class="space-waves">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+
+  <!-- 돌고래 -->
+  <div class="dolphin-container">
+    <div class="dolphin">
+      <div class="dolphin-body"></div>
+      <div class="dolphin-tail"></div>
+      <div class="dolphin-fin"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 테마 컨트롤 버튼 -->
+<div class="theme-controls">
+  <button class="theme-btn" onclick="toggleSpaceTheme()">🌌 테마 토글</button>
+  <button class="theme-btn danger" onclick="resetSpaceTheme()">
+    🔄 테마 리셋
+  </button>
+</div>
+
+<script>
+  // 우주 돌고래 파도 테마 제어
+  function toggleSpaceTheme() {
+    const background = document.querySelector(".space-dolphin-wave-background");
+    if (background.style.display === "none") {
+      background.style.display = "block";
+      localStorage.setItem("spaceThemeActive", "true");
+    } else {
+      background.style.display = "none";
+      localStorage.setItem("spaceThemeActive", "false");
+    }
+  }
+
+  function resetSpaceTheme() {
+    const background = document.querySelector(".space-dolphin-wave-background");
+    background.style.display = "block";
+    localStorage.setItem("spaceThemeActive", "true");
+  }
+
+  // 페이지 로드 시 테마 상태 복원
+  document.addEventListener("DOMContentLoaded", () => {
+    const themeActive = localStorage.getItem("spaceThemeActive");
+    if (themeActive === "false") {
+      const background = document.querySelector(
+        ".space-dolphin-wave-background"
+      );
+      if (background) {
+        background.style.display = "none";
+      }
+    }
+  });
+</script>

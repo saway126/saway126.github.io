@@ -1,0 +1,62 @@
+---
+layout: default
+---
+
+<!-- 우주 돌고래 파도 테마 CSS -->
+<link
+  rel="stylesheet"
+  href="{{ '/assets/css/space-dolphin-wave-theme.css' | relative_url }}"
+/>
+
+<!-- 우주 돌고래 파도 테마 배경 -->
+{% include space-dolphin-wave-theme.html %}
+
+<!-- 원본 콘텐츠 -->
+{{ content }}
+
+<!-- 테마 관련 스크립트 -->
+<script>
+  // 블로그 콘텐츠에 글래스모피즘 효과 적용
+  document.addEventListener("DOMContentLoaded", () => {
+    // 블로그 카드들에 글래스모피즘 효과 추가
+    const cards = document.querySelectorAll(".card, .post, .entry, .content");
+    cards.forEach((card) => {
+      if (card) {
+        card.style.background = "rgba(255, 255, 255, 0.1)";
+        card.style.backdropFilter = "blur(10px)";
+        card.style.webkitBackdropFilter = "blur(10px)";
+        card.style.border = "1px solid rgba(255, 255, 255, 0.2)";
+        card.style.borderRadius = "12px";
+        card.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.3)";
+      }
+    });
+
+    // 사이드바에 글래스모피즘 효과 추가
+    const sidebars = document.querySelectorAll(".sidebar, .side-panel, .aside");
+    sidebars.forEach((sidebar) => {
+      if (sidebar) {
+        sidebar.style.background = "rgba(0, 0, 0, 0.3)";
+        sidebar.style.backdropFilter = "blur(15px)";
+        sidebar.style.webkitBackdropFilter = "blur(15px)";
+        sidebar.style.border = "1px solid rgba(255, 255, 255, 0.2)";
+        sidebar.style.borderRadius = "16px";
+      }
+    });
+
+    // 네비게이션 링크에 호버 효과 추가
+    const navLinks = document.querySelectorAll(
+      ".nav-link, .nav-item a, .menu a"
+    );
+    navLinks.forEach((link) => {
+      link.addEventListener("mouseenter", () => {
+        link.style.background = "rgba(0, 102, 255, 0.2)";
+        link.style.borderRadius = "8px";
+        link.style.transition = "all 0.3s ease";
+      });
+
+      link.addEventListener("mouseleave", () => {
+        link.style.background = "transparent";
+      });
+    });
+  });
+</script>
