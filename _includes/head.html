@@ -1,45 +1,33 @@
----
-layout: home
-# Index page with Space Dolphin Wave Theme
----
-
-<!-- 우주 돌고래 파도 테마 -->
-<div id="space-dolphin-theme-container"></div>
+<!-- 우주 돌고래 파도 테마 - 모든 페이지에 적용 -->
+<link rel="stylesheet" href="/assets/css/space-dolphin-wave-theme.css" />
 
 <script>
   // 우주 돌고래 파도 테마 즉시 실행
   console.log("🚀 우주 돌고래 파도 테마 즉시 실행 시작...");
-  
-  // 테마 CSS 파일 로드
-  const themeCSS = document.createElement("link");
-  themeCSS.rel = "stylesheet";
-  themeCSS.href = "/assets/css/space-dolphin-wave-theme.css";
-  document.head.appendChild(themeCSS);
-  console.log("🎨 CSS 파일 로드 완료");
-  
+
   // 페이지 로드 완료 후 테마 적용
   window.addEventListener("load", function () {
     console.log("🌌 페이지 로드 완료! 테마 적용 시작...");
     setTimeout(applySimpleTheme, 1000); // 1초 후 실행
   });
-  
+
   // DOMContentLoaded 이벤트도 추가
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
     console.log("🌌 DOM 로드 완료! 테마 적용 시작...");
     setTimeout(applySimpleTheme, 500); // 0.5초 후 실행
   });
-  
+
   function applySimpleTheme() {
     console.log("🚀 간단한 우주 테마 적용 중...");
-    
+
     try {
       // 기존 테마 요소 제거
-      const existingTheme = document.querySelector('.space-simple-background');
+      const existingTheme = document.querySelector(".space-simple-background");
       if (existingTheme) {
         existingTheme.remove();
         console.log("🗑️ 기존 테마 요소 제거 완료");
       }
-      
+
       // 우주 배경 생성
       const background = document.createElement("div");
       background.className = "space-simple-background";
@@ -47,24 +35,25 @@ layout: home
         <div class="stars"></div>
         <div class="nebula"></div>
       `;
-      
+
       // body에 추가
       document.body.appendChild(background);
       console.log("✅ 우주 배경 생성 완료");
-      
+
       // 글래스모피즘 효과 적용
       applyGlassmorphism();
-      
     } catch (error) {
       console.error("❌ 테마 적용 중 오류 발생:", error);
     }
   }
-  
+
   function applyGlassmorphism() {
     console.log("✨ 글래스모피즘 효과 적용 중...");
-    
+
     try {
-      const elements = document.querySelectorAll("#main-wrapper, .content, .sidebar, .card, .post, .entry");
+      const elements = document.querySelectorAll(
+        "#main-wrapper, .content, .sidebar, .card, .post, .entry"
+      );
       elements.forEach((el) => {
         if (el) {
           el.style.background = "rgba(255, 255, 255, 0.1)";
@@ -80,9 +69,9 @@ layout: home
       console.error("❌ 글래스모피즘 적용 중 오류:", error);
     }
   }
-  
+
   // 즉시 실행도 시도
   setTimeout(applySimpleTheme, 2000); // 2초 후 실행
-  
+
   console.log("✅ 우주 돌고래 파도 테마 스크립트 로드 완료!");
 </script>
