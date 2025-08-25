@@ -439,7 +439,9 @@
             transition: all 0.4s ease !important;
             transform: translateZ(0) !important;
           `;
-          console.log(`✅ 구체적 요소 ${index + 1} 글래스모피즘 효과 적용 완료`);
+          console.log(
+            `✅ 구체적 요소 ${index + 1} 글래스모피즘 효과 적용 완료`
+          );
         }
       });
 
@@ -518,22 +520,27 @@
 
       // 최후의 수단: 모든 div 요소에 글래스모피즘 효과 시도
       setTimeout(() => {
-        console.log("🚀 최후의 수단: 모든 div 요소에 글래스모피즘 효과 적용 시도...");
+        console.log(
+          "🚀 최후의 수단: 모든 div 요소에 글래스모피즘 효과 적용 시도..."
+        );
         const allDivs = document.querySelectorAll("div");
         console.log("🔍 찾은 모든 div 요소들:", allDivs.length);
-        
+
         let appliedCount = 0;
         allDivs.forEach((div, index) => {
           // 이미 적용된 요소는 제외
-          if (div.style.backdropFilter && div.style.backdropFilter.includes("blur")) {
+          if (
+            div.style.backdropFilter &&
+            div.style.backdropFilter.includes("blur")
+          ) {
             return;
           }
-          
+
           // 너무 작은 요소나 의미 없는 요소는 제외
           if (div.offsetWidth < 100 || div.offsetHeight < 50) {
             return;
           }
-          
+
           // 글래스모피즘 효과 적용
           div.style.cssText += `
             background: rgba(255, 255, 255, 0.1) !important;
@@ -544,14 +551,114 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
           `;
           appliedCount++;
-          
+
           if (index % 10 === 0) {
             console.log(`🚀 div ${index + 1}/${allDivs.length} 처리 중...`);
           }
         });
-        
-        console.log(`✅ 최종적으로 ${appliedCount}개의 div 요소에 글래스모피즘 효과 적용 완료!`);
+
+        console.log(
+          `✅ 최종적으로 ${appliedCount}개의 div 요소에 글래스모피즘 효과 적용 완료!`
+        );
       }, 1000);
+
+      // 배포 환경을 위한 추가 강화: 여러 번 시도
+      const retryGlassmorphism = () => {
+        console.log("🔄 글래스모피즘 효과 재시도 중...");
+
+        // 모든 가능한 선택자로 다시 시도
+        const allPossibleElements = document.querySelectorAll("*");
+        let retryCount = 0;
+
+        allPossibleElements.forEach((element) => {
+          // 배경이 있는 요소만 대상으로
+          const computedStyle = window.getComputedStyle(element);
+          const backgroundColor = computedStyle.backgroundColor;
+          const hasBackground =
+            backgroundColor &&
+            backgroundColor !== "rgba(0, 0, 0, 0)" &&
+            backgroundColor !== "transparent";
+
+          if (
+            hasBackground &&
+            element.offsetWidth > 80 &&
+            element.offsetHeight > 40
+          ) {
+            // 강제로 글래스모피즘 효과 적용
+            element.style.setProperty(
+              "background",
+              "rgba(255, 255, 255, 0.1)",
+              "important"
+            );
+            element.style.setProperty(
+              "backdrop-filter",
+              "blur(15px)",
+              "important"
+            );
+            element.style.setProperty(
+              "-webkit-backdrop-filter",
+              "blur(15px)",
+              "important"
+            );
+            element.style.setProperty(
+              "border",
+              "1px solid rgba(255, 255, 255, 0.2)",
+              "important"
+            );
+            element.style.setProperty("border-radius", "12px", "important");
+            element.style.setProperty(
+              "box-shadow",
+              "0 8px 25px rgba(0, 0, 0, 0.3)",
+              "important"
+            );
+            retryCount++;
+          }
+        });
+
+        console.log(
+          `🔄 재시도로 ${retryCount}개 요소에 글래스모피즘 효과 적용 완료!`
+        );
+      };
+
+      // 여러 번 재시도
+      setTimeout(retryGlassmorphism, 2000);
+      setTimeout(retryGlassmorphism, 5000);
+      setTimeout(retryGlassmorphism, 10000);
+
+      // CSS를 직접 삽입하는 최후의 수단
+      const injectCSS = () => {
+        console.log("💉 CSS 직접 삽입 시도...");
+
+        const style = document.createElement("style");
+        style.textContent = `
+          /* 강제 글래스모피즘 효과 */
+          div, section, article, aside, main, header, footer, nav, ul, li, a, span, p, h1, h2, h3, h4, h5, h6 {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(15px) !important;
+            -webkit-backdrop-filter: blur(15px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+          }
+
+          /* 특정 클래스에 대한 강화 */
+          .card, .post, .entry, .content, .access, .trending-tags, .sidebar, .panel {
+            background: rgba(255, 255, 255, 0.15) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border: 2px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 16px !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4) !important;
+          }
+        `;
+
+        document.head.appendChild(style);
+        console.log("✅ CSS 직접 삽입 완료!");
+      };
+
+      // CSS 삽입도 시도
+      setTimeout(injectCSS, 3000);
+      setTimeout(injectCSS, 8000);
     }
 
     console.log("✅ 우주 돌고래 파도 테마 스크립트 로드 완료!");
