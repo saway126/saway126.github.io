@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>🌌 우주 돌고래 파도 테마 - 김기성의 기술 블로그</title>
+
+    <!-- 우주 돌고래 파도 테마 CSS -->
+    <link rel="stylesheet" href="assets/css/space-dolphin-wave-theme.css" />
+
+    <!-- 블로그 스타일 시뮬레이션 -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        color: #ffffff;
+        min-height: 100vh;
+      }
+
+      /* 블로그 헤더 */
+      .blog-header {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        color: white;
+        padding: 2rem 0;
+        text-align: center;
+        position: relative;
+        z-index: 10;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .blog-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .blog-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+
+      /* 블로그 레이아웃 */
+      .blog-container {
+        display: flex;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+        gap: 2rem;
+      }
+
+      /* 사이드바 */
+      .sidebar {
+        width: 300px;
+        flex-shrink: 0;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-radius: 16px;
+        padding: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+
+      .sidebar-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin: 0 auto 1rem;
+        background: linear-gradient(135deg, #7bb3d1, #5a9bc8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+      }
+
+      .nav-menu {
+        list-style: none;
+      }
+
+      .nav-item {
+        margin-bottom: 0.5rem;
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .nav-link:hover {
+        background: rgba(0, 102, 255, 0.2);
+        transform: translateX(5px);
+      }
+
+      .nav-icon {
+        margin-right: 0.75rem;
+        width: 20px;
+        height: 20px;
+        stroke: currentColor;
+        stroke-width: 2;
+        fill: none;
+      }
+
+      /* 메인 콘텐츠 */
+      .main-content {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 16px;
+        padding: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+
+      .page-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        color: white;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .post-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .post-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .post-title {
+        font-size: 1.5rem;
+        color: #ffffff;
+        margin-bottom: 1rem;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+
+      .post-excerpt {
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.8;
+        margin-bottom: 1rem;
+      }
+
+      .post-meta {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.9rem;
+      }
+
+      /* 테마 컨트롤 */
+      .theme-controls {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 1rem;
+        border-radius: 10px;
+        color: white;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+
+      .theme-btn {
+        background: #4CAF50;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+        font-size: 14px;
+        transition: background 0.3s ease;
+      }
+
+      .theme-btn:hover {
+        background: #45a049;
+      }
+
+      .theme-btn.danger {
+        background: #f44336;
+      }
+
+      .theme-btn.danger:hover {
+        background: #da190b;
+      }
+
+      /* 반응형 */
+      @media (max-width: 1024px) {
+        .blog-container {
+          flex-direction: column;
+          padding: 1rem;
+        }
+
+        .sidebar {
+          width: 100%;
+          order: 2;
+        }
+
+        .main-content {
+          order: 1;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .blog-title {
+          font-size: 2rem;
+        }
+
+        .theme-controls {
+          top: 10px;
+          right: 10px;
+          padding: 0.5rem;
+        }
+
+        .post-card {
+          padding: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 우주 돌고래 파도 배경 -->
+    <div class="space-dolphin-wave-background">
+      <!-- 우주 공간 배경 -->
+      <div class="space-background"></div>
+
+      <!-- 별들 -->
+      <div class="stars-container">
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+      </div>
+
+      <!-- 우주 파도 -->
+      <div class="space-waves">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+      </div>
+
+      <!-- 돌고래 -->
+      <div class="dolphin-container">
+        <div class="dolphin">
+          <div class="dolphin-body"></div>
+          <div class="dolphin-tail"></div>
+          <div class="dolphin-fin"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 테마 컨트롤 -->
+    <div class="theme-controls">
+      <h4 style="margin-bottom: 10px">🌌 테마 컨트롤</h4>
+      <button class="theme-btn" onclick="toggleTheme()">테마 토글</button>
+      <button class="theme-btn danger" onclick="resetTheme()">테마 리셋</button>
+      <div
+        id="theme-status"
+        style="margin-top: 10px; font-size: 12px; color: #ccc"
+      >
+        상태: 활성화됨
+      </div>
+    </div>
+
+    <!-- 블로그 헤더 -->
+    <header class="blog-header">
+      <div class="blog-title">🌌 김기성의 기술 블로그</div>
+      <div class="blog-subtitle">매일매일 배우는 개발자</div>
+    </header>
+
+    <!-- 블로그 메인 콘텐츠 -->
+    <div class="blog-container">
+      <!-- 사이드바 -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <div class="avatar">🐢</div>
+          <h3>김기성</h3>
+          <p>풀스택 개발자</p>
+        </div>
+
+        <nav class="nav-menu">
+          <div class="nav-item">
+            <a href="#" class="nav-link">
+              <svg class="nav-icon" viewBox="0 0 24 24">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9,22 9,12 15,12 15,22"/>
+              </svg>
+              Home
+            </a>
+          </div>
+          <div class="nav-item">
+            <a href="#" class="nav-link">
+              <svg class="nav-icon" viewBox="0 0 24 24">
+                <line x1="8" y1="6" x2="21" y2="6"/>
+                <line x1="8" y1="12" x2="21" y2="12"/>
+                <line x1="8" y1="18" x2="21" y2="18"/>
+                <line x1="3" y1="6" x2="3.01" y2="6"/>
+                <line x1="3" y1="12" x2="3.01" y2="12"/>
+                <line x1="3" y1="18" x2="3.01" y2="18"/>
+              </svg>
+              Categories
+            </a>
+          </div>
+          <div class="nav-item">
+            <a href="#" class="nav-link">
+              <svg class="nav-icon" viewBox="0 0 24 24">
+                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                <line x1="7" y1="7" x2="7.01" y2="7"/>
+              </svg>
+              Tags
+            </a>
+          </div>
+          <div class="nav-item">
+            <a href="#" class="nav-link">
+              <svg class="nav-icon" viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              Archives
+            </a>
+          </div>
+          <div class="nav-item">
+            <a href="#" class="nav-link">
+              <svg class="nav-icon" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
+              About
+            </a>
+          </div>
+        </nav>
+      </aside>
+
+      <!-- 메인 콘텐츠 -->
+      <main class="main-content">
+        <h1 class="page-title">Home</h1>
+
+        <article class="post-card">
+          <h2 class="post-title">🚀 우주 돌고래 파도 테마 적용 완료!</h2>
+          <div class="post-excerpt">
+            <p>
+              피그마 디자인을 참고하여 블로그에 아름다운 우주 돌고래 파도 테마가
+              적용되었습니다! 배경에서 우주 공간의 그라데이션, 반짝이는 별들,
+              물결치는 파도, 그리고 헤엄치는 돌고래를 감상할 수 있어요.
+            </p>
+            <p>
+              자연스러운 SVG 아이콘과 글래스모피즘 효과로 블로그 카드들이 투명하고 아름답게 표시되며,
+              다크 모드와 라이트 모드 모두 지원합니다.
+            </p>
+          </div>
+          <div class="post-meta">
+            📅 2025-01-27 | 🏷️ 테마, CSS, 우주, 돌고래, 파도
+          </div>
+        </article>
+
+        <article class="post-card">
+          <h2 class="post-title">💻 백엔드 개발 일기</h2>
+          <div class="post-excerpt">
+            <p>
+              오늘은 Spring Boot의 Transactional AOP 동작 흐름에 대해 깊이 있게
+              공부했습니다. AOP의 동작 원리와 트랜잭션 관리에 대한 이해가 한층
+              깊어졌어요.
+            </p>
+            <p>
+              실제 프로젝트에 적용해보면서 겪은 문제들과 해결 방법들을
+              정리해보았습니다.
+            </p>
+          </div>
+          <div class="post-meta">
+            📅 2025-01-26 | 🏷️ Spring Boot, AOP, 트랜잭션
+          </div>
+        </article>
+
+        <article class="post-card">
+          <h2 class="post-title">🎨 프론트엔드 개발 일기</h2>
+          <div class="post-excerpt">
+            <p>
+              JavaScript의 함수에서 참조가 바뀔 때 어떤 일이 일어나는지에 대해
+              정리했습니다. 원시값과 참조값의 차이점, 그리고 함수형 프로그래밍의
+              핵심 개념들을 다뤘어요.
+            </p>
+            <p>실제 코드 예제와 함께 설명하여 이해하기 쉽게 정리했습니다.</p>
+          </div>
+          <div class="post-meta">
+            📅 2025-01-25 | 🏷️ JavaScript, 함수형 프로그래밍, 참조
+          </div>
+        </article>
+
+        <article class="post-card">
+          <h2 class="post-title">🔧 CI/CD 파이프라인 완벽 가이드</h2>
+          <div class="post-excerpt">
+            <p>
+              지속적인 개발 흐름의 핵심인 CI/CD 파이프라인에 대해 완벽하게
+              정리했습니다. GitHub Actions를 활용한 자동화, 테스트, 배포까지
+              모든 과정을 다뤘어요.
+            </p>
+            <p>
+              실제 프로젝트에서 사용할 수 있는 워크플로우 예제도 포함되어
+              있습니다.
+            </p>
+          </div>
+          <div class="post-meta">
+            📅 2025-01-24 | 🏷️ CI/CD, GitHub Actions, 자동화
+          </div>
+        </article>
+      </main>
+    </div>
+
+    <script>
+      // 테마 상태 표시
+      function updateThemeStatus(status, color = "#4CAF50") {
+        const statusEl = document.getElementById("theme-status");
+        statusEl.textContent = `상태: ${status}`;
+        statusEl.style.color = color;
+      }
+
+      // 테마 토글
+      function toggleTheme() {
+        const background = document.querySelector(
+          ".space-dolphin-wave-background"
+        );
+        if (background.style.display === "none") {
+          background.style.display = "block";
+          updateThemeStatus("활성화됨", "#4CAF50");
+        } else {
+          background.style.display = "none";
+          updateThemeStatus("비활성화됨", "#f44336");
+        }
+      }
+
+      // 테마 리셋
+      function resetTheme() {
+        const background = document.querySelector(
+          ".space-dolphin-wave-background"
+        );
+        background.style.display = "block";
+        updateThemeStatus("활성화됨", "#4CAF50");
+      }
+
+      // 페이지 로드 후 테마 상태 확인
+      window.addEventListener("load", () => {
+        updateThemeStatus("활성화됨", "#4CAF50");
+      });
+
+      // 성능 최적화: 스크롤 이벤트 최적화
+      let ticking = false;
+      function updateOnScroll() {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            // 스크롤 기반 애니메이션 업데이트
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }
+
+      window.addEventListener("scroll", updateOnScroll, { passive: true });
+    </script>
+  </body>
+</html>

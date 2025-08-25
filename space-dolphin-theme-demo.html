@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>🌌 우주 돌고래 테마 데모 - 김기성의 기술 블로그</title>
+
+    <!-- 블로그 스타일 시뮬레이션 -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: #f8f9fa;
+      }
+
+      /* 블로그 헤더 */
+      .blog-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem 0;
+        text-align: center;
+        position: relative;
+        z-index: 10;
+      }
+
+      .blog-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .blog-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+      }
+
+      /* 블로그 콘텐츠 */
+      .blog-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        position: relative;
+        z-index: 10;
+      }
+
+      .post-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .post-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .post-title {
+        font-size: 1.5rem;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+      }
+
+      .post-excerpt {
+        color: #666;
+        line-height: 1.8;
+      }
+
+      .post-meta {
+        margin-top: 1rem;
+        color: #999;
+        font-size: 0.9rem;
+      }
+
+      /* 테마 컨트롤 */
+      .theme-controls {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 1rem;
+        border-radius: 10px;
+        color: white;
+      }
+
+      .theme-btn {
+        background: #4caf50;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+        font-size: 14px;
+      }
+
+      .theme-btn:hover {
+        background: #45a049;
+      }
+
+      .theme-btn.danger {
+        background: #f44336;
+      }
+
+      .theme-btn.danger:hover {
+        background: #da190b;
+      }
+
+      /* 우주 돌고래 테마 배경 */
+      #space-dolphin-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      /* 반응형 */
+      @media (max-width: 768px) {
+        .blog-content {
+          padding: 1rem;
+        }
+
+        .blog-title {
+          font-size: 2rem;
+        }
+
+        .theme-controls {
+          top: 10px;
+          right: 10px;
+          padding: 0.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 우주 돌고래 테마 배경 -->
+    <div id="space-dolphin-background"></div>
+
+    <!-- 테마 컨트롤 -->
+    <div class="theme-controls">
+      <h4 style="margin-bottom: 10px">🌌 테마 컨트롤</h4>
+      <button class="theme-btn" onclick="startTheme()">테마 시작</button>
+      <button class="theme-btn danger" onclick="stopTheme()">테마 중지</button>
+      <button class="theme-btn" onclick="toggleTheme()">토글</button>
+      <div
+        id="theme-status"
+        style="margin-top: 10px; font-size: 12px; color: #ccc"
+      >
+        상태: 대기 중
+      </div>
+    </div>
+
+    <!-- 블로그 헤더 -->
+    <header class="blog-header">
+      <div class="blog-title">🌌 김기성의 기술 블로그</div>
+      <div class="blog-subtitle">매일매일 배우는 개발자</div>
+    </header>
+
+    <!-- 블로그 콘텐츠 -->
+    <main class="blog-content">
+      <article class="post-card">
+        <h2 class="post-title">🚀 우주 돌고래 테마 적용 완료!</h2>
+        <div class="post-excerpt">
+          <p>
+            이제 블로그에 아름다운 우주 돌고래 테마가 적용되었습니다! 배경에서
+            우주 공간을 헤엄치는 돌고래와 반짝이는 별들을 감상할 수 있어요.
+          </p>
+          <p>
+            마우스를 움직이면 카메라가 따라오고, 우주 공간의 파도가 물결치며,
+            돌고래가 자연스럽게 헤엄칩니다.
+          </p>
+        </div>
+        <div class="post-meta">📅 2025-01-27 | 🏷️ 테마, 3D, 우주, 돌고래</div>
+      </article>
+
+      <article class="post-card">
+        <h2 class="post-title">💻 백엔드 개발 일기</h2>
+        <div class="post-excerpt">
+          <p>
+            오늘은 Spring Boot의 Transactional AOP 동작 흐름에 대해 깊이 있게
+            공부했습니다. AOP의 동작 원리와 트랜잭션 관리에 대한 이해가 한층
+            깊어졌어요.
+          </p>
+          <p>
+            실제 프로젝트에 적용해보면서 겪은 문제들과 해결 방법들을
+            정리해보았습니다.
+          </p>
+        </div>
+        <div class="post-meta">
+          📅 2025-01-26 | 🏷️ Spring Boot, AOP, 트랜잭션
+        </div>
+      </article>
+
+      <article class="post-card">
+        <h2 class="post-title">🎨 프론트엔드 개발 일기</h2>
+        <div class="post-excerpt">
+          <p>
+            JavaScript의 함수에서 참조가 바뀔 때 어떤 일이 일어나는지에 대해
+            정리했습니다. 원시값과 참조값의 차이점, 그리고 함수형 프로그래밍의
+            핵심 개념들을 다뤘어요.
+          </p>
+          <p>실제 코드 예제와 함께 설명하여 이해하기 쉽게 정리했습니다.</p>
+        </div>
+        <div class="post-meta">
+          📅 2025-01-25 | 🏷️ JavaScript, 함수형 프로그래밍, 참조
+        </div>
+      </article>
+
+      <article class="post-card">
+        <h2 class="post-title">🔧 CI/CD 파이프라인 완벽 가이드</h2>
+        <div class="post-excerpt">
+          <p>
+            지속적인 개발 흐름의 핵심인 CI/CD 파이프라인에 대해 완벽하게
+            정리했습니다. GitHub Actions를 활용한 자동화, 테스트, 배포까지 모든
+            과정을 다뤘어요.
+          </p>
+          <p>
+            실제 프로젝트에서 사용할 수 있는 워크플로우 예제도 포함되어
+            있습니다.
+          </p>
+        </div>
+        <div class="post-meta">
+          📅 2025-01-24 | 🏷️ CI/CD, GitHub Actions, 자동화
+        </div>
+      </article>
+    </main>
+
+    <!-- 우주 돌고래 테마 스크립트 -->
+    <script src="assets/js/space-dolphin-theme.js"></script>
+
+    <script>
+      // 테마 상태 표시
+      function updateThemeStatus(status, color = "#4CAF50") {
+        const statusEl = document.getElementById("theme-status");
+        statusEl.textContent = `상태: ${status}`;
+        statusEl.style.color = color;
+      }
+
+      // 테마 시작
+      function startTheme() {
+        if (window.spaceDolphinThemeControls) {
+          window.spaceDolphinThemeControls.start();
+          updateThemeStatus("실행 중", "#4CAF50");
+        } else {
+          updateThemeStatus("테마 로드 중...", "#ff9800");
+          setTimeout(() => {
+            if (window.spaceDolphinThemeControls) {
+              window.spaceDolphinThemeControls.start();
+              updateThemeStatus("실행 중", "#4CAF50");
+            } else {
+              updateThemeStatus("테마 로드 실패", "#f44336");
+            }
+          }, 1000);
+        }
+      }
+
+      // 테마 중지
+      function stopTheme() {
+        if (window.spaceDolphinThemeControls) {
+          window.spaceDolphinThemeControls.stop();
+          updateThemeStatus("중지됨", "#f44336");
+        }
+      }
+
+      // 테마 토글
+      function toggleTheme() {
+        if (window.spaceDolphinThemeControls) {
+          window.spaceDolphinThemeControls.toggle();
+          const isRunning =
+            window.spaceDolphinTheme && window.spaceDolphinTheme.isInitialized;
+          updateThemeStatus(
+            isRunning ? "실행 중" : "중지됨",
+            isRunning ? "#4CAF50" : "#f44336"
+          );
+        }
+      }
+
+      // 페이지 로드 후 자동으로 테마 시작
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          startTheme();
+        }, 2000); // 2초 후 자동 시작
+      });
+
+      // 테마 상태 모니터링
+      setInterval(() => {
+        if (
+          window.spaceDolphinTheme &&
+          window.spaceDolphinTheme.isInitialized
+        ) {
+          updateThemeStatus("실행 중", "#4CAF50");
+        }
+      }, 5000);
+    </script>
+  </body>
+</html>

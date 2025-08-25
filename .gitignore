@@ -28,3 +28,6 @@ _sass/vendors
 
 # Theme template (not used)
 jekyll-theme-chirpy/
+
+# 테스트용 3D 시스템 (로컬 전용, GitHub Pages에 배포하지 않음)
+test-3d-system/

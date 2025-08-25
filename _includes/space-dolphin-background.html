@@ -1,0 +1,450 @@
+<!-- 우주 돌고래 파도 배경 - 기존 기능에 영향 없음 -->
+<style>
+  /* 우주 돌고래 파도 배경 스타일 */
+  .space-dolphin-wave-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1000;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .space-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      135deg,
+      #0c0c0c 0%,
+      #1a1a2e 25%,
+      #16213e 50%,
+      #0f3460 75%,
+      #533483 100%
+    );
+    animation: spaceShift 20s ease-in-out infinite;
+  }
+
+  @keyframes spaceShift {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  .stars-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 3s ease-in-out infinite;
+  }
+
+  .star:nth-child(1) {
+    top: 10%;
+    left: 20%;
+    animation-delay: 0s;
+  }
+  .star:nth-child(2) {
+    top: 15%;
+    left: 80%;
+    animation-delay: 0.5s;
+  }
+  .star:nth-child(3) {
+    top: 25%;
+    left: 40%;
+    animation-delay: 1s;
+  }
+  .star:nth-child(4) {
+    top: 35%;
+    left: 70%;
+    animation-delay: 1.5s;
+  }
+  .star:nth-child(5) {
+    top: 45%;
+    left: 10%;
+    animation-delay: 2s;
+  }
+  .star:nth-child(6) {
+    top: 55%;
+    left: 90%;
+    animation-delay: 2.5s;
+  }
+  .star:nth-child(7) {
+    top: 65%;
+    left: 30%;
+    animation-delay: 0.3s;
+  }
+  .star:nth-child(8) {
+    top: 75%;
+    left: 60%;
+    animation-delay: 0.8s;
+  }
+  .star:nth-child(9) {
+    top: 85%;
+    left: 15%;
+    animation-delay: 1.3s;
+  }
+  .star:nth-child(10) {
+    top: 95%;
+    left: 85%;
+    animation-delay: 1.8s;
+  }
+
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
+
+  .space-waves {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 200px;
+  }
+
+  .wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(0, 102, 255, 0.3) 50%,
+      transparent 70%
+    );
+    animation: waveMove 8s linear infinite;
+  }
+
+  .wave:nth-child(1) {
+    animation-delay: 0s;
+    opacity: 0.7;
+  }
+  .wave:nth-child(2) {
+    animation-delay: 2s;
+    opacity: 0.5;
+  }
+  .wave:nth-child(3) {
+    animation-delay: 4s;
+    opacity: 0.3;
+  }
+
+  @keyframes waveMove {
+    0% {
+      transform: translateX(-50%) translateY(0);
+    }
+    100% {
+      transform: translateX(0%) translateY(-20px);
+    }
+  }
+
+  .dolphin-container {
+    position: absolute;
+    top: 50%;
+    left: -100px;
+    width: 100px;
+    height: 60px;
+    animation: dolphinSwim 15s linear infinite;
+  }
+
+  .dolphin {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .dolphin-body {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 60px;
+    height: 20px;
+    background: linear-gradient(45deg, #7bb3d1, #5a9bc9);
+    border-radius: 20px;
+    animation: dolphinBody 2s ease-in-out infinite;
+  }
+
+  .dolphin-tail {
+    position: absolute;
+    top: 15px;
+    left: 5px;
+    width: 20px;
+    height: 30px;
+    background: linear-gradient(45deg, #7bb3d1, #5a9bc9);
+    border-radius: 10px;
+    transform: rotate(-15deg);
+    animation: dolphinTail 1.5s ease-in-out infinite;
+  }
+
+  .dolphin-fin {
+    position: absolute;
+    top: 10px;
+    left: 35px;
+    width: 15px;
+    height: 25px;
+    background: linear-gradient(45deg, #7bb3d1, #5a9bc9);
+    border-radius: 8px;
+    transform: rotate(15deg);
+    animation: dolphinFin 1.8s ease-in-out infinite;
+  }
+
+  @keyframes dolphinSwim {
+    0% {
+      left: -100px;
+    }
+    100% {
+      left: calc(100vw + 100px);
+    }
+  }
+
+  @keyframes dolphinBody {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-5px) rotate(2deg);
+    }
+  }
+
+  @keyframes dolphinTail {
+    0%,
+    100% {
+      transform: rotate(-15deg);
+    }
+    50% {
+      transform: rotate(-25deg);
+    }
+  }
+
+  @keyframes dolphinFin {
+    0%,
+    100% {
+      transform: rotate(15deg);
+    }
+    50% {
+      transform: rotate(25deg);
+    }
+  }
+
+  /* 테마 컨트롤 버튼 */
+  .theme-controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .theme-controls-bottom {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 9999;
+    display: flex;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .theme-btn {
+    padding: 10px 18px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .theme-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .theme-btn.danger {
+    background: rgba(255, 59, 48, 0.3);
+    border-color: rgba(255, 59, 48, 0.4);
+  }
+
+  .theme-btn.danger:hover {
+    background: rgba(255, 59, 48, 0.4);
+  }
+
+  /* 기존 Chirpy 테마와 호환성을 위한 스타일 조정 */
+  body {
+    background: transparent !important;
+  }
+
+  #main-wrapper {
+    background: transparent !important;
+  }
+
+  .content {
+    background: transparent !important;
+  }
+
+  /* 글래스모피즘 효과를 기존 요소에 적용 */
+  .card,
+  .post,
+  .entry,
+  .content,
+  .sidebar,
+  .side-panel,
+  .aside {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(5px) !important;
+    -webkit-backdrop-filter: blur(5px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 8px !important;
+  }
+
+  /* 텍스트 가독성 향상 */
+  .card h1,
+  .card h2,
+  .card h3,
+  .post h1,
+  .post h2,
+  .post h3 {
+    color: white !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .card p,
+  .post p {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+</style>
+
+<!-- 우주 돌고래 파도 배경 HTML -->
+<div class="space-dolphin-wave-background">
+  <div class="space-background"></div>
+  <div class="stars-container">
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+  </div>
+  <div class="space-waves">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+  <div class="dolphin-container">
+    <div class="dolphin">
+      <div class="dolphin-body"></div>
+      <div class="dolphin-tail"></div>
+      <div class="dolphin-fin"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 테마 컨트롤 버튼 -->
+<div class="theme-controls">
+  <button class="theme-btn" onclick="toggleSpaceTheme()">🌌 테마 토글</button>
+  <button class="theme-btn danger" onclick="resetSpaceTheme()">
+    🔄 테마 리셋
+  </button>
+</div>
+
+<!-- 좌하단 테마 컨트롤 버튼 (추가) -->
+<div class="theme-controls-bottom">
+  <button class="theme-btn" onclick="toggleSpaceTheme()">🌌 테마 토글</button>
+  <button class="theme-btn danger" onclick="resetSpaceTheme()">
+    🔄 테마 리셋
+  </button>
+</div>
+
+<script>
+  // 우주 돌고래 파도 테마 제어
+  function toggleSpaceTheme() {
+    const background = document.querySelector(".space-dolphin-wave-background");
+    if (background.style.display === "none") {
+      background.style.display = "block";
+      localStorage.setItem("spaceThemeActive", "true");
+    } else {
+      background.style.display = "none";
+      localStorage.setItem("spaceThemeActive", "false");
+    }
+  }
+
+  function resetSpaceTheme() {
+    const background = document.querySelector(".space-dolphin-wave-background");
+    background.style.display = "block";
+    localStorage.setItem("spaceThemeActive", "true");
+  }
+
+  // 페이지 로드 시 테마 상태 복원
+  document.addEventListener("DOMContentLoaded", () => {
+    const themeActive = localStorage.getItem("spaceThemeActive");
+    if (themeActive === "false") {
+      const background = document.querySelector(
+        ".space-dolphin-wave-background"
+      );
+      if (background) {
+        background.style.display = "none";
+      }
+    }
+  });
+
+  // 키보드 단축키 추가
+  document.addEventListener("keydown", (event) => {
+    // Ctrl + T: 테마 토글
+    if (event.ctrlKey && event.key === "t") {
+      event.preventDefault();
+      toggleSpaceTheme();
+    }
+    // Ctrl + R: 테마 리셋
+    if (event.ctrlKey && event.key === "r") {
+      event.preventDefault();
+      resetSpaceTheme();
+    }
+  });
+</script>
