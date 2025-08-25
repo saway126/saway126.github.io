@@ -1,0 +1,516 @@
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta
+    name="theme-color"
+    media="(prefers-color-scheme: light)"
+    content="#f7f7f7"
+  />
+  <meta
+    name="theme-color"
+    media="(prefers-color-scheme: dark)"
+    content="#1b1b1e"
+  />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent"
+  />
+  <meta
+    name="viewport"
+    content="width=device-width, user-scalable=no initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
+  />
+
+  {%- capture seo_tags -%} {% seo title=false %} {%- endcapture -%}
+
+  <!-- Setup Open Graph image -->
+
+  {% if page.image %} {% assign src = page.image.path | default: page.image %}
+  {% unless src contains '://' %} {%- capture img_url -%} {% include
+  media-url.html src=src subpath=page.media_subpath absolute=true %} {%-
+  endcapture -%} {%- capture old_url -%}{{ src | absolute_url }}{%- endcapture
+  -%} {%- capture new_url -%}{{ img_url }}{%- endcapture -%} {% assign seo_tags
+  = seo_tags | replace: old_url, new_url %} {% endunless %} {% elsif
+  site.social_preview_image %} {%- capture img_url -%} {% include media-url.html
+  src=site.social_preview_image absolute=true %} {%- endcapture -%} {%- capture
+  og_image -%}
+  <meta property="og:image" content="{{ img_url }}" />
+  {%- endcapture -%} {%- capture twitter_image -%}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="twitter:image" content="{{ img_url }}" />
+  {%- endcapture -%} {% assign old_meta_clip = '
+  <meta name="twitter:card" content="summary" />
+  ' %} {% assign new_meta_clip = og_image | append: twitter_image %} {% assign
+  seo_tags = seo_tags | replace: old_meta_clip, new_meta_clip %} {% endif %} {{
+  seo_tags }}
+
+  <title>
+    {%- unless page.layout == 'home' -%} {{ page.title | append: ' | ' }} {%-
+    endunless -%} {{ site.title }}
+  </title>
+
+  {% include_cached favicons.html %}
+
+  <!-- Resource Hints -->
+  {% unless site.assets.self_host.enabled %} {% for hint in
+  site.data.origin.cors.resource_hints %} {% for link in hint.links %} <link
+  rel="{{ link.rel }}" href="{{ hint.url }}" {{ link.opts | join: ' ' }}> {%
+  endfor %} {% endfor %} {% endunless %}
+
+  <!-- Bootstrap -->
+  {% unless jekyll.environment == 'production' %}
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
+  />
+  {% endunless %}
+
+  <!-- Theme style -->
+  <link
+    rel="stylesheet"
+    href="{{ '/assets/css/jekyll-theme-chirpy.css' | relative_url }}"
+  />
+
+  <!-- 우주 돌고래 파도 테마 CSS -->
+  <link
+    rel="stylesheet"
+    href="{{ '/assets/css/space-dolphin-wave-theme.css' | relative_url }}"
+  />
+
+  <!-- Web Font -->
+  <link
+    rel="stylesheet"
+    href="{{ site.data.origin[type].webfonts | relative_url }}"
+  />
+
+  <!-- Font Awesome Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <!-- 3rd-party Dependencies -->
+
+  {% if site.toc and page.toc %}
+  <link
+    rel="stylesheet"
+    href="{{ site.data.origin[type].toc.css | relative_url }}"
+  />
+  {% endif %} {% if page.layout == 'post' or page.layout == 'page' or
+  page.layout == 'home' %}
+  <link
+    rel="stylesheet"
+    href="{{ site.data.origin[type]['lazy-polyfill'].css | relative_url }}"
+  />
+  {% endif %} {% if page.layout == 'page' or page.layout == 'post' %}
+  <!-- Image Popup -->
+  <link
+    rel="stylesheet"
+    href="{{ site.data.origin[type].glightbox.css | relative_url }}"
+  />
+  {% endif %}
+
+  <!-- Scripts -->
+
+  <script src="{{ '/assets/js/dist/theme.min.js' | relative_url }}"></script>
+
+  {% include js-selector.html lang=lang %}
+
+  <!-- 우주 돌고래 파도 테마 스크립트 -->
+  <script>
+    // SimpleJekyllSearch 오류 방지
+    if (typeof SimpleJekyllSearch === "undefined") {
+      window.SimpleJekyllSearch = function () {
+        console.log("🔍 검색 기능이 비활성화되었습니다.");
+      };
+    }
+
+    // 테마 상태 관리
+    let isSpaceDolphinThemeActive = false;
+
+    // 로컬 스토리지에서 테마 상태 불러오기
+    function loadThemeState() {
+      const saved = localStorage.getItem("spaceDolphinTheme");
+      isSpaceDolphinThemeActive = saved === "true";
+      return isSpaceDolphinThemeActive;
+    }
+
+    // 로컬 스토리지에 테마 상태 저장하기
+    function saveThemeState() {
+      localStorage.setItem(
+        "spaceDolphinTheme",
+        isSpaceDolphinThemeActive.toString()
+      );
+    }
+
+    // 테마 토글 버튼 생성
+    function createThemeToggle() {
+      console.log("🔧 테마 토글 버튼 생성 시작...");
+
+      // 기존 토글 버튼이 있다면 제거
+      const existingToggle = document.getElementById("theme-toggle");
+      if (existingToggle) {
+        existingToggle.remove();
+        console.log("🗑️ 기존 토글 버튼 제거 완료");
+      }
+
+      const toggle = document.createElement("div");
+      toggle.id = "theme-toggle";
+      toggle.innerHTML = `
+        <button id="theme-toggle-btn" class="btn btn-outline-primary btn-sm" title="우주 돌고래 테마 토글">
+          <i class="fas fa-moon"></i> <span id="theme-toggle-text">테마 ON</span>
+        </button>
+      `;
+
+      // 스타일 적용 - 강제로 우측 상단에 고정
+      toggle.style.cssText = `
+        position: fixed !important;
+        top: 20px !important;
+        right: 20px !important;
+        z-index: 999999 !important;
+        background: rgba(0, 0, 0, 0.9) !important;
+        padding: 12px 16px !important;
+        border-radius: 25px !important;
+        backdrop-filter: blur(15px) !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        color: white !important;
+        font-weight: bold !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+        transform: none !important;
+        bottom: auto !important;
+        left: auto !important;
+      `;
+
+      document.body.appendChild(toggle);
+      console.log("✅ 테마 토글 버튼 DOM에 추가 완료");
+
+      // 버튼 클릭 이벤트
+      const btn = document.getElementById("theme-toggle-btn");
+      const text = document.getElementById("theme-toggle-text");
+
+      if (btn) {
+        btn.addEventListener("click", function () {
+          console.log(
+            "🖱️ 토글 버튼 클릭됨! 현재 상태:",
+            isSpaceDolphinThemeActive
+          );
+          if (isSpaceDolphinThemeActive) {
+            disableSpaceDolphinTheme();
+          } else {
+            enableSpaceDolphinTheme();
+          }
+        });
+        console.log("✅ 클릭 이벤트 리스너 추가 완료");
+      } else {
+        console.error("❌ 토글 버튼을 찾을 수 없습니다!");
+      }
+
+      // 초기 상태 설정
+      updateToggleButton();
+      console.log("✅ 테마 토글 버튼 생성 완료!");
+    }
+
+    // 토글 버튼 상태 업데이트
+    function updateToggleButton() {
+      const btn = document.getElementById("theme-toggle-btn");
+      const text = document.getElementById("theme-toggle-text");
+
+      if (isSpaceDolphinThemeActive) {
+        btn.className = "btn btn-success btn-sm";
+        btn.innerHTML =
+          '<i class="fas fa-sun"></i> <span id="theme-toggle-text">테마 OFF</span>';
+        text.textContent = "테마 OFF";
+      } else {
+        btn.className = "btn btn-outline-primary btn-sm";
+        btn.innerHTML =
+          '<i class="fas fa-moon"></i> <span id="theme-toggle-text">테마 ON</span>';
+        text.textContent = "테마 ON";
+      }
+    }
+
+    // 테마 활성화
+    function enableSpaceDolphinTheme() {
+      isSpaceDolphinThemeActive = true;
+      saveThemeState();
+      updateToggleButton();
+      applySpaceDolphinTheme();
+      console.log("🌌 우주 돌고래 파도 테마 활성화!");
+    }
+
+    // 테마 비활성화
+    function disableSpaceDolphinTheme() {
+      isSpaceDolphinThemeActive = false;
+      saveThemeState();
+      updateToggleButton();
+      removeSpaceDolphinTheme();
+      console.log("🌌 우주 돌고래 파도 테마 비활성화!");
+    }
+
+    // 테마 제거
+    function removeSpaceDolphinTheme() {
+      console.log("🗑️ 테마 제거 시작...");
+
+      // 우주 배경 요소 제거
+      const existingBackground = document.querySelector(
+        ".space-simple-background"
+      );
+      if (existingBackground) {
+        existingBackground.remove();
+        console.log("🗑️ 우주 배경 요소 제거 완료");
+      }
+
+      // 강제로 Chirpy 테마 기본 스타일 복원
+      document.body.style.cssText = `
+        background: #1b1b1e !important;
+        background-image: none !important;
+        background-color: #1b1b1e !important;
+      `;
+
+      document.documentElement.style.cssText = `
+        background: #1b1b1e !important;
+        background-image: none !important;
+        background-color: #1b1b1e !important;
+      `;
+
+      // 글래스모피즘 효과 완전 제거하고 Chirpy 기본 스타일 적용
+      const cards = document.querySelectorAll(".card, .post, .entry, .content");
+      cards.forEach((card) => {
+        if (card) {
+          card.style.cssText = `
+            background: #2d2d30 !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            border: 1px solid #3d3d40 !important;
+            border-radius: 8px !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+          `;
+        }
+      });
+
+      const sidebars = document.querySelectorAll(
+        "#sidebar, .sidebar, .side-panel, .aside"
+      );
+      sidebars.forEach((sidebar) => {
+        if (sidebar) {
+          sidebar.style.cssText = `
+            background: #1b1b1e !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            border: 1px solid #3d3d40 !important;
+            border-radius: 0 !important;
+          `;
+        }
+      });
+
+      const panels = document.querySelectorAll(
+        "#panel-wrapper, .panel, .access"
+      );
+      panels.forEach((panel) => {
+        if (panel) {
+          panel.style.cssText = `
+            background: #2d2d30 !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            border: 1px solid #3d3d40 !important;
+            border-radius: 8px !important;
+          `;
+        }
+      });
+
+      console.log("✅ 테마 OFF 완료! 검정색 Chirpy 기본 테마로 완벽 복원됨");
+    }
+
+    // 우주 돌고래 파도 테마 적용
+    console.log("🌌 우주 돌고래 파도 테마 시스템 시작...");
+
+    // 페이지 로드 완료 후 초기화
+    window.addEventListener("load", function () {
+      console.log("🌌 페이지 로드 완료! 테마 시스템 초기화...");
+      createThemeToggle();
+
+      // 저장된 테마 상태에 따라 자동 적용
+      if (loadThemeState()) {
+        setTimeout(enableSpaceDolphinTheme, 1000);
+      }
+    });
+
+    // DOMContentLoaded 이벤트는 제거 (중복 방지)
+
+    function applySpaceDolphinTheme() {
+      console.log("🌌 우주 돌고래 파도 테마 적용 중...");
+
+      try {
+        // 기존 배경 요소 제거
+        const existingBackground = document.querySelector(
+          ".space-simple-background"
+        );
+        if (existingBackground) {
+          existingBackground.remove();
+          console.log("🗑️ 기존 배경 요소 제거 완료");
+        }
+
+        // 우주 배경 생성 (돌고래와 파도 포함)
+        const background = document.createElement("div");
+        background.className = "space-simple-background";
+        background.innerHTML = `
+          <div class="stars"></div>
+          <div class="nebula"></div>
+          <div class="waves">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+          </div>
+          <div class="dolphin"></div>
+        `;
+
+        // body에 추가
+        document.body.appendChild(background);
+        console.log("✅ 우주 돌고래 파도 테마 생성 완료!");
+
+        // CSS 스타일 강제 적용 - 우주 테마 완벽 적용
+        document.body.style.cssText = `
+          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
+          background-attachment: fixed !important;
+          background-image: none !important;
+          background-color: transparent !important;
+        `;
+
+        document.documentElement.style.cssText = `
+          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
+          background-attachment: fixed !important;
+          background-image: none !important;
+          background-color: transparent !important;
+        `;
+
+        // chirpy 테마 요소들에 글래스모피즘 효과 적용
+        applyGlassmorphismEffects();
+
+        console.log("✅ 테마 ON 완료! 푸르스름한 우주 테마 완벽 적용됨");
+      } catch (error) {
+        console.error("❌ 테마 적용 중 오류 발생:", error);
+      }
+    }
+
+    function applyGlassmorphismEffects() {
+      console.log("✨ 글래스모피즘 효과 적용 시작...");
+
+      // 블로그 카드들에 글래스모피즘 효과 추가 (강제 적용)
+      const cards = document.querySelectorAll(
+        ".card, .post, .entry, .content, .card-wrapper, .access, .trending-tags"
+      );
+      console.log("📝 찾은 카드 요소들:", cards.length);
+
+      cards.forEach((card, index) => {
+        if (card) {
+          // 더 강력한 글래스모피즘 효과
+          card.style.cssText = `
+            background: rgba(255, 255, 255, 0.15) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border: 2px solid rgba(255, 255, 255, 0.4) !important;
+            border-radius: 20px !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
+            transition: all 0.4s ease !important;
+            transform: translateZ(0) !important;
+          `;
+          console.log(`✅ 카드 ${index + 1} 글래스모피즘 효과 적용 완료`);
+        }
+      });
+
+      // 사이드바에 글래스모피즘 효과 추가
+      const sidebars = document.querySelectorAll(
+        "#sidebar, .sidebar, .side-panel, .aside"
+      );
+      console.log("📱 찾은 사이드바 요소들:", sidebars.length);
+
+      sidebars.forEach((sidebar, index) => {
+        if (sidebar) {
+          sidebar.style.cssText = `
+            background: rgba(0, 0, 0, 0.4) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 20px !important;
+          `;
+          console.log(`✅ 사이드바 ${index + 1} 글래스모피즘 효과 적용 완료`);
+        }
+      });
+
+      // 네비게이션 링크에 호버 효과 추가
+      const navLinks = document.querySelectorAll(
+        ".nav-link, .nav-item a, .menu a"
+      );
+      console.log("🔗 찾은 네비게이션 링크들:", navLinks.length);
+
+      navLinks.forEach((link, index) => {
+        // 기존 이벤트 리스너 제거 (중복 방지)
+        link.removeEventListener("mouseenter", link._mouseenterHandler);
+        link.removeEventListener("mouseleave", link._mouseleaveHandler);
+
+        // 새로운 이벤트 리스너 추가
+        link._mouseenterHandler = () => {
+          link.style.cssText = `
+            background: rgba(0, 102, 255, 0.3) !important;
+            border-radius: 10px !important;
+            transition: all 0.3s ease !important;
+            transform: translateY(-2px) !important;
+          `;
+        };
+
+        link._mouseleaveHandler = () => {
+          link.style.cssText = `
+            background: transparent !important;
+            transform: translateY(0) !important;
+          `;
+        };
+
+        link.addEventListener("mouseenter", link._mouseenterHandler);
+        link.addEventListener("mouseleave", link._mouseleaveHandler);
+        console.log(`✅ 네비게이션 링크 ${index + 1} 호버 효과 적용 완료`);
+      });
+
+      // 패널 요소들에 글래스모피즘 효과 추가
+      const panels = document.querySelectorAll(
+        "#panel-wrapper, .panel, .access"
+      );
+      console.log("📋 찾은 패널 요소들:", panels.length);
+
+      panels.forEach((panel, index) => {
+        if (panel) {
+          panel.style.cssText = `
+            background: rgba(0, 0, 0, 0.3) !important;
+            backdrop-filter: blur(18px) !important;
+            -webkit-backdrop-filter: blur(18px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.25) !important;
+            border-radius: 18px !important;
+          `;
+          console.log(`✅ 패널 ${index + 1} 글래스모피즘 효과 적용 완료`);
+        }
+      });
+
+      console.log("✨ 모든 글래스모피즘 효과 적용 완료!");
+    }
+
+    console.log("✅ 우주 돌고래 파도 테마 스크립트 로드 완료!");
+  </script>
+
+  {% if jekyll.environment == 'production' %}
+  <!-- PWA -->
+  {% if site.pwa.enabled %}
+  <script
+    defer
+    src="{{ '/app.min.js' | relative_url }}?baseurl={{ site.baseurl | default: '' }}&register={{ site.pwa.cache.enabled }}"
+  ></script>
+  {% endif %}
+
+  <!-- Web Analytics -->
+  {% for analytics in site.analytics %} {% capture str %}{{ analytics }}{%
+  endcapture %} {% assign platform = str | split: '{' | first %} {% if
+  site.analytics[platform].id and site.analytics[platform].id != empty %} {%
+  include analytics/{{ platform }}.html %} {% endif %} {% endfor %} {% endif %}
+  {% include metadata-hook.html %}
+</head>
