@@ -625,40 +625,104 @@
       setTimeout(retryGlassmorphism, 5000);
       setTimeout(retryGlassmorphism, 10000);
 
-      // CSS를 직접 삽입하는 최후의 수단
+      // CSS를 직접 삽입하는 최후의 수단 - 완전히 다른 접근
       const injectCSS = () => {
-        console.log("💉 CSS 직접 삽입 시도...");
+        console.log("💉 CSS 직접 삽입 시도 - 완전히 다른 접근...");
+
+        // 기존 스타일 태그 제거
+        const existingStyles = document.querySelectorAll(
+          "style[data-space-theme]"
+        );
+        existingStyles.forEach((style) => style.remove());
 
         const style = document.createElement("style");
+        style.setAttribute("data-space-theme", "true");
         style.textContent = `
-          /* 강제 글래스모피즘 효과 */
-          div, section, article, aside, main, header, footer, nav, ul, li, a, span, p, h1, h2, h3, h4, h5, h6 {
+          /* 우주 배경 강제 적용 */
+          html, body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
+            background-attachment: fixed !important;
+            background-image: none !important;
+            background-color: transparent !important;
+          }
+
+          /* 모든 요소에 글래스모피즘 강제 적용 */
+          * {
             background: rgba(255, 255, 255, 0.1) !important;
             backdrop-filter: blur(15px) !important;
             -webkit-backdrop-filter: blur(15px) !important;
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 12px !important;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
           }
 
-          /* 특정 클래스에 대한 강화 */
-          .card, .post, .entry, .content, .access, .trending-tags, .sidebar, .panel {
-            background: rgba(255, 255, 255, 0.15) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            border: 2px solid rgba(255, 255, 255, 0.3) !important;
-            border-radius: 16px !important;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4) !important;
+          /* 특정 요소는 제외 */
+          html, body, head, script, style, meta, title, link {
+            background: transparent !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            border: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+          }
+
+          /* 텍스트는 가독성을 위해 */
+          p, h1, h2, h3, h4, h5, h6, span, a, li, td, th {
+            color: white !important;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8) !important;
+          }
+
+          /* 링크 호버 효과 */
+          a:hover {
+            background: rgba(0, 102, 255, 0.3) !important;
+            transform: translateY(-2px) !important;
+            transition: all 0.3s ease !important;
           }
         `;
 
         document.head.appendChild(style);
-        console.log("✅ CSS 직접 삽입 완료!");
+        console.log("✅ 강화된 CSS 직접 삽입 완료!");
+
+        // 추가로 body 스타일 직접 적용
+        document.body.style.cssText = `
+          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
+          background-attachment: fixed !important;
+          min-height: 100vh !important;
+        `;
+
+        document.documentElement.style.cssText = `
+          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
+          background-attachment: fixed !important;
+          min-height: 100vh !important;
+        `;
+
+        console.log("✅ body와 html에 우주 배경 강제 적용 완료!");
       };
 
-      // CSS 삽입도 시도
+      // CSS 삽입도 시도 - 더 자주, 더 강력하게
+      setTimeout(injectCSS, 1000);
       setTimeout(injectCSS, 3000);
+      setTimeout(injectCSS, 5000);
       setTimeout(injectCSS, 8000);
+      setTimeout(injectCSS, 12000);
+
+      // 최후의 최후: MutationObserver로 DOM 변경 감지하여 자동 적용
+      const observer = new MutationObserver((mutations) => {
+        console.log("🔍 DOM 변경 감지! 글래스모피즘 효과 재적용...");
+        injectCSS();
+      });
+
+      // DOM 변경 감지 시작
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ["style", "class"],
+      });
+
+      console.log(
+        "✅ MutationObserver 설정 완료 - DOM 변경 시 자동 글래스모피즘 적용!"
+      );
     }
 
     console.log("✅ 우주 돌고래 파도 테마 스크립트 로드 완료!");
