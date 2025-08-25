@@ -1,77 +1,373 @@
-/* 간단한 우주 테마 CSS */
+/* 우주 돌고래 파도 테마 - chirpy 테마와 함께 작동 */
+html,
+body {
+  background: linear-gradient(
+    135deg,
+    #0a0a0a 0%,
+    #1a1a2e 25%,
+    #16213e 50%,
+    #0f3460 75%,
+    #533483 100%
+  ) !important;
+  background-attachment: fixed !important;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+}
+
+/* chirpy 테마 기본 레이아웃 복원 */
+#main-wrapper {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  margin-left: 280px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+.col-12,
+.col-lg-11,
+.col-xl-9 {
+  padding: 0 15px;
+}
+
+/* 사이드바 스타일링 */
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  background: rgba(27, 27, 30, 0.95) !important;
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
+  padding: 20px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+/* 메인 콘텐츠 영역 */
+main {
+  margin-left: 280px;
+  padding: 20px;
+  flex: 1;
+}
+
+/* 블로그 카드 스타일링 */
+.card {
+  background: rgba(45, 45, 48, 0.9) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+  transition: all 0.3s ease !important;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4) !important;
+  background: rgba(45, 45, 48, 0.95) !important;
+}
+
+.card-title {
+  color: rgba(255, 255, 255, 0.95) !important;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  color: rgba(255, 255, 255, 0.8) !important;
+  line-height: 1.6;
+}
+
+.post-meta {
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-size: 0.9rem;
+  margin-top: 15px;
+}
+
+/* 네비게이션 링크 */
+.nav-link {
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease !important;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.nav-link:hover {
+  background: rgba(0, 102, 255, 0.2) !important;
+  color: rgba(255, 255, 255, 1) !important;
+}
+
+/* 패널 영역 */
+#panel-wrapper {
+  background: rgba(45, 45, 48, 0.9) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 12px !important;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+/* 우주 배경 컨테이너 */
 .space-simple-background {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 999999;
+  z-index: -9999;
   pointer-events: none;
   overflow: hidden;
 }
 
+/* 별들 */
 .stars {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image: 
-    radial-gradient(2px 2px at 20px 30px, #eee, transparent),
-    radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
-    radial-gradient(1px 1px at 90px 40px, #fff, transparent),
-    radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
-    radial-gradient(2px 2px at 160px 30px, #ddd, transparent);
+  background-image: radial-gradient(
+      2px 2px at 20px 30px,
+      rgba(255, 255, 255, 0.8),
+      transparent
+    ),
+    radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(2px 2px at 90px 40px, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(
+      2px 2px at 130px 80px,
+      rgba(255, 255, 255, 0.6),
+      transparent
+    ),
+    radial-gradient(
+      2px 2px at 160px 30px,
+      rgba(255, 255, 255, 0.8),
+      transparent
+    ),
+    radial-gradient(
+      1px 1px at 200px 150px,
+      rgba(255, 255, 255, 0.5),
+      transparent
+    ),
+    radial-gradient(
+      1px 1px at 300px 200px,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    ),
+    radial-gradient(
+      1px 1px at 400px 100px,
+      rgba(255, 255, 255, 0.6),
+      transparent
+    ),
+    radial-gradient(
+      1px 1px at 500px 250px,
+      rgba(255, 255, 255, 0.5),
+      transparent
+    );
   background-repeat: repeat;
-  background-size: 200px 100px;
-  animation: twinkle 4s ease-in-out infinite;
+  background-size: 400px 300px;
+  animation: twinkle 6s ease-in-out infinite;
 }
 
+/* 성운 */
 .nebula {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, 
-    rgba(26, 26, 46, 0.8) 0%, 
-    rgba(22, 33, 62, 0.6) 25%, 
-    rgba(15, 52, 96, 0.4) 50%, 
-    rgba(83, 52, 131, 0.3) 75%, 
-    rgba(26, 26, 46, 0.8) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(26, 26, 46, 0.4) 0%,
+    rgba(22, 33, 62, 0.3) 25%,
+    rgba(15, 52, 96, 0.25) 50%,
+    rgba(83, 52, 131, 0.2) 75%,
+    rgba(26, 26, 46, 0.4) 100%
+  );
   animation: nebulaShift 20s ease-in-out infinite;
 }
 
+/* 파도 효과 */
+.waves {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  overflow: hidden;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    rgba(0, 150, 255, 0.3),
+    rgba(0, 200, 255, 0.2),
+    rgba(100, 150, 255, 0.3)
+  );
+  border-radius: 50% 50% 0 0;
+  animation: waveMove 8s ease-in-out infinite;
+}
+
+.wave:nth-child(2) {
+  animation-delay: -2s;
+  opacity: 0.7;
+}
+
+.wave:nth-child(3) {
+  animation-delay: -4s;
+  opacity: 0.5;
+}
+
+/* 돌고래 */
+.dolphin {
+  position: absolute;
+  bottom: 120px;
+  right: -100px;
+  width: 80px;
+  height: 40px;
+  background: linear-gradient(45deg, #4a90e2, #357abd);
+  border-radius: 50px 50px 20px 20px;
+  animation: dolphinSwim 12s ease-in-out infinite;
+}
+
+.dolphin::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.dolphin::after {
+  content: '';
+  position: absolute;
+  top: 25px;
+  right: 5px;
+  width: 20px;
+  height: 15px;
+  background: linear-gradient(45deg, #4a90e2, #357abd);
+  border-radius: 0 20px 20px 0;
+  transform: rotate(-15deg);
+}
+
+/* 텍스트 색상 조정 */
+body,
+.text-muted {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* 애니메이션 */
 @keyframes twinkle {
-  0%, 100% { opacity: 0.8; }
-  50% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 @keyframes nebulaShift {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 0.8; }
+  0%,
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  50% {
+    transform: translateX(20px) rotate(1deg);
+  }
 }
 
-/* 기본 배경 오버라이드 */
-html, body {
-  background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
-  background-attachment: fixed !important;
+@keyframes waveMove {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-10px);
+  }
 }
 
-/* 글래스모피즘 효과 */
-#main-wrapper, .content, .sidebar, .card, .post, .entry {
-  background: rgba(255, 255, 255, 0.1) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+@keyframes dolphinSwim {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateX(-200px) translateY(-20px) rotate(-5deg);
+  }
+  50% {
+    transform: translateX(-400px) translateY(0) rotate(0deg);
+  }
+  75% {
+    transform: translateX(-600px) translateY(-20px) rotate(5deg);
+  }
+  100% {
+    transform: translateX(-800px) translateY(0) rotate(0deg);
+  }
 }
 
-/* 텍스트 가독성 */
-h1, h2, h3, h4, h5, h6 {
-  color: white !important;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important;
-}
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  #sidebar {
+    width: 100%;
+    position: relative;
+    height: auto;
+  }
 
-p, span, div {
-  color: rgba(255, 255, 255, 0.95) !important;
+  main {
+    margin-left: 0;
+  }
+
+  #main-wrapper {
+    margin-left: 0;
+  }
+
+  .dolphin {
+    display: none;
+  }
+
+  .waves {
+    height: 60px;
+  }
+
+  .wave {
+    height: 60px;
+  }
 }
