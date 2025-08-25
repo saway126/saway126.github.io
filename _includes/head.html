@@ -400,7 +400,7 @@
 
       // 블로그 카드들에 글래스모피즘 효과 추가 (강제 적용)
       const cards = document.querySelectorAll(
-        ".card, .post, .entry, .content, .card-wrapper, .access, .trending-tags"
+        ".card, .post, .entry, .content, .card-wrapper, .access, .trending-tags, .post-list, .post-item, .post-card, .post-wrapper, .post-content, .post-meta, .post-title, .post-excerpt, .post-categories, .post-tags, .post-date, .post-author, .post-summary, .post-header, .post-body, .post-footer, .post-nav, .post-pagination, .post-related, .post-comments, .post-sharing, .post-toc, .post-reading-time, .post-updated, .post-published, .post-modified, .post-created, .post-archived, .post-draft, .post-published, .post-unpublished, .post-public, .post-private, .post-protected, .post-secret, .post-hidden, .post-visible, .post-active, .post-inactive, .post-enabled, .post-disabled, .post-on, .post-off, .post-yes, .post-no, .post-true, .post-false, .post-1, .post-2, .post-3, .post-4, .post-5, .post-6, .post-7, .post-8, .post-9, .post-10"
       );
       console.log("📝 찾은 카드 요소들:", cards.length);
 
@@ -418,6 +418,28 @@
             transform: translateZ(0) !important;
           `;
           console.log(`✅ 카드 ${index + 1} 글래스모피즘 효과 적용 완료`);
+        }
+      });
+
+      // 추가로 더 구체적인 선택자들 시도
+      const specificCards = document.querySelectorAll(
+        "[class*='post'], [class*='card'], [class*='entry'], [class*='content'], [class*='item'], [class*='wrapper'], [class*='meta'], [class*='title'], [class*='excerpt'], [class*='categories'], [class*='tags'], [class*='date'], [class*='author'], [class*='summary'], [class*='header'], [class*='body'], [class*='footer'], [class*='nav'], [class*='pagination'], [class*='related'], [class*='comments'], [class*='sharing'], [class*='toc'], [class*='reading-time'], [class*='updated'], [class*='published'], [class*='modified'], [class*='created'], [class*='archived'], [class*='draft'], [class*='unpublished'], [class*='public'], [class*='private'], [class*='protected'], [class*='secret'], [class*='hidden'], [class*='visible'], [class*='active'], [class*='inactive'], [class*='enabled'], [class*='disabled'], [class*='on'], [class*='off'], [class*='yes'], [class*='no'], [class*='true'], [class*='false']"
+      );
+      console.log("🔍 추가로 찾은 구체적 요소들:", specificCards.length);
+
+      specificCards.forEach((card, index) => {
+        if (card && !cards.contains(card)) {
+          card.style.cssText = `
+            background: rgba(255, 255, 255, 0.15) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border: 2px solid rgba(255, 255, 255, 0.4) !important;
+            border-radius: 20px !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
+            transition: all 0.4s ease !important;
+            transform: translateZ(0) !important;
+          `;
+          console.log(`✅ 구체적 요소 ${index + 1} 글래스모피즘 효과 적용 완료`);
         }
       });
 
@@ -493,6 +515,43 @@
       });
 
       console.log("✨ 모든 글래스모피즘 효과 적용 완료!");
+
+      // 최후의 수단: 모든 div 요소에 글래스모피즘 효과 시도
+      setTimeout(() => {
+        console.log("🚀 최후의 수단: 모든 div 요소에 글래스모피즘 효과 적용 시도...");
+        const allDivs = document.querySelectorAll("div");
+        console.log("🔍 찾은 모든 div 요소들:", allDivs.length);
+        
+        let appliedCount = 0;
+        allDivs.forEach((div, index) => {
+          // 이미 적용된 요소는 제외
+          if (div.style.backdropFilter && div.style.backdropFilter.includes("blur")) {
+            return;
+          }
+          
+          // 너무 작은 요소나 의미 없는 요소는 제외
+          if (div.offsetWidth < 100 || div.offsetHeight < 50) {
+            return;
+          }
+          
+          // 글래스모피즘 효과 적용
+          div.style.cssText += `
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(15px) !important;
+            -webkit-backdrop-filter: blur(15px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+          `;
+          appliedCount++;
+          
+          if (index % 10 === 0) {
+            console.log(`🚀 div ${index + 1}/${allDivs.length} 처리 중...`);
+          }
+        });
+        
+        console.log(`✅ 최종적으로 ${appliedCount}개의 div 요소에 글래스모피즘 효과 적용 완료!`);
+      }, 1000);
     }
 
     console.log("✅ 우주 돌고래 파도 테마 스크립트 로드 완료!");
