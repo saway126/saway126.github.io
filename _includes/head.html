@@ -73,10 +73,17 @@
   <!-- 우주 돌고래 파도 테마 CSS - 배포 환경 호환성을 위해 직접 포함 -->
   <style id="space-dolphin-theme-styles">
     /* 우주 돌고래 파도 테마 - Chirpy 테마와 함께 작동 */
-    
+
     /* ===== 기본 배경 - 테마 활성화 시에만 적용 ===== */
     body.space-dolphin-theme-active {
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
+      background: linear-gradient(
+        135deg,
+        #0a0a0a 0%,
+        #1a1a2e 25%,
+        #16213e 50%,
+        #0f3460 75%,
+        #533483 100%
+      ) !important;
       background-attachment: fixed !important;
       min-height: 100vh !important;
     }
@@ -107,11 +114,18 @@
       position: absolute !important;
       width: 100% !important;
       height: 100% !important;
-      background: 
-        radial-gradient(2px 2px at 20px 30px, #eee, transparent),
-        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+      background: radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+        radial-gradient(
+          2px 2px at 40px 70px,
+          rgba(255, 255, 255, 0.8),
+          transparent
+        ),
         radial-gradient(1px 1px at 90px 40px, #fff, transparent),
-        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(
+          1px 1px at 130px 80px,
+          rgba(255, 255, 255, 0.6),
+          transparent
+        ),
         radial-gradient(2px 2px at 160px 30px, #ddd, transparent);
       background-repeat: repeat !important;
       background-size: 200px 100px !important;
@@ -123,7 +137,11 @@
       position: absolute !important;
       width: 100% !important;
       height: 100% !important;
-      background: radial-gradient(ellipse at center, rgba(120, 119, 198, 0.3) 0%, transparent 70%) !important;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(120, 119, 198, 0.3) 0%,
+        transparent 70%
+      ) !important;
       filter: blur(3px) !important;
     }
 
@@ -142,7 +160,11 @@
       left: 0 !important;
       width: 200% !important;
       height: 100% !important;
-      background: linear-gradient(45deg, rgba(0, 150, 255, 0.3), rgba(0, 200, 255, 0.2)) !important;
+      background: linear-gradient(
+        45deg,
+        rgba(0, 150, 255, 0.3),
+        rgba(0, 200, 255, 0.2)
+      ) !important;
       border-radius: 50% 50% 0 0 !important;
       animation: wave 6s ease-in-out infinite !important;
     }
@@ -259,13 +281,23 @@
 
     /* ===== 애니메이션 ===== */
     @keyframes twinkle {
-      0%, 100% { opacity: 0.8; }
-      50% { opacity: 1; }
+      0%,
+      100% {
+        opacity: 0.8;
+      }
+      50% {
+        opacity: 1;
+      }
     }
 
     @keyframes wave {
-      0%, 100% { transform: translateX(0); }
-      50% { transform: translateX(-50%); }
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(-50%);
+      }
     }
 
     /* ===== 반응형 ===== */
@@ -483,12 +515,32 @@
       console.log("✅ 우주 돌고래 테마 초기화 완료!");
     }
 
-    // DOM이 준비되면 실행
+    // DOM이 준비되면 실행 (강제 실행)
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", initTheme);
     } else {
       initTheme();
     }
+
+    // 추가 안전장치 - 페이지 로드 완료 후에도 실행
+    window.addEventListener("load", function () {
+      console.log("🌌 페이지 로드 완료! 테마 시스템 추가 초기화...");
+
+      // 토글 버튼이 없다면 재생성
+      if (!document.getElementById("theme-toggle")) {
+        console.log("🔧 토글 버튼 재생성...");
+        createThemeToggle();
+      }
+    });
+
+    // 즉시 실행 시도
+    setTimeout(function () {
+      console.log("⏰ 지연 실행 시도...");
+      if (!document.getElementById("theme-toggle")) {
+        console.log("🔧 지연 실행으로 토글 버튼 생성...");
+        initTheme();
+      }
+    }, 1000);
   </script>
 
   <!-- Web Font -->
