@@ -10,8 +10,9 @@
     min-height: 100vh !important;
   }
 
-  /* ===== 우주 배경 요소 ===== */
-  .space-simple-background {
+  /* ===== 우주 배경 요소 - 자동 생성 ===== */
+  body::before {
+    content: "" !important;
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
@@ -19,78 +20,31 @@
     height: 100vh !important;
     z-index: -1 !important;
     pointer-events: none !important;
-  }
-
-  /* 별들 */
-  .stars {
-    position: absolute !important;
-    width: 100% !important;
-    height: 100% !important;
-    background: radial-gradient(2px 2px at 20px 30px, #eee, transparent),
-                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
-                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
-                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
-                radial-gradient(2px 2px at 160px 30px, #ddd, transparent);
-    background-repeat: repeat !important;
-    background-size: 200px 100px !important;
-    animation: twinkle 4s ease-in-out infinite !important;
-  }
-
-  /* 성운 */
-  .nebula {
-    position: absolute !important;
-    width: 100% !important;
-    height: 100% !important;
-    background: radial-gradient(ellipse at center, rgba(120, 119, 198, 0.3) 0%, transparent 70%) !important;
-    filter: blur(3px) !important;
-  }
-
-  /* 파도 */
-  .waves {
-    position: absolute !important;
-    bottom: 0 !important;
-    width: 100% !important;
-    height: 100px !important;
-    overflow: hidden !important;
-  }
-
-  .wave {
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    width: 200% !important;
-    height: 100% !important;
-    background: linear-gradient(45deg, rgba(0, 150, 255, 0.3), rgba(0, 200, 255, 0.2)) !important;
-    border-radius: 50% 50% 0 0 !important;
-    animation: wave 6s ease-in-out infinite !important;
-  }
-
-  .wave:nth-child(2) {
-    animation-delay: -2s !important;
-    opacity: 0.7 !important;
-  }
-
-  .wave:nth-child(3) {
-    animation-delay: -4s !important;
-    opacity: 0.5 !important;
-  }
-
-  /* 돌고래 */
-  .dolphin {
-    position: absolute !important;
-    bottom: 120px !important;
-    right: -100px !important;
-    width: 80px !important;
-    height: 40px !important;
-    background: linear-gradient(45deg, #87CEEB, #4682B4) !important;
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40% !important;
-    animation: dolphin-swim 8s ease-in-out infinite !important;
+    background: 
+      /* 별들 */
+      radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+      radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+      radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+      radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+      radial-gradient(2px 2px at 160px 30px, #ddd, transparent),
+      /* 성운 */
+      radial-gradient(ellipse at center, rgba(120, 119, 198, 0.3) 0%, transparent 70%),
+      /* 파도 */
+      linear-gradient(45deg, rgba(0, 150, 255, 0.3), rgba(0, 200, 255, 0.2)) 0 100% / 200% 100px no-repeat,
+      linear-gradient(45deg, rgba(0, 150, 255, 0.2), rgba(0, 200, 255, 0.1)) 0 100% / 200% 80px no-repeat,
+      linear-gradient(45deg, rgba(0, 150, 255, 0.1), rgba(0, 200, 255, 0.05)) 0 100% / 200% 60px no-repeat;
+    background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+    background-size: 200px 100px, auto, 200% 100px, 200% 80px, 200% 60px;
+    animation: 
+      twinkle 4s ease-in-out infinite,
+      wave 6s ease-in-out infinite;
   }
 
   /* ===== 글래스모피즘 효과 - 최고 우선순위 ===== */
   .card, .post, .entry, .content, .access, .trending-tags, .update-list,
   #main-wrapper .card, #main-wrapper .post, #main-wrapper .entry, #main-wrapper .content,
-  .main .card, .main .post, .main .entry, .main .content {
+  .main .card, .main .post, .main .entry, .main .content,
+  article, .post-list, .post-item {
     background: rgba(255, 255, 255, 0.15) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
@@ -123,21 +77,22 @@
 
   /* ===== 텍스트 색상 - 최고 우선순위 ===== */
   body, p, li, span, div, h1, h2, h3, h4, h5, h6,
-  #main-wrapper *, .main * {
+  #main-wrapper *, .main *, article *, .post * {
     color: rgba(255, 255, 255, 0.9) !important;
   }
 
   h1, h2, h3, h4, h5, h6,
-  #main-wrapper h1, #main-wrapper h2, #main-wrapper h3, #main-wrapper h4, #main-wrapper h5, #main-wrapper h6 {
+  #main-wrapper h1, #main-wrapper h2, #main-wrapper h3, #main-wrapper h4, #main-wrapper h5, #main-wrapper h6,
+  article h1, article h2, article h3, article h4, article h5, article h6 {
     color: rgba(255, 255, 255, 0.95) !important;
   }
 
-  a, #main-wrapper a, .main a {
+  a, #main-wrapper a, .main a, article a {
     color: rgba(74, 144, 226, 0.9) !important;
     text-decoration: none !important;
   }
 
-  a:hover, #main-wrapper a:hover, .main a:hover {
+  a:hover, #main-wrapper a:hover, .main a:hover, article a:hover {
     color: #4a90e2 !important;
     text-decoration: underline !important;
   }
@@ -193,22 +148,14 @@
   }
 
   @keyframes wave {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(-20px); }
-  }
-
-  @keyframes dolphin-swim {
-    0% { transform: translateX(0) translateY(0) rotate(0deg); }
-    25% { transform: translateX(-50px) translateY(-10px) rotate(-5deg); }
-    50% { transform: translateX(-100px) translateY(0) rotate(0deg); }
-    75% { transform: translateX(-150px) translateY(-10px) rotate(5deg); }
-    100% { transform: translateX(-200px) translateY(0) rotate(0deg); }
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-50%); }
   }
 
   /* ===== 반응형 ===== */
   @media (max-width: 768px) {
-    .dolphin { display: none !important; }
-    .waves { height: 60px !important; }
-    .wave { height: 60px !important; }
+    body::before {
+      background-size: 200px 100px, auto, 200% 60px, 200% 50px, 200% 40px;
+    }
   }
 </style>
