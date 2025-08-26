@@ -1,12 +1,27 @@
-<!-- 우주 돌고래 파도 테마 CSS -->
+<!-- 우주 돌고래 파도 테마 CSS - 캐시 무효화 버전 2025-08-26-13:00 -->
 <style>
   /* 우주 돌고래 파도 테마 - Chirpy 테마와 함께 작동 */
-  
-  /* ===== 기본 배경 - 최고 우선순위 ===== */
-  html, body, html *, body * {
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
+
+  /* ===== 기본 배경만 - 콘텐츠는 건드리지 않음 ===== */
+  html,
+  body {
+    background: linear-gradient(
+      135deg,
+      #0a0a0a 0%,
+      #1a1a2e 25%,
+      #16213e 50%,
+      #0f3460 75%,
+      #533483 100%
+    ) !important;
     background-attachment: fixed !important;
-    background-image: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
+    background-image: linear-gradient(
+      135deg,
+      #0a0a0a 0%,
+      #1a1a2e 25%,
+      #16213e 50%,
+      #0f3460 75%,
+      #533483 100%
+    ) !important;
     min-height: 100vh !important;
   }
 
@@ -20,31 +35,62 @@
     height: 100vh !important;
     z-index: -1 !important;
     pointer-events: none !important;
-    background: 
-      /* 별들 */
-      radial-gradient(2px 2px at 20px 30px, #eee, transparent),
-      radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+    background:
+      /* 별들 */ radial-gradient(
+        2px 2px at 20px 30px,
+        #eee,
+        transparent
+      ),
+      radial-gradient(
+        2px 2px at 40px 70px,
+        rgba(255, 255, 255, 0.8),
+        transparent
+      ),
       radial-gradient(1px 1px at 90px 40px, #fff, transparent),
-      radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+      radial-gradient(
+        1px 1px at 130px 80px,
+        rgba(255, 255, 255, 0.6),
+        transparent
+      ),
       radial-gradient(2px 2px at 160px 30px, #ddd, transparent),
       /* 성운 */
-      radial-gradient(ellipse at center, rgba(120, 119, 198, 0.3) 0%, transparent 70%),
+        radial-gradient(
+          ellipse at center,
+          rgba(120, 119, 198, 0.3) 0%,
+          transparent 70%
+        ),
       /* 파도 */
-      linear-gradient(45deg, rgba(0, 150, 255, 0.3), rgba(0, 200, 255, 0.2)) 0 100% / 200% 100px no-repeat,
-      linear-gradient(45deg, rgba(0, 150, 255, 0.2), rgba(0, 200, 255, 0.1)) 0 100% / 200% 80px no-repeat,
-      linear-gradient(45deg, rgba(0, 150, 255, 0.1), rgba(0, 200, 255, 0.05)) 0 100% / 200% 60px no-repeat;
-    background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+        linear-gradient(45deg, rgba(0, 150, 255, 0.3), rgba(0, 200, 255, 0.2)) 0
+        100% / 200% 100px no-repeat,
+      linear-gradient(45deg, rgba(0, 150, 255, 0.2), rgba(0, 200, 255, 0.1)) 0
+        100% / 200% 80px no-repeat,
+      linear-gradient(45deg, rgba(0, 150, 255, 0.1), rgba(0, 200, 255, 0.05)) 0
+        100% / 200% 60px no-repeat;
+    background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat,
+      no-repeat, no-repeat, no-repeat, no-repeat;
     background-size: 200px 100px, auto, 200% 100px, 200% 80px, 200% 60px;
-    animation: 
-      twinkle 4s ease-in-out infinite,
-      wave 6s ease-in-out infinite;
+    animation: twinkle 4s ease-in-out infinite, wave 6s ease-in-out infinite;
   }
 
-  /* ===== 글래스모피즘 효과 - 최고 우선순위 ===== */
-  .card, .post, .entry, .content, .access, .trending-tags, .update-list,
-  #main-wrapper .card, #main-wrapper .post, #main-wrapper .entry, #main-wrapper .content,
-  .main .card, .main .post, .main .entry, .main .content,
-  article, .post-list, .post-item {
+  /* ===== 글래스모피즘 효과 - 선택적 적용 ===== */
+  .card,
+  .post,
+  .entry,
+  .content,
+  .access,
+  .trending-tags,
+  .update-list,
+  #main-wrapper .card,
+  #main-wrapper .post,
+  #main-wrapper .entry,
+  #main-wrapper .content,
+  .main .card,
+  .main .post,
+  .main .entry,
+  .main .content,
+  article,
+  .post-list,
+  .post-item {
     background: rgba(255, 255, 255, 0.15) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
@@ -52,12 +98,15 @@
     border-radius: 20px !important;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
     transition: all 0.4s ease !important;
-    color: rgba(255, 255, 255, 0.9) !important;
   }
 
-  /* 사이드바 - 최고 우선순위 */
-  #sidebar, .sidebar, .side-panel, .aside,
-  aside#sidebar, aside.sidebar {
+  /* 사이드바 - 선택적 적용 */
+  #sidebar,
+  .sidebar,
+  .side-panel,
+  .aside,
+  aside#sidebar,
+  aside.sidebar {
     background: rgba(0, 0, 0, 0.4) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
@@ -65,9 +114,11 @@
     border-radius: 20px !important;
   }
 
-  /* 패널 - 최고 우선순위 */
-  #panel-wrapper, .panel,
-  .panel-wrapper, .panel-content {
+  /* 패널 - 선택적 적용 */
+  #panel-wrapper,
+  .panel,
+  .panel-wrapper,
+  .panel-content {
     background: rgba(0, 0, 0, 0.3) !important;
     backdrop-filter: blur(18px) !important;
     -webkit-backdrop-filter: blur(18px) !important;
@@ -75,31 +126,70 @@
     border-radius: 18px !important;
   }
 
-  /* ===== 텍스트 색상 - 최고 우선순위 ===== */
-  body, p, li, span, div, h1, h2, h3, h4, h5, h6,
-  #main-wrapper *, .main *, article *, .post * {
+  /* ===== 텍스트 색상 - 선택적 적용 ===== */
+  .card,
+  .post,
+  .entry,
+  .content,
+  .access,
+  .trending-tags,
+  .update-list,
+  #main-wrapper .card,
+  #main-wrapper .post,
+  #main-wrapper .entry,
+  #main-wrapper .content,
+  .main .card,
+  .main .post,
+  .main .entry,
+  .main .content,
+  article,
+  .post-list,
+  .post-item {
     color: rgba(255, 255, 255, 0.9) !important;
   }
 
-  h1, h2, h3, h4, h5, h6,
-  #main-wrapper h1, #main-wrapper h2, #main-wrapper h3, #main-wrapper h4, #main-wrapper h5, #main-wrapper h6,
-  article h1, article h2, article h3, article h4, article h5, article h6 {
+  .card h1,
+  .card h2,
+  .card h3,
+  .card h4,
+  .card h5,
+  .card h6,
+  .post h1,
+  .post h2,
+  .post h3,
+  .post h4,
+  .post h5,
+  .post h6,
+  article h1,
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
     color: rgba(255, 255, 255, 0.95) !important;
   }
 
-  a, #main-wrapper a, .main a, article a {
+  .card a,
+  .post a,
+  article a {
     color: rgba(74, 144, 226, 0.9) !important;
     text-decoration: none !important;
   }
 
-  a:hover, #main-wrapper a:hover, .main a:hover, article a:hover {
+  .card a:hover,
+  .post a:hover,
+  article a:hover {
     color: #4a90e2 !important;
     text-decoration: underline !important;
   }
 
-  /* ===== 특정 섹션 강화 - 최고 우선순위 ===== */
-  .trending-tags .tag, .trending-tags .badge, .trending-tags a,
-  .trending-tags .tag *, .trending-tags .badge *, .trending-tags a * {
+  /* ===== 특정 섹션 강화 - 선택적 적용 ===== */
+  .trending-tags .tag,
+  .trending-tags .badge,
+  .trending-tags a,
+  .trending-tags .tag *,
+  .trending-tags .badge *,
+  .trending-tags a * {
     background: rgba(255, 255, 255, 0.15) !important;
     backdrop-filter: blur(15px) !important;
     -webkit-backdrop-filter: blur(15px) !important;
@@ -112,17 +202,25 @@
     transition: all 0.3s ease !important;
   }
 
-  .trending-tags .tag:hover, .trending-tags .badge:hover, .trending-tags a:hover,
-  .trending-tags .tag:hover *, .trending-tags .badge:hover *, .trending-tags a:hover * {
+  .trending-tags .tag:hover,
+  .trending-tags .badge:hover,
+  .trending-tags a:hover,
+  .trending-tags .tag:hover *,
+  .trending-tags .badge:hover *,
+  .trending-tags a:hover * {
     background: rgba(74, 144, 226, 0.3) !important;
     border-color: rgba(74, 144, 226, 0.6) !important;
     transform: translateY(-2px) !important;
     box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4) !important;
   }
 
-  /* 페이지네이션 - 최고 우선순위 */
-  .pagination, .pagination .page-item, .pagination .page-link,
-  .pagination *, .pagination .page-item *, .pagination .page-link * {
+  /* 페이지네이션 - 선택적 적용 */
+  .pagination,
+  .pagination .page-item,
+  .pagination .page-link,
+  .pagination *,
+  .pagination .page-item *,
+  .pagination .page-link * {
     background: rgba(255, 255, 255, 0.1) !important;
     backdrop-filter: blur(15px) !important;
     -webkit-backdrop-filter: blur(15px) !important;
@@ -131,8 +229,11 @@
     color: rgba(255, 255, 255, 0.9) !important;
   }
 
-  /* 푸터 - 최고 우선순위 */
-  footer, .footer, footer *, .footer * {
+  /* 푸터 - 선택적 적용 */
+  footer,
+  .footer,
+  footer *,
+  .footer * {
     background: rgba(0, 0, 0, 0.3) !important;
     backdrop-filter: blur(15px) !important;
     -webkit-backdrop-filter: blur(15px) !important;
@@ -143,13 +244,23 @@
 
   /* ===== 애니메이션 ===== */
   @keyframes twinkle {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 1; }
+    0%,
+    100% {
+      opacity: 0.8;
+    }
+    50% {
+      opacity: 1;
+    }
   }
 
   @keyframes wave {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(-50%); }
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(-50%);
+    }
   }
 
   /* ===== 반응형 ===== */
