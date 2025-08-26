@@ -73,7 +73,7 @@
   <!-- 우주 돌고래 파도 테마 CSS -->
   <link
     rel="stylesheet"
-    href="{{ '/assets/css/space-dolphin-wave-theme.css' | absolute_url }}?v={{ site.time | date: '%s' }}"
+    href="https://saway126.github.io/assets/css/space-dolphin-wave-theme.css?v={{ site.time | date: '%s' }}"
   />
 
   <!-- Web Font -->
@@ -647,14 +647,24 @@
 
     // 배포 환경에서 더 안정적인 실행을 위한 추가 처리
     if (isProduction) {
-      // CSS 강제 로드 확인 및 주입
+      console.log("🚀 배포 환경 강화 모드 활성화...");
+
+      // 즉시 CSS 강제 주입 시도
+      setTimeout(() => {
+        console.log("⚡ 즉시 CSS 강제 주입 시도...");
+        injectThemeCSS();
+        forceApplyTheme();
+      }, 500);
+
+      // CSS 로드 확인 및 추가 주입
       setTimeout(() => {
         const themeCSS = document.querySelector(
           'link[href*="space-dolphin-wave-theme.css"]'
         );
         if (!themeCSS || !themeCSS.sheet) {
-          console.log("⚠️ 테마 CSS 로드 실패, JavaScript로 강제 주입...");
+          console.log("⚠️ 테마 CSS 로드 실패, 추가 강제 주입...");
           injectThemeCSS();
+          forceApplyTheme();
         } else {
           console.log("✅ 테마 CSS 로드 확인됨");
         }
@@ -671,12 +681,12 @@
           !background.includes("gradient") &&
           !background.includes("0a0a0a")
         ) {
-          console.log("⚠️ 테마가 적용되지 않음, 강제 적용...");
+          console.log("⚠️ 테마가 적용되지 않음, 최종 강제 적용...");
           forceApplyTheme();
         } else {
           console.log("✅ 테마가 정상적으로 적용됨");
         }
-      }, 3000);
+      }, 2000);
 
       // DOM이 완전히 로드된 후 실행
       if (document.readyState === "loading") {
@@ -685,16 +695,18 @@
           setTimeout(() => {
             if (isSpaceDolphinThemeActive) {
               applySpaceDolphinTheme();
+              forceApplyTheme(); // 추가 강제 적용
             }
-          }, 2000); // 2초 후 실행
+          }, 1000);
         });
       } else {
         // DOM이 이미 로드된 경우
         setTimeout(() => {
           if (isSpaceDolphinThemeActive) {
             applySpaceDolphinTheme();
+            forceApplyTheme(); // 추가 강제 적용
           }
-        }, 2000);
+        }, 1000);
       }
     }
 
@@ -708,19 +720,50 @@
           min-height: 100vh !important;
         }
 
-        .card, .post, .entry, .content, .access, .trending-tags {
+        .card, .post, .entry, .content, .access, .trending-tags, .update-list {
           background: rgba(255, 255, 255, 0.15) !important;
           backdrop-filter: blur(20px) !important;
           -webkit-backdrop-filter: blur(20px) !important;
           border: 2px solid rgba(255, 255, 255, 0.4) !important;
           border-radius: 20px !important;
           box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
+          color: rgba(255, 255, 255, 0.9) !important;
         }
 
-        #sidebar, .sidebar {
+        #sidebar, .sidebar, .side-panel, .aside {
           background: rgba(0, 0, 0, 0.4) !important;
           backdrop-filter: blur(20px) !important;
           -webkit-backdrop-filter: blur(20px) !important;
+          border: 1px solid rgba(255, 255, 255, 0.3) !important;
+          border-radius: 20px !important;
+        }
+
+        .pagination, .pagination .page-item, .pagination .page-link {
+          background: rgba(255, 255, 255, 0.1) !important;
+          backdrop-filter: blur(15px) !important;
+          -webkit-backdrop-filter: blur(15px) !important;
+          border: 1px solid rgba(255, 255, 255, 0.2) !important;
+          color: rgba(255, 255, 255, 0.9) !important;
+        }
+
+        footer, .footer {
+          background: rgba(0, 0, 0, 0.3) !important;
+          backdrop-filter: blur(15px) !important;
+          -webkit-backdrop-filter: blur(15px) !important;
+          color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        /* 텍스트 색상 강제 적용 */
+        body, p, li, span, div, h1, h2, h3, h4, h5, h6 {
+          color: rgba(255, 255, 255, 0.9) !important;
+        }
+
+        a {
+          color: rgba(74, 144, 226, 0.9) !important;
+        }
+
+        a:hover {
+          color: #4a90e2 !important;
         }
       `;
 
