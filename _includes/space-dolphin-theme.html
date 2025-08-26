@@ -9,6 +9,11 @@
     min-height: 100vh !important;
   }
 
+  /* ===== 기본 상태에서는 Chirpy 테마 유지 ===== */
+  body:not(.space-dolphin-theme-active) {
+    background: inherit !important;
+  }
+
   /* ===== 우주 배경 요소 - 테마 활성화 시에만 표시 ===== */
   .space-dolphin-background {
     display: none !important;
@@ -98,6 +103,25 @@
     border-radius: 20px !important;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
     transition: all 0.4s ease !important;
+  }
+
+  /* ===== 기본 상태에서는 Chirpy 테마 스타일 유지 ===== */
+  body:not(.space-dolphin-theme-active) .card,
+  body:not(.space-dolphin-theme-active) .post,
+  body:not(.space-dolphin-theme-active) .entry,
+  body:not(.space-dolphin-theme-active) .content,
+  body:not(.space-dolphin-theme-active) .access,
+  body:not(.space-dolphin-theme-active) .trending-tags,
+  body:not(.space-dolphin-theme-active) .update-list,
+  body:not(.space-dolphin-theme-active) article,
+  body:not(.space-dolphin-theme-active) .post-list,
+  body:not(.space-dolphin-theme-active) .post-item {
+    background: inherit !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: inherit !important;
+    border-radius: inherit !important;
+    box-shadow: inherit !important;
   }
 
   /* 사이드바 */
