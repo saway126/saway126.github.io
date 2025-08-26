@@ -70,8 +70,211 @@
     href="{{ '/assets/css/jekyll-theme-chirpy.css' | relative_url }}"
   />
 
-  <!-- 우주 돌고래 파도 테마 CSS - 캐시 무효화 버전 2025-08-26-14:15 -->
-  {% include space-dolphin-theme.html %}
+  <!-- 우주 돌고래 파도 테마 CSS - 배포 환경 호환성을 위해 직접 포함 -->
+  <style id="space-dolphin-theme-styles">
+    /* 우주 돌고래 파도 테마 - Chirpy 테마와 함께 작동 */
+    
+    /* ===== 기본 배경 - 테마 활성화 시에만 적용 ===== */
+    body.space-dolphin-theme-active {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
+      background-attachment: fixed !important;
+      min-height: 100vh !important;
+    }
+
+    /* ===== 기본 상태에서는 Chirpy 테마 유지 ===== */
+    body:not(.space-dolphin-theme-active) {
+      background: inherit !important;
+    }
+
+    /* ===== 우주 배경 요소 - 테마 활성화 시에만 표시 ===== */
+    .space-dolphin-background {
+      display: none !important;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      z-index: -1 !important;
+      pointer-events: none !important;
+    }
+
+    body.space-dolphin-theme-active .space-dolphin-background {
+      display: block !important;
+    }
+
+    /* 별들 */
+    .space-dolphin-background .stars {
+      position: absolute !important;
+      width: 100% !important;
+      height: 100% !important;
+      background: 
+        radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 160px 30px, #ddd, transparent);
+      background-repeat: repeat !important;
+      background-size: 200px 100px !important;
+      animation: twinkle 4s ease-in-out infinite !important;
+    }
+
+    /* 성운 */
+    .space-dolphin-background .nebula {
+      position: absolute !important;
+      width: 100% !important;
+      height: 100% !important;
+      background: radial-gradient(ellipse at center, rgba(120, 119, 198, 0.3) 0%, transparent 70%) !important;
+      filter: blur(3px) !important;
+    }
+
+    /* 파도 */
+    .space-dolphin-background .waves {
+      position: absolute !important;
+      bottom: 0 !important;
+      width: 100% !important;
+      height: 100px !important;
+      overflow: hidden !important;
+    }
+
+    .space-dolphin-background .wave {
+      position: absolute !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      width: 200% !important;
+      height: 100% !important;
+      background: linear-gradient(45deg, rgba(0, 150, 255, 0.3), rgba(0, 200, 255, 0.2)) !important;
+      border-radius: 50% 50% 0 0 !important;
+      animation: wave 6s ease-in-out infinite !important;
+    }
+
+    .space-dolphin-background .wave:nth-child(2) {
+      animation-delay: -2s !important;
+      opacity: 0.7 !important;
+    }
+
+    .space-dolphin-background .wave:nth-child(3) {
+      animation-delay: -4s !important;
+      opacity: 0.5 !important;
+    }
+
+    /* ===== 글래스모피즘 효과 - 테마 활성화 시에만 적용 ===== */
+    body.space-dolphin-theme-active .card,
+    body.space-dolphin-theme-active .post,
+    body.space-dolphin-theme-active .entry,
+    body.space-dolphin-theme-active .content,
+    body.space-dolphin-theme-active .access,
+    body.space-dolphin-theme-active .trending-tags,
+    body.space-dolphin-theme-active .update-list,
+    body.space-dolphin-theme-active article,
+    body.space-dolphin-theme-active .post-list,
+    body.space-dolphin-theme-active .post-item {
+      background: rgba(255, 255, 255, 0.15) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      border: 2px solid rgba(255, 255, 255, 0.4) !important;
+      border-radius: 20px !important;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
+      transition: all 0.4s ease !important;
+    }
+
+    /* ===== 기본 상태에서는 Chirpy 테마 스타일 유지 ===== */
+    body:not(.space-dolphin-theme-active) .card,
+    body:not(.space-dolphin-theme-theme-active) .post,
+    body:not(.space-dolphin-theme-active) .entry,
+    body:not(.space-dolphin-theme-active) .content,
+    body:not(.space-dolphin-theme-active) .access,
+    body:not(.space-dolphin-theme-active) .trending-tags,
+    body:not(.space-dolphin-theme-active) .update-list,
+    body:not(.space-dolphin-theme-active) article,
+    body:not(.space-dolphin-theme-active) .post-list,
+    body:not(.space-dolphin-theme-active) .post-item {
+      background: inherit !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      border: inherit !important;
+      border-radius: inherit !important;
+      box-shadow: inherit !important;
+    }
+
+    /* 사이드바 */
+    body.space-dolphin-theme-active #sidebar,
+    body.space-dolphin-theme-active .sidebar,
+    body.space-dolphin-theme-active .side-panel,
+    body.space-dolphin-theme-active .aside {
+      background: rgba(0, 0, 0, 0.4) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      border-radius: 20px !important;
+    }
+
+    /* ===== 텍스트 색상 - 테마 활성화 시에만 적용 ===== */
+    body.space-dolphin-theme-active .card,
+    body.space-dolphin-theme-active .post,
+    body.space-dolphin-theme-active .entry,
+    body.space-dolphin-theme-active .content,
+    body.space-dolphin-theme-active .access,
+    body.space-dolphin-theme-active .trending-tags,
+    body.space-dolphin-theme-active .update-list,
+    body.space-dolphin-theme-active article,
+    body.space-dolphin-theme-active .post-list,
+    body.space-dolphin-theme-active .post-item {
+      color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    body.space-dolphin-theme-active .card h1,
+    body.space-dolphin-theme-active .card h2,
+    body.space-dolphin-theme-active .card h3,
+    body.space-dolphin-theme-active .card h4,
+    body.space-dolphin-theme-active .card h5,
+    body.space-dolphin-theme-active .card h6,
+    body.space-dolphin-theme-active .post h1,
+    body.space-dolphin-theme-active .post h2,
+    body.space-dolphin-theme-active .post h3,
+    body.space-dolphin-theme-active .post h4,
+    body.space-dolphin-theme-active .post h5,
+    body.space-dolphin-theme-active .post h6,
+    body.space-dolphin-theme-active article h1,
+    body.space-dolphin-theme-active article h2,
+    body.space-dolphin-theme-active article h3,
+    body.space-dolphin-theme-active article h4,
+    body.space-dolphin-theme-active article h5,
+    body.space-dolphin-theme-active article h6 {
+      color: rgba(255, 255, 255, 0.95) !important;
+    }
+
+    body.space-dolphin-theme-active .card a,
+    body.space-dolphin-theme-active .post a,
+    body.space-dolphin-theme-active article a {
+      color: rgba(74, 144, 226, 0.9) !important;
+      text-decoration: none !important;
+    }
+
+    body.space-dolphin-theme-active .card a:hover,
+    body.space-dolphin-theme-active .post a:hover,
+    body.space-dolphin-theme-active article a:hover {
+      color: #4a90e2 !important;
+      text-decoration: underline !important;
+    }
+
+    /* ===== 애니메이션 ===== */
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes wave {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(-50%); }
+    }
+
+    /* ===== 반응형 ===== */
+    @media (max-width: 768px) {
+      .space-dolphin-background .stars {
+        background-size: 150px 75px;
+      }
+    }
+  </style>
 
   <!-- 우주 돌고래 파도 테마 토글 시스템 -->
   <script>
@@ -266,7 +469,7 @@
     // 초기화
     function initTheme() {
       console.log("🚀 우주 돌고래 테마 초기화 시작...");
-      
+
       // 저장된 테마 상태에 따라 자동 적용
       if (loadThemeState()) {
         console.log("🔄 저장된 테마 상태 복원 중...");
@@ -276,7 +479,7 @@
       // 토글 버튼 생성
       console.log("🔧 테마 토글 버튼 생성 중...");
       createThemeToggle();
-      
+
       console.log("✅ 우주 돌고래 테마 초기화 완료!");
     }
 
