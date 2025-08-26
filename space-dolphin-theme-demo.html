@@ -239,72 +239,11 @@
       </article>
     </main>
 
-    <!-- 우주 돌고래 테마 스크립트 -->
-    <script src="assets/js/space-dolphin-theme.js"></script>
+    <!-- 우주 돌고래 테마 스크립트 - 제거됨 -->
 
     <script>
-      // 테마 상태 표시
-      function updateThemeStatus(status, color = "#4CAF50") {
-        const statusEl = document.getElementById("theme-status");
-        statusEl.textContent = `상태: ${status}`;
-        statusEl.style.color = color;
-      }
-
-      // 테마 시작
-      function startTheme() {
-        if (window.spaceDolphinThemeControls) {
-          window.spaceDolphinThemeControls.start();
-          updateThemeStatus("실행 중", "#4CAF50");
-        } else {
-          updateThemeStatus("테마 로드 중...", "#ff9800");
-          setTimeout(() => {
-            if (window.spaceDolphinThemeControls) {
-              window.spaceDolphinThemeControls.start();
-              updateThemeStatus("실행 중", "#4CAF50");
-            } else {
-              updateThemeStatus("테마 로드 실패", "#f44336");
-            }
-          }, 1000);
-        }
-      }
-
-      // 테마 중지
-      function stopTheme() {
-        if (window.spaceDolphinThemeControls) {
-          window.spaceDolphinThemeControls.stop();
-          updateThemeStatus("중지됨", "#f44336");
-        }
-      }
-
-      // 테마 토글
-      function toggleTheme() {
-        if (window.spaceDolphinThemeControls) {
-          window.spaceDolphinThemeControls.toggle();
-          const isRunning =
-            window.spaceDolphinTheme && window.spaceDolphinTheme.isInitialized;
-          updateThemeStatus(
-            isRunning ? "실행 중" : "중지됨",
-            isRunning ? "#4CAF50" : "#f44336"
-          );
-        }
-      }
-
-      // 페이지 로드 후 자동으로 테마 시작
-      window.addEventListener("load", () => {
-        setTimeout(() => {
-          startTheme();
-        }, 2000); // 2초 후 자동 시작
-      });
-
-      // 테마 상태 모니터링
-      setInterval(() => {
-        if (
-          window.spaceDolphinTheme &&
-          window.spaceDolphinTheme.isInitialized
-        ) {
-          updateThemeStatus("실행 중", "#4CAF50");
-        }
-      }, 5000);
+      // 데모 페이지 - 테마 기능은 _includes/head.html에서 처리됨
+      console.log("우주 돌고래 테마 데모 페이지 로드됨");
     </script>
   </body>
 </html>
