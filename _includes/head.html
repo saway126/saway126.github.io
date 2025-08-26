@@ -70,7 +70,7 @@
     href="{{ '/assets/css/jekyll-theme-chirpy.css' | relative_url }}"
   />
 
-  <!-- 우주 돌고래 파도 테마 CSS -->
+  <!-- 우주 돌고래 파도 테마 CSS - 캐시 무효화 버전 2025-08-26-14:15 -->
   {% include space-dolphin-theme.html %}
 
   <!-- 우주 돌고래 파도 테마 토글 시스템 -->
@@ -265,13 +265,19 @@
 
     // 초기화
     function initTheme() {
+      console.log("🚀 우주 돌고래 테마 초기화 시작...");
+      
       // 저장된 테마 상태에 따라 자동 적용
       if (loadThemeState()) {
+        console.log("🔄 저장된 테마 상태 복원 중...");
         enableTheme();
       }
 
       // 토글 버튼 생성
+      console.log("🔧 테마 토글 버튼 생성 중...");
       createThemeToggle();
+      
+      console.log("✅ 우주 돌고래 테마 초기화 완료!");
     }
 
     // DOM이 준비되면 실행
