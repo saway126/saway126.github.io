@@ -26,26 +26,29 @@
 
   {% if page.image %} {% assign src = page.image.path | default: page.image %}
   {% unless src contains '://' %} {%- capture img_url -%} {% include
-  media-url.html src=src subpath=page.media_subpath absolute=true %} {%-
-  endcapture -%} {%- capture old_url -%}{{ src | absolute_url }}{%- endcapture
-  -%} {%- capture new_url -%}{{ img_url }}{%- endcapture -%} {% assign seo_tags
-  = seo_tags | replace: old_url, new_url %} {% endunless %} {% elsif
+  media-url.html src=src subpath=page.media_subpath absolute=true %} {%- endcapture -%}
+  {%- capture old_url -%}{{ src | absolute_url }}{%- endcapture -%}
+  {%- capture new_url -%}{{ img_url }}{%- endcapture -%}
+  {% assign seo_tags = seo_tags | replace: old_url, new_url %}
+  {% endunless %} {% elsif
   site.social_preview_image %} {%- capture img_url -%} {% include media-url.html
-  src=site.social_preview_image absolute=true %} {%- endcapture -%} {%- capture
-  og_image -%}
+  src=site.social_preview_image absolute=true %} {%- endcapture -%}
+  {%- capture og_image -%}
   <meta property="og:image" content="{{ img_url }}" />
-  {%- endcapture -%} {%- capture twitter_image -%}
+  {%- endcapture -%}
+  {%- capture twitter_image -%}
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="twitter:image" content="{{ img_url }}" />
-  {%- endcapture -%} {% assign old_meta_clip = '
+  {%- endcapture -%}
+  {% assign old_meta_clip = '
   <meta name="twitter:card" content="summary" />
-  ' %} {% assign new_meta_clip = og_image | append: twitter_image %} {% assign
-  seo_tags = seo_tags | replace: old_meta_clip, new_meta_clip %} {% endif %} {{
-  seo_tags }}
+  ' %}
+  {% assign new_meta_clip = og_image | append: twitter_image %}
+  {% assign seo_tags = seo_tags | replace: old_meta_clip, new_meta_clip %}
+  {% endif %} {{ seo_tags }}
 
   <title>
-    {%- unless page.layout == 'home' -%} {{ page.title | append: ' | ' }} {%-
-    endunless -%} {{ site.title }}
+    {%- unless page.layout == 'home' -%} {{ page.title | append: ' | ' }} {%- endunless -%} {{ site.title }}
   </title>
 
   {% include_cached favicons.html %}
@@ -53,8 +56,7 @@
   <!-- Resource Hints -->
   {% unless site.assets.self_host.enabled %} {% for hint in
   site.data.origin.cors.resource_hints %} {% for link in hint.links %} <link
-  rel="{{ link.rel }}" href="{{ hint.url }}" {{ link.opts | join: ' ' }}> {%
-  endfor %} {% endfor %} {% endunless %}
+  rel="{{ link.rel }}" href="{{ hint.url }}" {{ link.opts | join: ' ' }}> {% endfor %} {% endfor %} {% endunless %}
 
   <!-- Bootstrap -->
   <link
@@ -73,7 +75,7 @@
     /* 우주 돌고래 파도 테마 - Chirpy 테마와 함께 작동 */
 
     /* ===== 기본 배경 - 테마 활성화 시에만 적용 ===== */
-    body.space-dolphin-theme-active {
+    html[data-mode='dark'] body.space-dolphin-theme-active {
       background: linear-gradient(
         135deg,
         #0a0a0a 0%,
@@ -86,92 +88,83 @@
       min-height: 100vh !important;
     }
 
-    /* ===== 기본 상태에서는 Chirpy 테마 유지 ===== */
-    body:not(.space-dolphin-theme-active) {
-      background: inherit !important;
-    }
-
     /* ===== 글래스모피즘 효과 - 테마 활성화 시에만 적용 ===== */
-    body.space-dolphin-theme-active .card,
-    body.space-dolphin-theme-active .post,
-    body.space-dolphin-theme-active .entry,
-    body.space-dolphin-theme-active .content,
-    body.space-dolphin-theme-active .access,
-    body.space-dolphin-theme-active .trending-tags,
-    body.space-dolphin-theme-active .update-list,
-    body.space-dolphin-theme-active article,
-    body.space-dolphin-theme-active .post-list,
-    body.space-dolphin-theme-active .post-item {
-      background: rgba(0, 0, 0, 1.0) !important;
-      backdrop-filter: blur(20px) !important;
-      -webkit-backdrop-filter: blur(20px) !important;
-      border: 2px solid rgba(255, 255, 255, 0.2) !important;
-      border-radius: 20px !important;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
-      transition: all 0.4s ease !important;
+    html[data-mode='dark'] body.space-dolphin-theme-active .card,
+    html[data-mode='dark'] body.space-dolphin-theme-active .post,
+    html[data-mode='dark'] body.space-dolphin-theme-active .entry,
+    html[data-mode='dark'] body.space-dolphin-theme-active .content,
+    html[data-mode='dark'] body.space-dolphin-theme-active .access,
+    html[data-mode='dark'] body.space-dolphin-theme-active .trending-tags,
+    html[data-mode='dark'] body.space-dolphin-theme-active .update-list,
+    html[data-mode='dark'] body.space-dolphin-theme-active article,
+    html[data-mode='dark'] body.space-dolphin-theme-active .post-list,
+    html[data-mode='dark'] body.space-dolphin-theme-active .post-item {
+      background: rgba(0, 0, 0, 0.7) !important;
+      backdrop-filter: blur(15px) !important;
+      -webkit-backdrop-filter: blur(15px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      border-radius: 15px !important;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4) !important;
+      transition: all 0.3s ease !important;
     }
 
     /* ===== 코드 블록 배경 투명 처리 ===== */
-    body.space-dolphin-theme-active .post pre,
-    body.space-dolphin-theme-active .post .highlight {
+    html[data-mode='dark'] body.space-dolphin-theme-active .post pre,
+    html[data-mode='dark'] body.space-dolphin-theme-active .post .highlight {
       background: transparent !important;
     }
 
     /* ===== 테이블 배경 투명 처리 ===== */
-    body.space-dolphin-theme-active .post table,
-    body.space-dolphin-theme-active .post table th,
-    body.space-dolphin-theme-active .post table td {
+    html[data-mode='dark'] body.space-dolphin-theme-active .post table,
+    html[data-mode='dark'] body.space-dolphin-theme-active .post table th,
+    html[data-mode='dark'] body.space-dolphin-theme-active .post table td {
       background: transparent !important;
       color: rgba(255, 255, 255, 0.9) !important;
     }
 
     /* ===== 텍스트 색상 - 테마 활성화 시에만 적용 ===== */
-    body.space-dolphin-theme-active .card,
-    body.space-dolphin-theme-active .post,
-    body.space-dolphin-theme-active .entry,
-    body.space-dolphin-theme-active .content,
-    body.space-dolphin-theme-active .access,
-    body.space-dolphin-theme-active .trending-tags,
-    body.space-dolphin-theme-active .update-list,
-    body.space-dolphin-theme-active article,
-    body.space-dolphin-theme-active .post-list,
-    body.space-dolphin-theme-active .post-item {
+    html[data-mode='dark'] body.space-dolphin-theme-active .card,
+    html[data-mode='dark'] body.space-dolphin-theme-active .post,
+    html[data-mode='dark'] body.space-dolphin-theme-active .entry,
+    html[data-mode='dark'] body.space-dolphin-theme-active .content,
+    html[data-mode='dark'] body.space-dolphin-theme-active .access,
+    html[data-mode='dark'] body.space-dolphin-theme-active .trending-tags,
+    html[data-mode='dark'] body.space-dolphin-theme-active .update-list,
+    html[data-mode='dark'] body.space-dolphin-theme-active article,
+    html[data-mode='dark'] body.space-dolphin-theme-active .post-list,
+    html[data-mode='dark'] body.space-dolphin-theme-active .post-item {
       color: rgba(255, 255, 255, 0.9) !important;
     }
 
-    body.space-dolphin-theme-active .card h1,
-    body.space-dolphin-theme-active .card h2,
-    body.space-dolphin-theme-active .card h3,
-    body.space-dolphin-theme-active .card h4,
-    body.space-dolphin-theme-active .card h5,
-    body.space-dolphin-theme-active .card h6,
-    body.space-dolphin-theme-active .post h1,
-    body.space-dolphin-theme-active .post h2,
-    body.space-dolphin-theme-active .post h3,
-    body.space-dolphin-theme-active .post h4,
-    body.space-dolphin-theme-active .post h5,
-    body.space-dolphin-theme-active .post h6,
-    body.space-dolphin-theme-active article h1,
-    body.space-dolphin-theme-active article h2,
-    body.space-dolphin-theme-active article h3,
-    body.space-dolphin-theme-active article h4,
-    body.space-dolphin-theme-active article h5,
-    body.space-dolphin-theme-active article h6 {
+    html[data-mode='dark'] body.space-dolphin-theme-active h1,
+    html[data-mode='dark'] body.space-dolphin-theme-active h2,
+    html[data-mode='dark'] body.space-dolphin-theme-active h3,
+    html[data-mode='dark'] body.space-dolphin-theme-active h4,
+    html[data-mode='dark'] body.space-dolphin-theme-active h5,
+    html[data-mode='dark'] body.space-dolphin-theme-active h6 {
       color: rgba(255, 255, 255, 0.95) !important;
     }
 
-    body.space-dolphin-theme-active .card a,
-    body.space-dolphin-theme-active .post a,
-    body.space-dolphin-theme-active article a {
+    html[data-mode='dark'] body.space-dolphin-theme-active a {
       color: rgba(74, 144, 226, 0.9) !important;
       text-decoration: none !important;
     }
 
-    body.space-dolphin-theme-active .card a:hover,
-    body.space-dolphin-theme-active .post a:hover,
-    body.space-dolphin-theme-active article a:hover {
+    html[data-mode='dark'] body.space-dolphin-theme-active a:hover {
       color: #4a90e2 !important;
       text-decoration: underline !important;
+    }
+    
+    /* 사이드바 */
+    html[data-mode='dark'] body.space-dolphin-theme-active #sidebar,
+    html[data-mode='dark'] body.space-dolphin-theme-active .sidebar,
+    html[data-mode='dark'] body.space-dolphin-theme-active .side-panel,
+    html[data-mode='dark'] body.space-dolphin-theme-active .aside {
+      background: rgba(0, 0, 0, 0.4) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      border-radius: 20px !important;
     }
 
     /* ===== 우주 배경 요소 - 테마 활성화 시에만 표시 ===== */
@@ -186,7 +179,7 @@
       pointer-events: none !important;
     }
 
-    body.space-dolphin-theme-active .space-dolphin-background {
+    html[data-mode='dark'] body.space-dolphin-theme-active .space-dolphin-background {
       display: block !important;
     }
 
@@ -260,119 +253,6 @@
       opacity: 0.5 !important;
     }
 
-    
-
-    /* ===== 기본 상태에서는 Chirpy 테마 스타일 완전 복원 ===== */
-    body:not(.space-dolphin-theme-active) .card,
-    body:not(.space-dolphin-theme-active) .post,
-    body:not(.space-dolphin-theme-active) .entry,
-    body:not(.space-dolphin-theme-active) .content,
-    body:not(.space-dolphin-theme-active) .access,
-    body:not(.space-dolphin-theme-active) .trending-tags,
-    body:not(.space-dolphin-theme-active) .update-list,
-    body:not(.space-dolphin-theme-active) article,
-    body:not(.space-dolphin-theme-active) .post-list,
-    body:not(.space-dolphin-theme-active) .post-item {
-      background: #fff !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      border: 1px solid #dee2e6 !important;
-      border-radius: 0.375rem !important;
-      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-      color: #212529 !important;
-    }
-
-    /* 기본 상태에서 텍스트 색상 복원 */
-    body:not(.space-dolphin-theme-active) .card h1,
-    body:not(.space-dolphin-theme-active) .card h2,
-    body:not(.space-dolphin-theme-active) .card h3,
-    body:not(.space-dolphin-theme-active) .card h4,
-    body:not(.space-dolphin-theme-active) .card h5,
-    body:not(.space-dolphin-theme-active) .card h6,
-    body:not(.space-dolphin-theme-active) .post h1,
-    body:not(.space-dolphin-theme-active) .post h2,
-    body:not(.space-dolphin-theme-active) .post h3,
-    body:not(.space-dolphin-theme-active) .post h4,
-    body:not(.space-dolphin-theme-active) .post h5,
-    body:not(.space-dolphin-theme-active) .post h6,
-    body:not(.space-dolphin-theme-active) article h1,
-    body:not(.space-dolphin-theme-active) article h2,
-    body:not(.space-dolphin-theme-active) article h3,
-    body:not(.space-dolphin-theme-active) article h4,
-    body:not(.space-dolphin-theme-active) article h5,
-    body:not(.space-dolphin-theme-active) article h6 {
-      color: var(--bs-heading-color, #212529) !important;
-    }
-
-    body:not(.space-dolphin-theme-active) .card a,
-    body:not(.space-dolphin-theme-active) .post a,
-    body:not(.space-dolphin-theme-active) article a {
-      color: var(--bs-link-color, #0d6efd) !important;
-      text-decoration: var(--bs-link-decoration, underline) !important;
-    }
-
-    /* 사이드바 */
-    body.space-dolphin-theme-active #sidebar,
-    body.space-dolphin-theme-active .sidebar,
-    body.space-dolphin-theme-active .side-panel,
-    body.space-dolphin-theme-active .aside {
-      background: rgba(0, 0, 0, 0.4) !important;
-      backdrop-filter: blur(20px) !important;
-      -webkit-backdrop-filter: blur(20px) !important;
-      border: 1px solid rgba(255, 255, 255, 0.3) !important;
-      border-radius: 20px !important;
-    }
-
-    /* ===== 텍스트 색상 - 테마 활성화 시에만 적용 ===== */
-    body.space-dolphin-theme-active .card,
-    body.space-dolphin-theme-active .post,
-    body.space-dolphin-theme-active .entry,
-    body.space-dolphin-theme-active .content,
-    body.space-dolphin-theme-active .access,
-    body.space-dolphin-theme-active .trending-tags,
-    body.space-dolphin-theme-active .update-list,
-    body.space-dolphin-theme-active article,
-    body.space-dolphin-theme-active .post-list,
-    body.space-dolphin-theme-active .post-item {
-      color: rgba(255, 255, 255, 0.9) !important;
-    }
-
-    body.space-dolphin-theme-active .card h1,
-    body.space-dolphin-theme-active .card h2,
-    body.space-dolphin-theme-active .card h3,
-    body.space-dolphin-theme-active .card h4,
-    body.space-dolphin-theme-active .card h5,
-    body.space-dolphin-theme-active .card h6,
-    body.space-dolphin-theme-active .post h1,
-    body.space-dolphin-theme-active .post h2,
-    body.space-dolphin-theme-active .post h3,
-    body.space-dolphin-theme-active .post h4,
-    body.space-dolphin-theme-active .post h5,
-    body.space-dolphin-theme-active .post h6,
-    body.space-dolphin-theme-active article h1,
-    body.space-dolphin-theme-active article h2,
-    body.space-dolphin-theme-active article h3,
-    body.space-dolphin-theme-active article h4,
-    body.space-dolphin-theme-active article h5,
-    body.space-dolphin-theme-active article h6 {
-      color: rgba(255, 255, 255, 0.95) !important;
-    }
-
-    body.space-dolphin-theme-active .card a,
-    body.space-dolphin-theme-active .post a,
-    body.space-dolphin-theme-active article a {
-      color: rgba(74, 144, 226, 0.9) !important;
-      text-decoration: none !important;
-    }
-
-    body.space-dolphin-theme-active .card a:hover,
-    body.space-dolphin-theme-active .post a:hover,
-    body.space-dolphin-theme-active article a:hover {
-      color: #4a90e2 !important;
-      text-decoration: underline !important;
-    }
-
-    /* ===== 애니메이션 ===== */
     @keyframes twinkle {
       0%,
       100% {
@@ -390,13 +270,6 @@
       }
       50% {
         transform: translateX(-50%);
-      }
-    }
-
-    /* ===== 반응형 ===== */
-    @media (max-width: 768px) {
-      .space-dolphin-background .stars {
-        background-size: 150px 75px;
       }
     }
   </style>
@@ -420,125 +293,71 @@
 
     // 테마 토글 버튼 생성
     function createThemeToggle() {
-      // 기존 토글 버튼 제거
       const existingToggle = document.getElementById("theme-toggle");
       if (existingToggle) existingToggle.remove();
 
       const toggle = document.createElement("div");
       toggle.id = "theme-toggle";
-      toggle.innerHTML = `
-        <button id="theme-toggle-btn" class="btn btn-outline-primary btn-sm" title="우주 돌고래 테마 토글">
-          <i class="fas fa-moon"></i> <span id="theme-toggle-text">테마 ON</span>
-        </button>
-      `;
-
-      // 스타일 적용
-      toggle.style.cssText = `
-        position: fixed !important;
-        top: 20px !important;
-        right: 20px !important;
-        z-index: 999999 !important;
-        background: rgba(0, 0, 0, 0.9) !important;
-        padding: 12px 16px !important;
-        border-radius: 25px !important;
-        backdrop-filter: blur(15px) !important;
-        border: 2px solid rgba(255, 255, 255, 0.3) !important;
-        color: white !important;
-        font-weight: bold !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
-        cursor: pointer !important;
-      `;
-
+      toggle.innerHTML = `<button id="theme-toggle-btn" class="btn btn-outline-primary btn-sm" title="우주 돌고래 테마 토글"><i class="fas fa-moon"></i> <span id="theme-toggle-text">테마 ON</span></button>`;
+      toggle.style.cssText = `position: fixed !important; top: 20px !important; right: 20px !important; z-index: 999999 !important; background: rgba(0, 0, 0, 0.9) !important; padding: 12px 16px !important; border-radius: 25px !important; backdrop-filter: blur(15px) !important; border: 2px solid rgba(255, 255, 255, 0.3) !important; color: white !important; font-weight: bold !important; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important; cursor: pointer !important;`;
       document.body.appendChild(toggle);
 
-      // 클릭 이벤트
       const btn = document.getElementById("theme-toggle-btn");
       if (btn) {
         btn.addEventListener("click", function () {
-          // 상태를 먼저 토글
           isThemeActive = !isThemeActive;
           saveThemeState();
-          
-          // UI 업데이트
           updateUI();
         });
       }
-
-      updateToggleButton(); // 초기 버튼 상태 설정
+      updateToggleButton();
     }
 
-    // 토글 버튼 상태 업데이트
     function updateToggleButton() {
       const btn = document.getElementById("theme-toggle-btn");
       if (!btn) return;
-
       if (isThemeActive) {
         btn.className = "btn btn-success btn-sm";
-        btn.innerHTML =
-          '<i class="fas fa-sun"></i> <span id="theme-toggle-text">테마 OFF</span>';
+        btn.innerHTML = '<i class="fas fa-sun"></i> <span id="theme-toggle-text">테마 OFF</span>';
       } else {
         btn.className = "btn btn-outline-primary btn-sm";
-        btn.innerHTML =
-          '<i class="fas fa-moon"></i> <span id="theme-toggle-text">테마 ON</span>';
+        btn.innerHTML = '<i class="fas fa-moon"></i> <span id="theme-toggle-text">테마 ON</span>';
       }
     }
 
-    // 테마 UI 업데이트 (활성화/비활성화 모두 처리)
     function updateUI() {
       updateToggleButton();
       if (isThemeActive) {
+        document.documentElement.setAttribute('data-mode', 'dark');
         document.body.classList.add("space-dolphin-theme-active");
         createSpaceBackground();
       } else {
+        document.documentElement.removeAttribute('data-mode');
         document.body.classList.remove("space-dolphin-theme-active");
         removeSpaceBackground();
       }
     }
 
-    // 우주 배경 요소 생성
     function createSpaceBackground() {
-      // 기존 배경이 있다면 생성하지 않음
       if (document.querySelector(".space-dolphin-background")) return;
-
       const background = document.createElement("div");
       background.className = "space-dolphin-background";
-      background.innerHTML = `
-        <div class="stars"></div>
-        <div class="nebula"></div>
-        <div class="waves">
-          <div class="wave"></div>
-          <div class="wave"></div>
-          <div class="wave"></div>
-        </div>
-      `;
-
+      background.innerHTML = `<div class="stars"></div><div class="nebula"></div><div class="waves"><div class="wave"></div><div class="wave"></div><div class="wave"></div></div>`;
       document.body.appendChild(background);
     }
 
-    // 우주 배경 요소 제거
     function removeSpaceBackground() {
       const existing = document.querySelector(".space-dolphin-background");
-      if (existing) {
-        existing.remove();
-      }
+      if (existing) existing.remove();
     }
 
-    // 초기화
     function initTheme() {
-      console.log("🚀 우주 돌고래 테마 초기화 시작...");
-      
-      // 토글 버튼 생성
       createThemeToggle();
-
-      // 저장된 테마 상태에 따라 UI 업데이트
       if (loadThemeState()) {
         updateUI();
       }
-      
-      console.log("✅ 우주 돌고래 테마 초기화 완료!");
     }
 
-    // DOM이 준비되면 실행
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", initTheme);
     } else {
@@ -597,9 +416,13 @@
   {% endif %}
 
   <!-- Web Analytics -->
-  {% for analytics in site.analytics %} {% capture str %}{{ analytics }}{%
-  endcapture %} {% assign platform = str | split: '{' | first %} {% if
-  site.analytics[platform].id and site.analytics[platform].id != empty %} {%
-  include analytics/{{ platform }}.html %} {% endif %} {% endfor %} {% endif %}
+  {% for analytics in site.analytics %} {% capture str %}{{ analytics }}{% endcapture %}
+  {% assign platform = str | split: '{' | first %}
+  {% if
+  site.analytics[platform].id and site.analytics[platform].id != empty %}
+  {% include analytics/{{ platform }}.html %}
+  {% endif %}
+  {% endfor %}
+  {% endif %}
   {% include metadata-hook.html %}
 </head>
