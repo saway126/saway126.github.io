@@ -2,10 +2,11 @@
 <style>
   /* 우주 돌고래 파도 테마 - Chirpy 테마와 함께 작동 */
   
-  /* ===== 기본 배경 ===== */
-  html, body {
+  /* ===== 기본 배경 - 최고 우선순위 ===== */
+  html, body, html *, body * {
     background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
     background-attachment: fixed !important;
+    background-image: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
     min-height: 100vh !important;
   }
 
@@ -86,8 +87,10 @@
     animation: dolphin-swim 8s ease-in-out infinite !important;
   }
 
-  /* ===== 글래스모피즘 효과 ===== */
-  .card, .post, .entry, .content, .access, .trending-tags, .update-list {
+  /* ===== 글래스모피즘 효과 - 최고 우선순위 ===== */
+  .card, .post, .entry, .content, .access, .trending-tags, .update-list,
+  #main-wrapper .card, #main-wrapper .post, #main-wrapper .entry, #main-wrapper .content,
+  .main .card, .main .post, .main .entry, .main .content {
     background: rgba(255, 255, 255, 0.15) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
@@ -98,8 +101,9 @@
     color: rgba(255, 255, 255, 0.9) !important;
   }
 
-  /* 사이드바 */
-  #sidebar, .sidebar, .side-panel, .aside {
+  /* 사이드바 - 최고 우선순위 */
+  #sidebar, .sidebar, .side-panel, .aside,
+  aside#sidebar, aside.sidebar {
     background: rgba(0, 0, 0, 0.4) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
@@ -107,8 +111,9 @@
     border-radius: 20px !important;
   }
 
-  /* 패널 */
-  #panel-wrapper, .panel {
+  /* 패널 - 최고 우선순위 */
+  #panel-wrapper, .panel,
+  .panel-wrapper, .panel-content {
     background: rgba(0, 0, 0, 0.3) !important;
     backdrop-filter: blur(18px) !important;
     -webkit-backdrop-filter: blur(18px) !important;
@@ -116,27 +121,30 @@
     border-radius: 18px !important;
   }
 
-  /* ===== 텍스트 색상 ===== */
-  body, p, li, span, div {
+  /* ===== 텍스트 색상 - 최고 우선순위 ===== */
+  body, p, li, span, div, h1, h2, h3, h4, h5, h6,
+  #main-wrapper *, .main * {
     color: rgba(255, 255, 255, 0.9) !important;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1, h2, h3, h4, h5, h6,
+  #main-wrapper h1, #main-wrapper h2, #main-wrapper h3, #main-wrapper h4, #main-wrapper h5, #main-wrapper h6 {
     color: rgba(255, 255, 255, 0.95) !important;
   }
 
-  a {
+  a, #main-wrapper a, .main a {
     color: rgba(74, 144, 226, 0.9) !important;
     text-decoration: none !important;
   }
 
-  a:hover {
+  a:hover, #main-wrapper a:hover, .main a:hover {
     color: #4a90e2 !important;
     text-decoration: underline !important;
   }
 
-  /* ===== 특정 섹션 강화 ===== */
-  .trending-tags .tag, .trending-tags .badge, .trending-tags a {
+  /* ===== 특정 섹션 강화 - 최고 우선순위 ===== */
+  .trending-tags .tag, .trending-tags .badge, .trending-tags a,
+  .trending-tags .tag *, .trending-tags .badge *, .trending-tags a * {
     background: rgba(255, 255, 255, 0.15) !important;
     backdrop-filter: blur(15px) !important;
     -webkit-backdrop-filter: blur(15px) !important;
@@ -149,15 +157,17 @@
     transition: all 0.3s ease !important;
   }
 
-  .trending-tags .tag:hover, .trending-tags .badge:hover, .trending-tags a:hover {
+  .trending-tags .tag:hover, .trending-tags .badge:hover, .trending-tags a:hover,
+  .trending-tags .tag:hover *, .trending-tags .badge:hover *, .trending-tags a:hover * {
     background: rgba(74, 144, 226, 0.3) !important;
     border-color: rgba(74, 144, 226, 0.6) !important;
     transform: translateY(-2px) !important;
     box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4) !important;
   }
 
-  /* 페이지네이션 */
-  .pagination, .pagination .page-item, .pagination .page-link {
+  /* 페이지네이션 - 최고 우선순위 */
+  .pagination, .pagination .page-item, .pagination .page-link,
+  .pagination *, .pagination .page-item *, .pagination .page-link * {
     background: rgba(255, 255, 255, 0.1) !important;
     backdrop-filter: blur(15px) !important;
     -webkit-backdrop-filter: blur(15px) !important;
@@ -166,8 +176,8 @@
     color: rgba(255, 255, 255, 0.9) !important;
   }
 
-  /* 푸터 */
-  footer, .footer {
+  /* 푸터 - 최고 우선순위 */
+  footer, .footer, footer *, .footer * {
     background: rgba(0, 0, 0, 0.3) !important;
     backdrop-filter: blur(15px) !important;
     -webkit-backdrop-filter: blur(15px) !important;

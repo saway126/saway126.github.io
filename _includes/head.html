@@ -117,8 +117,8 @@
 
   <!-- 우주 돌고래 파도 테마 스크립트 -->
   <script>
-    // 간단한 우주 돌고래 파도 테마 시스템
-    console.log("🌌 우주 돌고래 파도 테마 시스템 시작...");
+    // 즉시 실행되는 우주 돌고래 파도 테마 시스템
+    console.log("🌌 우주 돌고래 파도 테마 시스템 즉시 시작...");
 
     // 테마 상태 관리
     let isThemeActive = false;
@@ -259,19 +259,44 @@
       console.log("✅ 우주 배경 생성 완료");
     }
 
-    // 페이지 로드 완료 후 초기화
+    // 즉시 실행
+    function initTheme() {
+      console.log("🚀 테마 시스템 즉시 초기화...");
+
+      // 저장된 테마 상태에 따라 자동 적용
+      if (loadThemeState()) {
+        console.log("🔄 저장된 테마 상태 복원 중...");
+        enableTheme();
+      }
+
+      // 토글 버튼 생성
+      createThemeToggle();
+    }
+
+    // DOM이 준비되면 즉시 실행
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initTheme);
+    } else {
+      // DOM이 이미 로드된 경우 즉시 실행
+      initTheme();
+    }
+
+    // 추가로 페이지 로드 완료 후에도 실행 (안전장치)
     window.addEventListener("load", function () {
-      console.log("🌌 페이지 로드 완료! 테마 시스템 초기화...");
+      console.log("🌌 페이지 로드 완료! 테마 시스템 추가 초기화...");
 
-      setTimeout(() => {
+      // 토글 버튼이 없다면 재생성
+      if (!document.getElementById("theme-toggle")) {
         createThemeToggle();
+      }
 
-        // 저장된 테마 상태에 따라 자동 적용
-        if (loadThemeState()) {
-          console.log("🔄 저장된 테마 상태 복원 중...");
-          setTimeout(enableTheme, 500);
-        }
-      }, 1000);
+      // 테마가 활성화되어 있다면 배경 확인
+      if (
+        isThemeActive &&
+        !document.querySelector(".space-simple-background")
+      ) {
+        createSpaceBackground();
+      }
     });
 
     console.log("✅ 우주 돌고래 파도 테마 스크립트 로드 완료!");
