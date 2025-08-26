@@ -73,7 +73,7 @@
   <!-- 우주 돌고래 파도 테마 CSS -->
   <link
     rel="stylesheet"
-    href="{{ '/assets/css/space-dolphin-wave-theme.css' | relative_url }}"
+    href="{{ '/assets/css/space-dolphin-wave-theme.css' | absolute_url }}"
   />
 
   <!-- Web Font -->
@@ -244,6 +244,17 @@
         setTimeout(() => {
           verifyToggleButton();
         }, 1000);
+      }
+    }
+
+    // 토글 버튼 검증 함수 (배포 환경용)
+    function verifyToggleButton() {
+      const btn = document.getElementById("theme-toggle-btn");
+      if (btn && !btn.isConnected) {
+        console.log("⚠️ 토글 버튼이 DOM에서 제거됨, 재생성...");
+        createThemeToggle();
+      } else if (btn) {
+        console.log("✅ 토글 버튼 검증 완료");
       }
     }
 
@@ -624,6 +635,71 @@
     }
 
     console.log("✅ 우주 돌고래 파도 테마 스크립트 로드 완료!");
+
+    // 배포 환경에서 더 안정적인 실행을 위한 추가 처리
+    if (isProduction) {
+      // CSS 강제 로드 확인 및 주입
+      setTimeout(() => {
+        const themeCSS = document.querySelector(
+          'link[href*="space-dolphin-wave-theme.css"]'
+        );
+        if (!themeCSS || !themeCSS.sheet) {
+          console.log("⚠️ 테마 CSS 로드 실패, JavaScript로 강제 주입...");
+          injectThemeCSS();
+        }
+      }, 1000);
+
+      // DOM이 완전히 로드된 후 실행
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function () {
+          console.log("🌍 DOM 로드 완료 - 테마 시스템 초기화...");
+          setTimeout(() => {
+            if (isSpaceDolphinThemeActive) {
+              applySpaceDolphinTheme();
+            }
+          }, 2000); // 2초 후 실행
+        });
+      } else {
+        // DOM이 이미 로드된 경우
+        setTimeout(() => {
+          if (isSpaceDolphinThemeActive) {
+            applySpaceDolphinTheme();
+          }
+        }, 2000);
+      }
+    }
+
+    // CSS 강제 주입 함수
+    function injectThemeCSS() {
+      const cssContent = `
+        /* 우주 돌고래 파도 테마 - 강제 주입 */
+        html, body {
+          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
+          background-attachment: fixed !important;
+          min-height: 100vh !important;
+        }
+
+        .card, .post, .entry, .content, .access, .trending-tags {
+          background: rgba(255, 255, 255, 0.15) !important;
+          backdrop-filter: blur(20px) !important;
+          -webkit-backdrop-filter: blur(20px) !important;
+          border: 2px solid rgba(255, 255, 255, 0.4) !important;
+          border-radius: 20px !important;
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        #sidebar, .sidebar {
+          background: rgba(0, 0, 0, 0.4) !important;
+          backdrop-filter: blur(20px) !important;
+          -webkit-backdrop-filter: blur(20px) !important;
+        }
+      `;
+
+      const style = document.createElement("style");
+      style.textContent = cssContent;
+      document.head.appendChild(style);
+      console.log("✅ 테마 CSS 강제 주입 완료");
+    }
   </script>
 
   {% if jekyll.environment == 'production' %}
