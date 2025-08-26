@@ -164,8 +164,8 @@
         </button>
       `;
 
-      // 스타일 적용 - 강제로 우측 상단에 고정
-      toggle.style.cssText = `
+      // 스타일 적용 - 강제로 우측 상단에 고정 (배포 환경 대응)
+      const toggleStyles = `
         position: fixed !important;
         top: 20px !important;
         right: 20px !important;
@@ -174,6 +174,7 @@
         padding: 12px 16px !important;
         border-radius: 25px !important;
         backdrop-filter: blur(15px) !important;
+        -webkit-backdrop-filter: blur(15px) !important;
         border: 2px solid rgba(255, 255, 255, 0.3) !important;
         color: white !important;
         font-weight: bold !important;
@@ -183,10 +184,35 @@
         transform: none !important;
         bottom: auto !important;
         left: auto !important;
+        width: auto !important;
+        height: auto !important;
+        min-width: 120px !important;
+        min-height: 40px !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
       `;
 
+      // 여러 방법으로 스타일 적용
+      toggle.setAttribute("style", toggleStyles);
+      toggle.style.cssText = toggleStyles;
+
+      // body에 추가
       document.body.appendChild(toggle);
       console.log("✅ 테마 토글 버튼 DOM에 추가 완료");
+
+      // 추가 검증 및 강화
+      setTimeout(() => {
+        const addedToggle = document.getElementById("theme-toggle");
+        if (addedToggle) {
+          // 스타일 재확인 및 강화
+          addedToggle.style.cssText = toggleStyles;
+          console.log("✅ 테마 토글 버튼 스타일 강화 완료");
+        } else {
+          console.error("❌ 테마 토글 버튼을 찾을 수 없습니다!");
+        }
+      }, 100);
 
       // 버튼 클릭 이벤트
       const btn = document.getElementById("theme-toggle-btn");
@@ -212,6 +238,13 @@
       // 초기 상태 설정
       updateToggleButton();
       console.log("✅ 테마 토글 버튼 생성 완료!");
+
+      // 배포 환경에서는 추가 검증
+      if (isProduction) {
+        setTimeout(() => {
+          verifyToggleButton();
+        }, 1000);
+      }
     }
 
     // 토글 버튼 상태 업데이트
@@ -263,18 +296,26 @@
         console.log("🗑️ 우주 배경 요소 제거 완료");
       }
 
-      // 강제로 Chirpy 테마 기본 스타일 복원
-      document.body.style.cssText = `
+      // 강제로 Chirpy 테마 기본 스타일 복원 (배포 환경 대응)
+      const defaultBodyStyles = `
         background: #1b1b1e !important;
         background-image: none !important;
         background-color: #1b1b1e !important;
+        min-height: 100vh !important;
       `;
 
-      document.documentElement.style.cssText = `
+      const defaultHtmlStyles = `
         background: #1b1b1e !important;
         background-image: none !important;
         background-color: #1b1b1e !important;
+        min-height: 100vh !important;
       `;
+
+      // 여러 방법으로 스타일 복원
+      document.body.setAttribute("style", defaultBodyStyles);
+      document.documentElement.setAttribute("style", defaultHtmlStyles);
+      document.body.style.cssText = defaultBodyStyles;
+      document.documentElement.style.cssText = defaultHtmlStyles;
 
       // 글래스모피즘 효과 완전 제거하고 Chirpy 기본 스타일 적용
       const cards = document.querySelectorAll(".card, .post, .entry, .content");
@@ -321,21 +362,87 @@
         }
       });
 
+      // 모든 글래스모피즘 효과 제거
+      const allElements = document.querySelectorAll("*");
+      allElements.forEach((element) => {
+        if (
+          element.style.backdropFilter ||
+          element.style.webkitBackdropFilter
+        ) {
+          element.style.removeProperty("backdrop-filter");
+          element.style.removeProperty("-webkit-backdrop-filter");
+          element.style.removeProperty("background");
+          element.style.removeProperty("border");
+          element.style.removeProperty("border-radius");
+          element.style.removeProperty("box-shadow");
+        }
+      });
+
       console.log("✅ 테마 OFF 완료! 검정색 Chirpy 기본 테마로 완벽 복원됨");
+
+      // 배포 환경에서는 추가 검증
+      if (isProduction) {
+        setTimeout(() => {
+          verifyThemeRemoval();
+        }, 500);
+      }
+    }
+
+    // 테마 제거 검증 함수 (배포 환경용)
+    function verifyThemeRemoval() {
+      console.log("🔍 테마 제거 상태 검증...");
+
+      const bodyBg = window.getComputedStyle(document.body).background;
+      const htmlBg = window.getComputedStyle(
+        document.documentElement
+      ).background;
+
+      console.log("📊 body 배경:", bodyBg);
+      console.log("📊 html 배경:", htmlBg);
+
+      // 배경이 제대로 복원되지 않았다면 강제 복원
+      if (bodyBg.includes("gradient") || htmlBg.includes("gradient")) {
+        console.log("⚠️ 배경이 제대로 복원되지 않음. 강제 복원 시도...");
+        document.body.style.cssText = `
+          background: #1b1b1e !important;
+          background-image: none !important;
+          background-color: #1b1b1e !important;
+          min-height: 100vh !important;
+        `;
+        document.documentElement.style.cssText = `
+          background: #1b1b1e !important;
+          background-image: none !important;
+          background-color: #1b1b1e !important;
+          min-height: 100vh !important;
+        `;
+      }
     }
 
     // 우주 돌고래 파도 테마 적용
     console.log("🌌 우주 돌고래 파도 테마 시스템 시작...");
 
+    // 배포 환경 감지 및 디버깅
+    const isProduction =
+      window.location.hostname !== "localhost" &&
+      window.location.hostname !== "127.0.0.1";
+    console.log("🌍 환경:", isProduction ? "배포 환경" : "로컬 환경");
+
     // 페이지 로드 완료 후 초기화
     window.addEventListener("load", function () {
       console.log("🌌 페이지 로드 완료! 테마 시스템 초기화...");
-      createThemeToggle();
 
-      // 저장된 테마 상태에 따라 자동 적용
-      if (loadThemeState()) {
-        setTimeout(enableSpaceDolphinTheme, 1000);
-      }
+      // 배포 환경에서는 약간의 지연을 두고 초기화
+      const initDelay = isProduction ? 2000 : 1000;
+
+      setTimeout(() => {
+        createThemeToggle();
+
+        // 저장된 테마 상태에 따라 자동 적용
+        if (loadThemeState()) {
+          console.log("🔄 저장된 테마 상태 복원 중...");
+          setTimeout(enableSpaceDolphinTheme, 500);
+        }
+      }, initDelay);
     });
 
     // DOMContentLoaded 이벤트는 제거 (중복 방지)
@@ -371,294 +478,149 @@
         document.body.appendChild(background);
         console.log("✅ 우주 돌고래 파도 테마 생성 완료!");
 
-        // CSS 스타일 강제 적용 - 우주 테마 완벽 적용
-        document.body.style.cssText = `
+        // CSS 스타일 강제 적용 - 우주 테마 완벽 적용 (배포 환경 대응)
+        const bodyStyles = `
           background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
           background-attachment: fixed !important;
           background-image: none !important;
           background-color: transparent !important;
+          min-height: 100vh !important;
         `;
 
-        document.documentElement.style.cssText = `
+        const htmlStyles = `
           background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
           background-attachment: fixed !important;
           background-image: none !important;
           background-color: transparent !important;
+          min-height: 100vh !important;
         `;
+
+        // 강제로 스타일 적용
+        document.body.setAttribute("style", bodyStyles);
+        document.documentElement.setAttribute("style", htmlStyles);
+
+        // 추가로 CSS 속성 직접 설정
+        document.body.style.cssText = bodyStyles;
+        document.documentElement.style.cssText = htmlStyles;
 
         // chirpy 테마 요소들에 글래스모피즘 효과 적용
         applyGlassmorphismEffects();
 
         console.log("✅ 테마 ON 완료! 푸르스름한 우주 테마 완벽 적용됨");
+
+        // 배포 환경에서는 추가 검증
+        if (isProduction) {
+          setTimeout(() => {
+            console.log("🔍 배포 환경 테마 검증 중...");
+            verifyThemeApplication();
+          }, 1000);
+        }
       } catch (error) {
         console.error("❌ 테마 적용 중 오류 발생:", error);
+        // 오류 발생 시 기본 테마로 복원 시도
+        setTimeout(() => {
+          console.log("🔄 오류 복구 시도...");
+          disableSpaceDolphinTheme();
+        }, 1000);
+      }
+    }
+
+    // 테마 적용 검증 함수 (배포 환경용)
+    function verifyThemeApplication() {
+      console.log("🔍 테마 적용 상태 검증...");
+
+      const bodyBg = window.getComputedStyle(document.body).background;
+      const htmlBg = window.getComputedStyle(
+        document.documentElement
+      ).background;
+
+      console.log("📊 body 배경:", bodyBg);
+      console.log("📊 html 배경:", htmlBg);
+
+      // 배경이 제대로 적용되지 않았다면 강제 재적용
+      if (!bodyBg.includes("gradient") && !htmlBg.includes("gradient")) {
+        console.log("⚠️ 배경이 제대로 적용되지 않음. 강제 재적용 시도...");
+        document.body.style.cssText = `
+          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
+          background-attachment: fixed !important;
+          background-image: none !important;
+          background-color: transparent !important;
+          min-height: 100vh !important;
+        `;
+        document.documentElement.style.cssText = `
+          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
+          background-attachment: fixed !important;
+          background-image: none !important;
+          background-color: transparent !important;
+          min-height: 100vh !important;
+        `;
       }
     }
 
     function applyGlassmorphismEffects() {
       console.log("✨ 글래스모피즘 효과 적용 시작...");
 
-      // 블로그 카드들에 글래스모피즘 효과 추가 (강제 적용)
-      const cards = document.querySelectorAll(
-        ".card, .post, .entry, .content, .card-wrapper, .access, .trending-tags, .post-list, .post-item, .post-card, .post-wrapper, .post-content, .post-meta, .post-title, .post-excerpt, .post-categories, .post-tags, .post-date, .post-author, .post-summary, .post-header, .post-body, .post-footer, .post-nav, .post-pagination, .post-related, .post-comments, .post-sharing, .post-toc, .post-reading-time, .post-updated, .post-published, .post-modified, .post-created, .post-archived, .post-draft, .post-published, .post-unpublished, .post-public, .post-private, .post-protected, .post-secret, .post-hidden, .post-visible, .post-active, .post-inactive, .post-enabled, .post-disabled, .post-on, .post-off, .post-yes, .post-no, .post-true, .post-false, .post-1, .post-2, .post-3, .post-4, .post-5, .post-6, .post-7, .post-8, .post-9, .post-10"
-      );
-      console.log("📝 찾은 카드 요소들:", cards.length);
-
-      cards.forEach((card, index) => {
-        if (card) {
-          // 더 강력한 글래스모피즘 효과
-          card.style.cssText = `
-            background: rgba(255, 255, 255, 0.15) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            border: 2px solid rgba(255, 255, 255, 0.4) !important;
-            border-radius: 20px !important;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
-            transition: all 0.4s ease !important;
-            transform: translateZ(0) !important;
-          `;
-          console.log(`✅ 카드 ${index + 1} 글래스모피즘 효과 적용 완료`);
-        }
-      });
-
-      // 추가로 더 구체적인 선택자들 시도
-      const specificCards = document.querySelectorAll(
-        "[class*='post'], [class*='card'], [class*='entry'], [class*='content'], [class*='item'], [class*='wrapper'], [class*='meta'], [class*='title'], [class*='excerpt'], [class*='categories'], [class*='tags'], [class*='date'], [class*='author'], [class*='summary'], [class*='header'], [class*='body'], [class*='footer'], [class*='nav'], [class*='pagination'], [class*='related'], [class*='comments'], [class*='sharing'], [class*='toc'], [class*='reading-time'], [class*='updated'], [class*='published'], [class*='modified'], [class*='created'], [class*='archived'], [class*='draft'], [class*='unpublished'], [class*='public'], [class*='private'], [class*='protected'], [class*='secret'], [class*='hidden'], [class*='visible'], [class*='active'], [class*='inactive'], [class*='enabled'], [class*='disabled'], [class*='on'], [class*='off'], [class*='yes'], [class*='no'], [class*='true'], [class*='false']"
-      );
-      console.log("🔍 추가로 찾은 구체적 요소들:", specificCards.length);
-
-      specificCards.forEach((card, index) => {
-        if (card && !cards.contains(card)) {
-          card.style.cssText = `
-            background: rgba(255, 255, 255, 0.15) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            border: 2px solid rgba(255, 255, 255, 0.4) !important;
-            border-radius: 20px !important;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
-            transition: all 0.4s ease !important;
-            transform: translateZ(0) !important;
-          `;
-          console.log(
-            `✅ 구체적 요소 ${index + 1} 글래스모피즘 효과 적용 완료`
-          );
-        }
-      });
-
-      // 사이드바에 글래스모피즘 효과 추가
-      const sidebars = document.querySelectorAll(
-        "#sidebar, .sidebar, .side-panel, .aside"
-      );
-      console.log("📱 찾은 사이드바 요소들:", sidebars.length);
-
-      sidebars.forEach((sidebar, index) => {
-        if (sidebar) {
-          sidebar.style.cssText = `
-            background: rgba(0, 0, 0, 0.4) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            border: 1px solid rgba(255, 255, 255, 0.3) !important;
-            border-radius: 20px !important;
-          `;
-          console.log(`✅ 사이드바 ${index + 1} 글래스모피즘 효과 적용 완료`);
-        }
-      });
-
-      // 네비게이션 링크에 호버 효과 추가
-      const navLinks = document.querySelectorAll(
-        ".nav-link, .nav-item a, .menu a"
-      );
-      console.log("🔗 찾은 네비게이션 링크들:", navLinks.length);
-
-      navLinks.forEach((link, index) => {
-        // 기존 이벤트 리스너 제거 (중복 방지)
-        link.removeEventListener("mouseenter", link._mouseenterHandler);
-        link.removeEventListener("mouseleave", link._mouseleaveHandler);
-
-        // 새로운 이벤트 리스너 추가
-        link._mouseenterHandler = () => {
-          link.style.cssText = `
-            background: rgba(0, 102, 255, 0.3) !important;
-            border-radius: 10px !important;
-            transition: all 0.3s ease !important;
-            transform: translateY(-2px) !important;
-          `;
-        };
-
-        link._mouseleaveHandler = () => {
-          link.style.cssText = `
-            background: transparent !important;
-            transform: translateY(0) !important;
-          `;
-        };
-
-        link.addEventListener("mouseenter", link._mouseenterHandler);
-        link.addEventListener("mouseleave", link._mouseleaveHandler);
-        console.log(`✅ 네비게이션 링크 ${index + 1} 호버 효과 적용 완료`);
-      });
-
-      // 패널 요소들에 글래스모피즘 효과 추가
-      const panels = document.querySelectorAll(
-        "#panel-wrapper, .panel, .access"
-      );
-      console.log("📋 찾은 패널 요소들:", panels.length);
-
-      panels.forEach((panel, index) => {
-        if (panel) {
-          panel.style.cssText = `
-            background: rgba(0, 0, 0, 0.3) !important;
-            backdrop-filter: blur(18px) !important;
-            -webkit-backdrop-filter: blur(18px) !important;
-            border: 1px solid rgba(255, 255, 255, 0.25) !important;
-            border-radius: 18px !important;
-          `;
-          console.log(`✅ 패널 ${index + 1} 글래스모피즘 효과 적용 완료`);
-        }
-      });
-
-      console.log("✨ 모든 글래스모피즘 효과 적용 완료!");
-
-      // 최후의 수단: 모든 div 요소에 글래스모피즘 효과 시도
-      setTimeout(() => {
-        console.log(
-          "🚀 최후의 수단: 모든 div 요소에 글래스모피즘 효과 적용 시도..."
+      try {
+        // 블로그 카드들에 글래스모피즘 효과 추가 (간단하게)
+        const cards = document.querySelectorAll(
+          ".card, .post, .entry, .content, .access, .trending-tags"
         );
-        const allDivs = document.querySelectorAll("div");
-        console.log("🔍 찾은 모든 div 요소들:", allDivs.length);
+        console.log("📝 찾은 카드 요소들:", cards.length);
 
-        let appliedCount = 0;
-        allDivs.forEach((div, index) => {
-          // 이미 적용된 요소는 제외
-          if (
-            div.style.backdropFilter &&
-            div.style.backdropFilter.includes("blur")
-          ) {
-            return;
-          }
-
-          // 너무 작은 요소나 의미 없는 요소는 제외
-          if (div.offsetWidth < 100 || div.offsetHeight < 50) {
-            return;
-          }
-
-          // 글래스모피즘 효과 적용
-          div.style.cssText += `
-            background: rgba(255, 255, 255, 0.1) !important;
-            backdrop-filter: blur(15px) !important;
-            -webkit-backdrop-filter: blur(15px) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 12px !important;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
-          `;
-          appliedCount++;
-
-          if (index % 10 === 0) {
-            console.log(`🚀 div ${index + 1}/${allDivs.length} 처리 중...`);
+        cards.forEach((card, index) => {
+          if (card) {
+            card.style.cssText = `
+              background: rgba(255, 255, 255, 0.15) !important;
+              backdrop-filter: blur(20px) !important;
+              -webkit-backdrop-filter: blur(20px) !important;
+              border: 2px solid rgba(255, 255, 255, 0.4) !important;
+              border-radius: 20px !important;
+              box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
+              transition: all 0.4s ease !important;
+            `;
           }
         });
 
-        console.log(
-          `✅ 최종적으로 ${appliedCount}개의 div 요소에 글래스모피즘 효과 적용 완료!`
+        // 사이드바에 글래스모피즘 효과 추가
+        const sidebars = document.querySelectorAll(
+          "#sidebar, .sidebar, .side-panel, .aside"
         );
-      }, 1000);
+        console.log("📱 찾은 사이드바 요소들:", sidebars.length);
 
-      // 배포 환경을 위한 추가 강화: 여러 번 시도
-      const retryGlassmorphism = () => {
-        console.log("🔄 글래스모피즘 효과 재시도 중...");
-
-        // 모든 가능한 선택자로 다시 시도
-        const allPossibleElements = document.querySelectorAll("*");
-        let retryCount = 0;
-
-        allPossibleElements.forEach((element) => {
-          // 배경이 있는 요소만 대상으로
-          const computedStyle = window.getComputedStyle(element);
-          const backgroundColor = computedStyle.backgroundColor;
-          const hasBackground =
-            backgroundColor &&
-            backgroundColor !== "rgba(0, 0, 0, 0)" &&
-            backgroundColor !== "transparent";
-
-          if (
-            hasBackground &&
-            element.offsetWidth > 80 &&
-            element.offsetHeight > 40
-          ) {
-            // 강제로 글래스모피즘 효과 적용
-            element.style.setProperty(
-              "background",
-              "rgba(255, 255, 255, 0.1)",
-              "important"
-            );
-            element.style.setProperty(
-              "backdrop-filter",
-              "blur(15px)",
-              "important"
-            );
-            element.style.setProperty(
-              "-webkit-backdrop-filter",
-              "blur(15px)",
-              "important"
-            );
-            element.style.setProperty(
-              "border",
-              "1px solid rgba(255, 255, 255, 0.2)",
-              "important"
-            );
-            element.style.setProperty("border-radius", "12px", "important");
-            element.style.setProperty(
-              "box-shadow",
-              "0 8px 25px rgba(0, 0, 0, 0.3)",
-              "important"
-            );
-            retryCount++;
+        sidebars.forEach((sidebar, index) => {
+          if (sidebar) {
+            sidebar.style.cssText = `
+              background: rgba(0, 0, 0, 0.4) !important;
+              backdrop-filter: blur(20px) !important;
+              -webkit-backdrop-filter: blur(20px) !important;
+              border: 1px solid rgba(255, 255, 255, 0.3) !important;
+              border-radius: 20px !important;
+            `;
           }
         });
 
-        console.log(
-          `🔄 재시도로 ${retryCount}개 요소에 글래스모피즘 효과 적용 완료!`
+        // 패널 요소들에 글래스모피즘 효과 추가
+        const panels = document.querySelectorAll(
+          "#panel-wrapper, .panel, .access"
         );
-      };
+        console.log("📋 찾은 패널 요소들:", panels.length);
 
-      // 여러 번 재시도
-      setTimeout(retryGlassmorphism, 2000);
-      setTimeout(retryGlassmorphism, 5000);
-      setTimeout(retryGlassmorphism, 10000);
-
-      // CSS를 직접 삽입하는 최후의 수단
-      const injectCSS = () => {
-        console.log("💉 CSS 직접 삽입 시도...");
-
-        const style = document.createElement("style");
-        style.textContent = `
-          /* 강제 글래스모피즘 효과 */
-          div, section, article, aside, main, header, footer, nav, ul, li, a, span, p, h1, h2, h3, h4, h5, h6 {
-            background: rgba(255, 255, 255, 0.1) !important;
-            backdrop-filter: blur(15px) !important;
-            -webkit-backdrop-filter: blur(15px) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 12px !important;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+        panels.forEach((panel, index) => {
+          if (panel) {
+            panel.style.cssText = `
+              background: rgba(0, 0, 0, 0.3) !important;
+              backdrop-filter: blur(18px) !important;
+              -webkit-backdrop-filter: blur(18px) !important;
+              border: 1px solid rgba(255, 255, 255, 0.25) !important;
+              border-radius: 18px !important;
+            `;
           }
+        });
 
-          /* 특정 클래스에 대한 강화 */
-          .card, .post, .entry, .content, .access, .trending-tags, .sidebar, .panel {
-            background: rgba(255, 255, 255, 0.15) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            border: 2px solid rgba(255, 255, 255, 0.3) !important;
-            border-radius: 16px !important;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4) !important;
-          }
-        `;
-
-        document.head.appendChild(style);
-        console.log("✅ CSS 직접 삽입 완료!");
-      };
-
-      // CSS 삽입도 시도
-      setTimeout(injectCSS, 3000);
-      setTimeout(injectCSS, 8000);
+        console.log("✨ 글래스모피즘 효과 적용 완료!");
+      } catch (error) {
+        console.error("❌ 글래스모피즘 효과 적용 중 오류:", error);
+      }
     }
 
     console.log("✅ 우주 돌고래 파도 테마 스크립트 로드 완료!");

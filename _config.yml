@@ -35,11 +35,13 @@ social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
   name: 김기성
-  email: your_email@example.com # change to your email address
+  email: skwka12346@gmail.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
     - https://github.com/saway126 # change to your GitHub homepage
     # Uncomment below to add more social links
+    # - mailto:kks.dev@gmail.com # 이메일 링크 제거
+    # - /feed.xml # RSS 피드 링크 제거 (contact.yml에서 처리)
     # - https://www.facebook.com/username
     # - https://www.linkedin.com/in/username
 

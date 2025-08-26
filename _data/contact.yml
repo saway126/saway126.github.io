@@ -3,8 +3,10 @@
 - type: github
   icon: "fab fa-github"
 
-- type: twitter
-  icon: "fa-brands fa-x-twitter"
+- type: naver-blog
+  icon: "fas fa-newspaper"
+  url: "https://blog.naver.com/71_stars"
+  noblank: false
 
 - type: email
   icon: "fas fa-envelope"
