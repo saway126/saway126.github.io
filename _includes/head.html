@@ -112,12 +112,8 @@
 
   <script src="{{ '/assets/js/dist/theme.min.js' | relative_url }}"></script>
 
-  {% include js-selector.html lang=lang %}
-
-  <!-- 우주 돌고래 파도 테마는 CSS만으로 자동 적용됩니다 -->
-  <!-- JavaScript 완전 제거: CSS만으로 작동 -->
-
-  {% if jekyll.environment == 'production' %}
+  {% include js-selector.html lang=lang %} {% if jekyll.environment ==
+  'production' %}
   <!-- PWA -->
   {% if site.pwa.enabled %}
   <script
