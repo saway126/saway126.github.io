@@ -73,7 +73,7 @@
   <!-- 우주 돌고래 파도 테마 CSS -->
   <link
     rel="stylesheet"
-    href="{{ '/assets/css/space-dolphin-wave-theme.css' | absolute_url }}"
+    href="{{ '/assets/css/space-dolphin-wave-theme.css' | absolute_url }}?v={{ site.time | date: '%s' }}"
   />
 
   <!-- Web Font -->
@@ -282,6 +282,15 @@
       saveThemeState();
       updateToggleButton();
       applySpaceDolphinTheme();
+
+      // 배포 환경에서는 강제 적용도 시도
+      if (isProduction) {
+        setTimeout(() => {
+          console.log("🚀 배포 환경 강제 테마 적용 시도...");
+          forceApplyTheme();
+        }, 1000);
+      }
+
       console.log("🌌 우주 돌고래 파도 테마 활성화!");
     }
 
@@ -646,8 +655,28 @@
         if (!themeCSS || !themeCSS.sheet) {
           console.log("⚠️ 테마 CSS 로드 실패, JavaScript로 강제 주입...");
           injectThemeCSS();
+        } else {
+          console.log("✅ 테마 CSS 로드 확인됨");
         }
       }, 1000);
+
+      // 추가 검증 및 강제 적용
+      setTimeout(() => {
+        console.log("🔍 테마 적용 상태 검증...");
+        const body = document.body;
+        const computedStyle = window.getComputedStyle(body);
+        const background = computedStyle.background;
+
+        if (
+          !background.includes("gradient") &&
+          !background.includes("0a0a0a")
+        ) {
+          console.log("⚠️ 테마가 적용되지 않음, 강제 적용...");
+          forceApplyTheme();
+        } else {
+          console.log("✅ 테마가 정상적으로 적용됨");
+        }
+      }, 3000);
 
       // DOM이 완전히 로드된 후 실행
       if (document.readyState === "loading") {
@@ -699,6 +728,60 @@
       style.textContent = cssContent;
       document.head.appendChild(style);
       console.log("✅ 테마 CSS 강제 주입 완료");
+    }
+
+    // 강제 테마 적용 함수
+    function forceApplyTheme() {
+      console.log("🚀 강제 테마 적용 시작...");
+
+      // 1. 배경 강제 적용
+      document.body.style.cssText = `
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
+        background-attachment: fixed !important;
+        min-height: 100vh !important;
+      `;
+
+      document.documentElement.style.cssText = `
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
+        background-attachment: fixed !important;
+        min-height: 100vh !important;
+      `;
+
+      // 2. 우주 배경 요소 생성
+      createSpaceBackground();
+
+      // 3. 글래스모피즘 효과 강제 적용
+      applyGlassmorphismEffects();
+
+      console.log("✅ 강제 테마 적용 완료!");
+    }
+
+    // 우주 배경 요소 생성 함수
+    function createSpaceBackground() {
+      // 기존 배경 제거
+      const existingBackground = document.querySelector(
+        ".space-simple-background"
+      );
+      if (existingBackground) {
+        existingBackground.remove();
+      }
+
+      // 새로운 배경 생성
+      const background = document.createElement("div");
+      background.className = "space-simple-background";
+      background.innerHTML = `
+        <div class="stars"></div>
+        <div class="nebula"></div>
+        <div class="waves">
+          <div class="wave"></div>
+          <div class="wave"></div>
+          <div class="wave"></div>
+        </div>
+        <div class="dolphin"></div>
+      `;
+
+      document.body.appendChild(background);
+      console.log("✅ 우주 배경 요소 생성 완료");
     }
   </script>
 
