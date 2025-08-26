@@ -3,27 +3,5 @@ layout: home
 # Index page with Space Dolphin Wave Theme
 ---
 
-<!-- 우주 돌고래 파도 테마는 _includes/head.html에서 처리됩니다 -->
-<div id="space-dolphin-theme-container">
-  <!-- 테마 토글 버튼이 자동으로 생성됩니다 -->
-</div>
-
-<script>
-  // 테마 시스템이 _includes/head.html에서 처리되므로 여기서는 간단한 초기화만
-  console.log("🌌 우주 돌고래 파도 테마 페이지 로드됨");
-  
-  // 페이지 로드 완료 후 테마 상태 확인
-  window.addEventListener("load", function () {
-    console.log("🌌 페이지 로드 완료! 테마 시스템 준비됨");
-    
-    // 테마 토글 버튼이 생성되었는지 확인
-    setTimeout(() => {
-      const toggle = document.getElementById("theme-toggle");
-      if (toggle) {
-        console.log("✅ 테마 토글 버튼 확인됨");
-      } else {
-        console.log("⚠️ 테마 토글 버튼을 찾을 수 없음");
-      }
-    }, 2000);
-  });
-</script>
+<!-- 우주 돌고래 파도 테마는 CSS만으로 자동 적용됩니다 -->
+<!-- JavaScript 없이도 테마가 즉시 작동합니다 -->

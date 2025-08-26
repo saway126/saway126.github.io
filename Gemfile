@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-# gem "jekyll-theme-chirpy", "~> 7.3", ">= 7.3.1"  # GitHub Pages에서만 작동하므로 제거
+gem "jekyll-theme-chirpy", "~> 7.3", ">= 7.3.1"
 gem "jekyll-paginate"
 gem "jekyll-archives"
 
