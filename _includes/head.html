@@ -70,7 +70,164 @@
     href="{{ '/assets/css/jekyll-theme-chirpy.css' | relative_url }}"
   />
 
-  <!-- 우주 돌고래 파도 테마 제거됨 - 원래 Chirpy 테마로 복구 -->
+  <!-- 우주 돌고래 파도 테마 CSS -->
+  {% include space-dolphin-theme.html %}
+
+  <!-- 우주 돌고래 파도 테마 토글 시스템 -->
+  <script>
+    // 테마 상태 관리
+    let isThemeActive = false;
+
+    // 로컬 스토리지에서 테마 상태 불러오기
+    function loadThemeState() {
+      const saved = localStorage.getItem("spaceDolphinTheme");
+      isThemeActive = saved === "true";
+      return isThemeActive;
+    }
+
+    // 로컬 스토리지에 테마 상태 저장하기
+    function saveThemeState() {
+      localStorage.setItem("spaceDolphinTheme", isThemeActive.toString());
+    }
+
+    // 테마 토글 버튼 생성
+    function createThemeToggle() {
+      // 기존 토글 버튼 제거
+      const existingToggle = document.getElementById("theme-toggle");
+      if (existingToggle) existingToggle.remove();
+
+      const toggle = document.createElement("div");
+      toggle.id = "theme-toggle";
+      toggle.innerHTML = `
+        <button id="theme-toggle-btn" class="btn btn-outline-primary btn-sm" title="우주 돌고래 테마 토글">
+          <i class="fas fa-moon"></i> <span id="theme-toggle-text">테마 ON</span>
+        </button>
+      `;
+
+      // 스타일 적용
+      toggle.style.cssText = `
+        position: fixed !important;
+        top: 20px !important;
+        right: 20px !important;
+        z-index: 999999 !important;
+        background: rgba(0, 0, 0, 0.9) !important;
+        padding: 12px 16px !important;
+        border-radius: 25px !important;
+        backdrop-filter: blur(15px) !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        color: white !important;
+        font-weight: bold !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+        cursor: pointer !important;
+      `;
+
+      document.body.appendChild(toggle);
+
+      // 클릭 이벤트
+      const btn = document.getElementById("theme-toggle-btn");
+      if (btn) {
+        btn.addEventListener("click", function () {
+          if (isThemeActive) {
+            disableTheme();
+          } else {
+            enableTheme();
+          }
+        });
+      }
+
+      updateToggleButton();
+    }
+
+    // 토글 버튼 상태 업데이트
+    function updateToggleButton() {
+      const btn = document.getElementById("theme-toggle-btn");
+      const text = document.getElementById("theme-toggle-text");
+
+      if (btn && text) {
+        if (isThemeActive) {
+          btn.className = "btn btn-success btn-sm";
+          btn.innerHTML =
+            '<i class="fas fa-sun"></i> <span id="theme-toggle-text">테마 OFF</span>';
+        } else {
+          btn.className = "btn btn-outline-primary btn-sm";
+          btn.innerHTML =
+            '<i class="fas fa-moon"></i> <span id="theme-toggle-text">테마 ON</span>';
+        }
+      }
+    }
+
+    // 테마 활성화
+    function enableTheme() {
+      isThemeActive = true;
+      saveThemeState();
+      updateToggleButton();
+
+      // body에 클래스 추가
+      document.body.classList.add("space-dolphin-theme-active");
+
+      // 우주 배경 요소 생성
+      createSpaceBackground();
+    }
+
+    // 테마 비활성화
+    function disableTheme() {
+      isThemeActive = false;
+      saveThemeState();
+      updateToggleButton();
+
+      // body에서 클래스 제거
+      document.body.classList.remove("space-dolphin-theme-active");
+
+      // 우주 배경 요소 제거
+      removeSpaceBackground();
+    }
+
+    // 우주 배경 요소 생성
+    function createSpaceBackground() {
+      // 기존 배경 제거
+      removeSpaceBackground();
+
+      const background = document.createElement("div");
+      background.className = "space-dolphin-background";
+      background.innerHTML = `
+        <div class="stars"></div>
+        <div class="nebula"></div>
+        <div class="waves">
+          <div class="wave"></div>
+          <div class="wave"></div>
+          <div class="wave"></div>
+        </div>
+      `;
+
+      document.body.appendChild(background);
+    }
+
+    // 우주 배경 요소 제거
+    function removeSpaceBackground() {
+      const existing = document.querySelector(".space-dolphin-background");
+      if (existing) {
+        existing.remove();
+      }
+    }
+
+    // 초기화
+    function initTheme() {
+      // 저장된 테마 상태에 따라 자동 적용
+      if (loadThemeState()) {
+        enableTheme();
+      }
+
+      // 토글 버튼 생성
+      createThemeToggle();
+    }
+
+    // DOM이 준비되면 실행
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initTheme);
+    } else {
+      initTheme();
+    }
+  </script>
 
   <!-- Web Font -->
   <link

@@ -1,33 +1,17 @@
-<!-- 우주 돌고래 파도 테마 CSS - 캐시 무효화 버전 2025-08-26-13:00 -->
-<style>
+<!-- 우주 돌고래 파도 테마 CSS - 토글 가능한 버전 -->
+<style id="space-dolphin-theme-styles">
   /* 우주 돌고래 파도 테마 - Chirpy 테마와 함께 작동 */
-
-  /* ===== 기본 배경만 - 콘텐츠는 건드리지 않음 ===== */
-  html,
-  body {
-    background: linear-gradient(
-      135deg,
-      #0a0a0a 0%,
-      #1a1a2e 25%,
-      #16213e 50%,
-      #0f3460 75%,
-      #533483 100%
-    ) !important;
+  
+  /* ===== 기본 배경 - 테마 활성화 시에만 적용 ===== */
+  body.space-dolphin-theme-active {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%) !important;
     background-attachment: fixed !important;
-    background-image: linear-gradient(
-      135deg,
-      #0a0a0a 0%,
-      #1a1a2e 25%,
-      #16213e 50%,
-      #0f3460 75%,
-      #533483 100%
-    ) !important;
     min-height: 100vh !important;
   }
 
-  /* ===== 우주 배경 요소 - 자동 생성 ===== */
-  body::before {
-    content: "" !important;
+  /* ===== 우주 배경 요소 - 테마 활성화 시에만 표시 ===== */
+  .space-dolphin-background {
+    display: none !important;
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
@@ -35,62 +19,78 @@
     height: 100vh !important;
     z-index: -1 !important;
     pointer-events: none !important;
-    background:
-      /* 별들 */ radial-gradient(
-        2px 2px at 20px 30px,
-        #eee,
-        transparent
-      ),
-      radial-gradient(
-        2px 2px at 40px 70px,
-        rgba(255, 255, 255, 0.8),
-        transparent
-      ),
-      radial-gradient(1px 1px at 90px 40px, #fff, transparent),
-      radial-gradient(
-        1px 1px at 130px 80px,
-        rgba(255, 255, 255, 0.6),
-        transparent
-      ),
-      radial-gradient(2px 2px at 160px 30px, #ddd, transparent),
-      /* 성운 */
-        radial-gradient(
-          ellipse at center,
-          rgba(120, 119, 198, 0.3) 0%,
-          transparent 70%
-        ),
-      /* 파도 */
-        linear-gradient(45deg, rgba(0, 150, 255, 0.3), rgba(0, 200, 255, 0.2)) 0
-        100% / 200% 100px no-repeat,
-      linear-gradient(45deg, rgba(0, 150, 255, 0.2), rgba(0, 200, 255, 0.1)) 0
-        100% / 200% 80px no-repeat,
-      linear-gradient(45deg, rgba(0, 150, 255, 0.1), rgba(0, 200, 255, 0.05)) 0
-        100% / 200% 60px no-repeat;
-    background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat,
-      no-repeat, no-repeat, no-repeat, no-repeat;
-    background-size: 200px 100px, auto, 200% 100px, 200% 80px, 200% 60px;
-    animation: twinkle 4s ease-in-out infinite, wave 6s ease-in-out infinite;
   }
 
-  /* ===== 글래스모피즘 효과 - 선택적 적용 ===== */
-  .card,
-  .post,
-  .entry,
-  .content,
-  .access,
-  .trending-tags,
-  .update-list,
-  #main-wrapper .card,
-  #main-wrapper .post,
-  #main-wrapper .entry,
-  #main-wrapper .content,
-  .main .card,
-  .main .post,
-  .main .entry,
-  .main .content,
-  article,
-  .post-list,
-  .post-item {
+  body.space-dolphin-theme-active .space-dolphin-background {
+    display: block !important;
+  }
+
+  /* 별들 */
+  .space-dolphin-background .stars {
+    position: absolute !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: 
+      radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+      radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+      radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+      radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+      radial-gradient(2px 2px at 160px 30px, #ddd, transparent);
+    background-repeat: repeat !important;
+    background-size: 200px 100px !important;
+    animation: twinkle 4s ease-in-out infinite !important;
+  }
+
+  /* 성운 */
+  .space-dolphin-background .nebula {
+    position: absolute !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: radial-gradient(ellipse at center, rgba(120, 119, 198, 0.3) 0%, transparent 70%) !important;
+    filter: blur(3px) !important;
+  }
+
+  /* 파도 */
+  .space-dolphin-background .waves {
+    position: absolute !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100px !important;
+    overflow: hidden !important;
+  }
+
+  .space-dolphin-background .wave {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 200% !important;
+    height: 100% !important;
+    background: linear-gradient(45deg, rgba(0, 150, 255, 0.3), rgba(0, 200, 255, 0.2)) !important;
+    border-radius: 50% 50% 0 0 !important;
+    animation: wave 6s ease-in-out infinite !important;
+  }
+
+  .space-dolphin-background .wave:nth-child(2) {
+    animation-delay: -2s !important;
+    opacity: 0.7 !important;
+  }
+
+  .space-dolphin-background .wave:nth-child(3) {
+    animation-delay: -4s !important;
+    opacity: 0.5 !important;
+  }
+
+  /* ===== 글래스모피즘 효과 - 테마 활성화 시에만 적용 ===== */
+  body.space-dolphin-theme-active .card,
+  body.space-dolphin-theme-active .post,
+  body.space-dolphin-theme-active .entry,
+  body.space-dolphin-theme-active .content,
+  body.space-dolphin-theme-active .access,
+  body.space-dolphin-theme-active .trending-tags,
+  body.space-dolphin-theme-active .update-list,
+  body.space-dolphin-theme-active article,
+  body.space-dolphin-theme-active .post-list,
+  body.space-dolphin-theme-active .post-item {
     background: rgba(255, 255, 255, 0.15) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
@@ -100,13 +100,11 @@
     transition: all 0.4s ease !important;
   }
 
-  /* 사이드바 - 선택적 적용 */
-  #sidebar,
-  .sidebar,
-  .side-panel,
-  .aside,
-  aside#sidebar,
-  aside.sidebar {
+  /* 사이드바 */
+  body.space-dolphin-theme-active #sidebar,
+  body.space-dolphin-theme-active .sidebar,
+  body.space-dolphin-theme-active .side-panel,
+  body.space-dolphin-theme-active .aside {
     background: rgba(0, 0, 0, 0.4) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
@@ -114,159 +112,70 @@
     border-radius: 20px !important;
   }
 
-  /* 패널 - 선택적 적용 */
-  #panel-wrapper,
-  .panel,
-  .panel-wrapper,
-  .panel-content {
-    background: rgba(0, 0, 0, 0.3) !important;
-    backdrop-filter: blur(18px) !important;
-    -webkit-backdrop-filter: blur(18px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.25) !important;
-    border-radius: 18px !important;
-  }
-
-  /* ===== 텍스트 색상 - 선택적 적용 ===== */
-  .card,
-  .post,
-  .entry,
-  .content,
-  .access,
-  .trending-tags,
-  .update-list,
-  #main-wrapper .card,
-  #main-wrapper .post,
-  #main-wrapper .entry,
-  #main-wrapper .content,
-  .main .card,
-  .main .post,
-  .main .entry,
-  .main .content,
-  article,
-  .post-list,
-  .post-item {
+  /* ===== 텍스트 색상 - 테마 활성화 시에만 적용 ===== */
+  body.space-dolphin-theme-active .card,
+  body.space-dolphin-theme-active .post,
+  body.space-dolphin-theme-active .entry,
+  body.space-dolphin-theme-active .content,
+  body.space-dolphin-theme-active .access,
+  body.space-dolphin-theme-active .trending-tags,
+  body.space-dolphin-theme-active .update-list,
+  body.space-dolphin-theme-active article,
+  body.space-dolphin-theme-active .post-list,
+  body.space-dolphin-theme-active .post-item {
     color: rgba(255, 255, 255, 0.9) !important;
   }
 
-  .card h1,
-  .card h2,
-  .card h3,
-  .card h4,
-  .card h5,
-  .card h6,
-  .post h1,
-  .post h2,
-  .post h3,
-  .post h4,
-  .post h5,
-  .post h6,
-  article h1,
-  article h2,
-  article h3,
-  article h4,
-  article h5,
-  article h6 {
+  body.space-dolphin-theme-active .card h1,
+  body.space-dolphin-theme-active .card h2,
+  body.space-dolphin-theme-active .card h3,
+  body.space-dolphin-theme-active .card h4,
+  body.space-dolphin-theme-active .card h5,
+  body.space-dolphin-theme-active .card h6,
+  body.space-dolphin-theme-active .post h1,
+  body.space-dolphin-theme-active .post h2,
+  body.space-dolphin-theme-active .post h3,
+  body.space-dolphin-theme-active .post h4,
+  body.space-dolphin-theme-active .post h5,
+  body.space-dolphin-theme-active .post h6,
+  body.space-dolphin-theme-active article h1,
+  body.space-dolphin-theme-active article h2,
+  body.space-dolphin-theme-active article h3,
+  body.space-dolphin-theme-active article h4,
+  body.space-dolphin-theme-active article h5,
+  body.space-dolphin-theme-active article h6 {
     color: rgba(255, 255, 255, 0.95) !important;
   }
 
-  .card a,
-  .post a,
-  article a {
+  body.space-dolphin-theme-active .card a,
+  body.space-dolphin-theme-active .post a,
+  body.space-dolphin-theme-active article a {
     color: rgba(74, 144, 226, 0.9) !important;
     text-decoration: none !important;
   }
 
-  .card a:hover,
-  .post a:hover,
-  article a:hover {
+  body.space-dolphin-theme-active .card a:hover,
+  body.space-dolphin-theme-active .post a:hover,
+  body.space-dolphin-theme-active article a:hover {
     color: #4a90e2 !important;
     text-decoration: underline !important;
   }
 
-  /* ===== 특정 섹션 강화 - 선택적 적용 ===== */
-  .trending-tags .tag,
-  .trending-tags .badge,
-  .trending-tags a,
-  .trending-tags .tag *,
-  .trending-tags .badge *,
-  .trending-tags a * {
-    background: rgba(255, 255, 255, 0.15) !important;
-    backdrop-filter: blur(15px) !important;
-    -webkit-backdrop-filter: blur(15px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    border-radius: 15px !important;
-    color: rgba(255, 255, 255, 0.9) !important;
-    padding: 8px 15px !important;
-    margin: 5px !important;
-    display: inline-block !important;
-    transition: all 0.3s ease !important;
-  }
-
-  .trending-tags .tag:hover,
-  .trending-tags .badge:hover,
-  .trending-tags a:hover,
-  .trending-tags .tag:hover *,
-  .trending-tags .badge:hover *,
-  .trending-tags a:hover * {
-    background: rgba(74, 144, 226, 0.3) !important;
-    border-color: rgba(74, 144, 226, 0.6) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4) !important;
-  }
-
-  /* 페이지네이션 - 선택적 적용 */
-  .pagination,
-  .pagination .page-item,
-  .pagination .page-link,
-  .pagination *,
-  .pagination .page-item *,
-  .pagination .page-link * {
-    background: rgba(255, 255, 255, 0.1) !important;
-    backdrop-filter: blur(15px) !important;
-    -webkit-backdrop-filter: blur(15px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    border-radius: 10px !important;
-    color: rgba(255, 255, 255, 0.9) !important;
-  }
-
-  /* 푸터 - 선택적 적용 */
-  footer,
-  .footer,
-  footer *,
-  .footer * {
-    background: rgba(0, 0, 0, 0.3) !important;
-    backdrop-filter: blur(15px) !important;
-    -webkit-backdrop-filter: blur(15px) !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
-    color: rgba(255, 255, 255, 0.8) !important;
-    padding: 20px 0 !important;
-  }
-
   /* ===== 애니메이션 ===== */
   @keyframes twinkle {
-    0%,
-    100% {
-      opacity: 0.8;
-    }
-    50% {
-      opacity: 1;
-    }
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
   }
 
   @keyframes wave {
-    0%,
-    100% {
-      transform: translateX(0);
-    }
-    50% {
-      transform: translateX(-50%);
-    }
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-50%); }
   }
 
   /* ===== 반응형 ===== */
   @media (max-width: 768px) {
-    body::before {
-      background-size: 200px 100px, auto, 200% 60px, 200% 50px, 200% 40px;
+    .space-dolphin-background .stars {
+      background-size: 150px 75px;
     }
   }
 </style>
