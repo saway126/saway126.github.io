@@ -455,78 +455,50 @@
       const btn = document.getElementById("theme-toggle-btn");
       if (btn) {
         btn.addEventListener("click", function () {
-          if (isThemeActive) {
-            disableTheme();
-          } else {
-            enableTheme();
-          }
+          // 상태를 먼저 토글
+          isThemeActive = !isThemeActive;
+          saveThemeState();
+          
+          // UI 업데이트
+          updateUI();
         });
       }
 
-      updateToggleButton();
+      updateToggleButton(); // 초기 버튼 상태 설정
     }
 
     // 토글 버튼 상태 업데이트
     function updateToggleButton() {
       const btn = document.getElementById("theme-toggle-btn");
-      const text = document.getElementById("theme-toggle-text");
+      if (!btn) return;
 
-      if (btn && text) {
-        if (isThemeActive) {
-          btn.className = "btn btn-success btn-sm";
-          btn.innerHTML =
-            '<i class="fas fa-sun"></i> <span id="theme-toggle-text">테마 OFF</span>';
-        } else {
-          btn.className = "btn btn-outline-primary btn-sm";
-          btn.innerHTML =
-            '<i class="fas fa-moon"></i> <span id="theme-toggle-text">테마 ON</span>';
-        }
+      if (isThemeActive) {
+        btn.className = "btn btn-success btn-sm";
+        btn.innerHTML =
+          '<i class="fas fa-sun"></i> <span id="theme-toggle-text">테마 OFF</span>';
+      } else {
+        btn.className = "btn btn-outline-primary btn-sm";
+        btn.innerHTML =
+          '<i class="fas fa-moon"></i> <span id="theme-toggle-text">테마 ON</span>';
       }
     }
 
-    // 테마 활성화
-    function enableTheme() {
-      isThemeActive = true;
-      saveThemeState();
+    // 테마 UI 업데이트 (활성화/비활성화 모두 처리)
+    function updateUI() {
       updateToggleButton();
-
-      // 기존 테마 스타일이 없다면 다시 로드
-      if (!document.getElementById("space-dolphin-theme-styles")) {
-        loadThemeStyles();
+      if (isThemeActive) {
+        document.body.classList.add("space-dolphin-theme-active");
+        createSpaceBackground();
+      } else {
+        document.body.classList.remove("space-dolphin-theme-active");
+        removeSpaceBackground();
       }
-
-      // body에 클래스 추가
-      document.body.classList.add("space-dolphin-theme-active");
-
-      // 우주 배경 요소 생성
-      createSpaceBackground();
-    }
-
-    // 테마 비활성화
-    function disableTheme() {
-      isThemeActive = false;
-      saveThemeState();
-      updateToggleButton();
-
-      // body에서 클래스 제거
-      document.body.classList.remove("space-dolphin-theme-active");
-
-      // 우주 배경 요소 제거
-      removeSpaceBackground();
-
-      // 모든 커스텀 스타일 완전 제거
-      removeAllCustomStyles();
-
-      // 페이지 강제 새로고침으로 완전한 원상복구
-      setTimeout(() => {
-        window.location.reload();
-      }, 100);
     }
 
     // 우주 배경 요소 생성
     function createSpaceBackground() {
-      // 기존 배경 제거
-      removeSpaceBackground();
+      // 기존 배경이 있다면 생성하지 않음
+      if (document.querySelector(".space-dolphin-background")) return;
 
       const background = document.createElement("div");
       background.className = "space-dolphin-background";
@@ -551,89 +523,27 @@
       }
     }
 
-    // 모든 커스텀 스타일 완전 제거
-    function removeAllCustomStyles() {
-      // 테마 CSS 스타일 태그 제거
-      const themeStyles = document.getElementById("space-dolphin-theme-styles");
-      if (themeStyles) {
-        themeStyles.remove();
-      }
-
-      // 인라인 스타일 제거
-      const elementsWithInlineStyles = document.querySelectorAll(
-        "[style*='backdrop-filter'], [style*='background'], [style*='color']"
-      );
-      elementsWithInlineStyles.forEach((el) => {
-        el.removeAttribute("style");
-      });
-
-      // body 스타일 초기화
-      document.body.style.cssText = "";
-
-      // html 스타일 초기화
-      document.documentElement.style.cssText = "";
-    }
-
-    // 테마 스타일 동적 로드
-    function loadThemeStyles() {
-      // 기존 스타일이 있다면 제거
-      const existing = document.getElementById("space-dolphin-theme-styles");
-      if (existing) {
-        existing.remove();
-      }
-
-      // 테마 CSS 파일을 동적으로 로드
-      const link = document.createElement("link");
-      link.rel = "stylesheet";
-      link.href =
-        '{{ "/assets/css/space-dolphin-wave-theme.css" | relative_url }}';
-      link.id = "space-dolphin-theme-styles";
-      document.head.appendChild(link);
-    }
-
     // 초기화
     function initTheme() {
       console.log("🚀 우주 돌고래 테마 초기화 시작...");
-
-      // 저장된 테마 상태에 따라 자동 적용
-      if (loadThemeState()) {
-        console.log("🔄 저장된 테마 상태 복원 중...");
-        enableTheme();
-      }
-
+      
       // 토글 버튼 생성
-      console.log("🔧 테마 토글 버튼 생성 중...");
       createThemeToggle();
 
+      // 저장된 테마 상태에 따라 UI 업데이트
+      if (loadThemeState()) {
+        updateUI();
+      }
+      
       console.log("✅ 우주 돌고래 테마 초기화 완료!");
     }
 
-    // DOM이 준비되면 실행 (강제 실행)
+    // DOM이 준비되면 실행
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", initTheme);
     } else {
       initTheme();
     }
-
-    // 추가 안전장치 - 페이지 로드 완료 후에도 실행
-    window.addEventListener("load", function () {
-      console.log("🌌 페이지 로드 완료! 테마 시스템 추가 초기화...");
-
-      // 토글 버튼이 없다면 재생성
-      if (!document.getElementById("theme-toggle")) {
-        console.log("🔧 토글 버튼 재생성...");
-        createThemeToggle();
-      }
-    });
-
-    // 즉시 실행 시도
-    setTimeout(function () {
-      console.log("⏰ 지연 실행 시도...");
-      if (!document.getElementById("theme-toggle")) {
-        console.log("🔧 지연 실행으로 토글 버튼 생성...");
-        initTheme();
-      }
-    }, 1000);
   </script>
 
   <!-- Web Font -->
